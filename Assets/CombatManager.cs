@@ -14,6 +14,9 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject firstFocusedMove;
 
+    public GameObject playerUI;
+    public GameObject combatLog;
+
     public bool waitForPlayerAction = true;
     public bool waitForPlayerChoice = true;
 
@@ -22,6 +25,8 @@ public class CombatManager : MonoBehaviour {
     private List<Fighter> _fighters = new List<Fighter>();
     private Fighter fighterToAttack = null;
 
+    private TMPro.TMP_Text _combatLogText;
+
     void Start ()
     {
         _fighters.Add(P1_Fighter1);
@@ -29,6 +34,8 @@ public class CombatManager : MonoBehaviour {
 
         _fighters.Add(P2_Fighter1);
         _fighters.Add(P2_Fighter2);
+
+        _combatLogText = combatLog.GetComponent<TMPro.TMP_Text>();
 
         StartCoroutine(CombatLogic());
     }
@@ -58,14 +65,8 @@ public class CombatManager : MonoBehaviour {
             }
 
             activeFighter.canPlay = false;
-
-            // TODO : Remove action logic from here
-            //Fighter firstEnemyFighter = _fighters.DefaultIfEmpty(null).FirstOrDefault(e => e.player != activeFighter.player && e.dead == false);
-            //print(activeFighter.name + " attack " + firstEnemyFighter.name);
-            //firstEnemyFighter.TakeDamage(50);
-
+            
             // Choose which enemy to attack
-
             // Set enemy team to be focusable
             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
 
@@ -76,9 +77,15 @@ public class CombatManager : MonoBehaviour {
                 yield return null;
             }
 
+            // TODO : Remove action logic from here
+            // Show log
+            _combatLogText.text = "";
+            playerUI.SetActive(false);
+            
             // Play attack
-            print(activeFighter.name + " attack " + fighterToAttack.name);
             fighterToAttack.TakeDamage(50);
+
+            yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
 
             // Remove focus on enemy team
             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
@@ -90,6 +97,8 @@ public class CombatManager : MonoBehaviour {
             }
 
             EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+            
+            playerUI.SetActive(true);
         }
 
         print("Combat end");
@@ -99,9 +108,41 @@ public class CombatManager : MonoBehaviour {
         Application.Quit();
     }
 
+    IEnumerator RevealText(string text)
+    {
+        _combatLogText.text = text;
+        _combatLogText.ForceMeshUpdate();
+
+        TMPro.TMP_TextInfo textInfo = _combatLogText.textInfo;
+
+        int totalVisibleCharacters = textInfo.characterCount;
+        int visibleCount = 0;
+
+        while (visibleCount < totalVisibleCharacters)
+        {
+            _combatLogText.maxVisibleCharacters = visibleCount;
+            visibleCount += 1;
+
+            yield return null;
+        }
+
+        waitForPlayerAction = true;
+        while(waitForPlayerAction)
+        {
+            if(Input.anyKeyDown)
+            {
+                waitForPlayerAction = false;
+            }
+
+            yield return null;
+        }
+
+        _combatLogText.text = "";
+    }
+
     public void NotifyPlayerInput()
     {
-        waitForPlayerAction = false;        
+        waitForPlayerAction = false;
     }
 
     public void NotifyPlayerEnemyChoice(Fighter fighterToAttack)

@@ -50,7 +50,7 @@ public class Fighter : MonoBehaviour {
 
         float t = 0;
 
-        while (true)
+        while (t < 1)
         {
             t += Time.deltaTime;
             healthBar.fillAmount = Mathf.Lerp(start, end, t);
