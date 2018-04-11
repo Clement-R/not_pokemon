@@ -39,7 +39,7 @@ public class CombatManager : MonoBehaviour {
 
         StartCoroutine(CombatLogic());
     }
-
+    
     IEnumerator CombatLogic()
     {
         Fighter activeFighter = null;
@@ -55,9 +55,8 @@ public class CombatManager : MonoBehaviour {
                 _fighters.Select(c => { c.canPlay = true; return c; }).ToList();
                 activeFighter = _fighters.First(e => e.canPlay == true);
             }
-
-            print(activeFighter.gameObject.name);
-
+            
+            // Wait for player action choice
             waitForPlayerAction = true;
             while (waitForPlayerAction)
             {
@@ -70,7 +69,10 @@ public class CombatManager : MonoBehaviour {
             // Set enemy team to be focusable
             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
 
-            // Wait for player choice
+            // Wait for player focus choice
+            playerUI.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != activeFighter.player && e.dead == false).gameObject);
+
             waitForPlayerChoice = true;
             while (waitForPlayerChoice)
             {
@@ -80,7 +82,6 @@ public class CombatManager : MonoBehaviour {
             // TODO : Remove action logic from here
             // Show log
             _combatLogText.text = "";
-            playerUI.SetActive(false);
             
             // Play attack
             fighterToAttack.TakeDamage(50);

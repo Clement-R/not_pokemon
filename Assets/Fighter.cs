@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Fighter : MonoBehaviour {
+public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
+{
 
     public bool canPlay = true;
     public int health = 100;
@@ -16,9 +18,11 @@ public class Fighter : MonoBehaviour {
     public int player = 1;
 
     private Button focusSelector;
+    private Image _sprite;
 
     public void Start()
     {
+        _sprite = GetComponent<Image>();
         focusSelector = GetComponent<Button>();
         focusSelector.enabled = false;
     }
@@ -37,10 +41,36 @@ public class Fighter : MonoBehaviour {
             dead = true;
         }
     }
+    
+    public void OnSelect(BaseEventData eventData)
+    {
+        _sprite.color = Color.blue;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        if(focusSelector.enabled)
+        {
+            _sprite.color = Color.yellow;
+        }
+        else
+        {
+            _sprite.color = Color.white;
+        }
+    }
 
     public void ChangeFocus(bool canBeFocused)
     {
         focusSelector.enabled = canBeFocused;
+
+        if (canBeFocused)
+        {
+            _sprite.color = Color.yellow;
+        }
+        else
+        {
+            _sprite.color = Color.white;
+        }
     }
 
     IEnumerator LoseHealth()
@@ -60,6 +90,7 @@ public class Fighter : MonoBehaviour {
         if(health <= 0)
         {
             dead = true;
+            gameObject.SetActive(false);
         }
     }
 }
