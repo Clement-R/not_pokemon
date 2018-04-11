@@ -89,6 +89,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         if(health <= 0)
         {
+            healthBar.transform.parent.gameObject.SetActive(false);
             dead = true;
             gameObject.SetActive(false);
         }
