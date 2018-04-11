@@ -92,7 +92,6 @@ public class CombatManager : MonoBehaviour {
             {
                 if (!_actionChoosed)
                 {
-                    print("Wait for action");
                     // Wait for player action choice
                     waitForPlayerAction = true;
                     while (waitForPlayerAction)
@@ -113,8 +112,7 @@ public class CombatManager : MonoBehaviour {
                         // Wait for player focus choice
                         playerUI.SetActive(false);
                         EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != activeFighter.player && e.dead == false).gameObject);
-
-                        print("Wait for focus");
+                        
                         waitForPlayerChoice = true;
                         while (waitForPlayerChoice && _actionChoosed)
                         {
@@ -208,8 +206,6 @@ public class CombatManager : MonoBehaviour {
     {
         waitForPlayerAction = waitForPlayer;
         _actionChoosed = true;
-
-        print("Player input");
     }
 
     public void NotifyPlayerEnemyChoice(Fighter fighterToAttack)
