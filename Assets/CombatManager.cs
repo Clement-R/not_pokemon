@@ -126,9 +126,8 @@ public class CombatManager : MonoBehaviour {
                             _combatLogText.text = "";
 
                             // Play attack
-                            fighterToAttack.TakeDamage(50);
-
-                            yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+                            RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+                            yield return fighterToAttack.TakeDamage(50);
 
                             // Remove focus on enemy team
                             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();

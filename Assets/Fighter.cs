@@ -27,15 +27,33 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         focusSelector.enabled = false;
     }
 
-    public void TakeDamage(int amount)
+    public IEnumerator TakeDamage(int amount)
     {
         health -= amount;
 
-        StartCoroutine(LoseHealth());
+        StartCoroutine(Blink());
+        yield return StartCoroutine(LoseHealth());
         
         if(health <= 0)
         {
             dead = true;
+        }
+    }
+
+    IEnumerator Blink()
+    {
+        Color baseColor = _sprite.color;
+        int numberOfBlink = 2;
+        int counter = 0;
+
+        while(counter < numberOfBlink)
+        {
+            _sprite.color = new Color(0, 0, 0, 0);
+            yield return new WaitForSeconds(0.25f);
+            _sprite.color = baseColor;
+            yield return new WaitForSeconds(0.25f);
+
+            counter++;
         }
     }
     
