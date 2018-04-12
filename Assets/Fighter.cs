@@ -32,10 +32,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         health -= amount;
 
         StartCoroutine(LoseHealth());
-
-        //healthBar.fillAmount = (float)health / 100f;
-        //print(healthBar.fillAmount);
-
+        
         if(health <= 0)
         {
             dead = true;
