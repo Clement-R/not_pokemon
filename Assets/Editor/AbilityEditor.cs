@@ -12,9 +12,23 @@ public class AbilityEditor : Editor
     {
         base.OnInspectorGUI();
 
-        if(GUILayout.Button("Change things"))
+        ability = (Ability)target;
+
+        if(ability.type == Ability.AbilityType.ATTACK)
         {
-            Debug.Log("Debug");
+            if (GUILayout.Button("Change things for ATTACK"))
+            {
+                Debug.Log("Debug");
+            }
         }
+        else
+        {
+            if (GUILayout.Button("Change things for SUPPORT"))
+            {
+                Debug.Log("Debug");
+            }
+        }
+
+        // EditorGUILayout.EnumPopup(ability.type);
     }
 }
