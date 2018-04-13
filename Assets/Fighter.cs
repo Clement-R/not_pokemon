@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
 
+    public Ability move1;
+
     public bool canPlay = true;
     public int health = 100;
     public bool dead = false;

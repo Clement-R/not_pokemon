@@ -11,7 +11,22 @@ public class Ability : ScriptableObject
         SUPPORT
     }
 
+    public enum AbilityTarget
+    {
+        SINGLE,
+        MULTI
+    }
+
+    public enum AbilityAttackType
+    {
+        FIRE,
+        ELECTRIC,
+        WATER,
+    }
+
     public string abilityName = "Move 1";
     public AbilityType type = AbilityType.ATTACK;
-    
+
+    public int damage = 50;
+
 }

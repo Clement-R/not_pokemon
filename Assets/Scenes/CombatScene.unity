@@ -632,6 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
   dead: 0
@@ -645,7 +646,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 547214210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9720}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 108, y: 108, z: 108}
   m_Children: []
   m_Father: {fileID: 705900099}
@@ -974,6 +975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
   dead: 0
@@ -987,7 +989,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 738811811}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9720}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 108, y: 108, z: 108}
   m_Children: []
   m_Father: {fileID: 705900099}
@@ -1494,6 +1496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
   dead: 0
@@ -1507,7 +1510,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1264704390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9720}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 108, y: 108, z: 108}
   m_Children: []
   m_Father: {fileID: 705900099}
@@ -2538,6 +2541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
   dead: 0
@@ -2551,7 +2555,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1999277201}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9720}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 108, y: 108, z: 108}
   m_Children: []
   m_Father: {fileID: 705900099}
