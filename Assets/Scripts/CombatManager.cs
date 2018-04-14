@@ -87,12 +87,48 @@ public class CombatManager : MonoBehaviour {
                 _fighters.Select(c => { c.canPlay = true; return c; }).ToList();
                 activeFighter = _fighters.First(e => e.canPlay == true);
             }
-
+            
             debugText.text = activeFighter.name;
 
             bool turnEnd = false;
 
-            while(!turnEnd)
+            if (activeFighter.isAI)
+            {
+                playerUI.SetActive(false);
+
+                // TODO : Take enemy action
+
+                // TODO : Select first enemy
+                fighterToAttack = _fighters.First(e => e.player != activeFighter.player && e.dead == false);
+
+                activeFighter.canPlay = false;
+
+                // Apply attack
+                // Show log
+                _combatLogText.text = "";
+
+                // Play attack
+                StartCoroutine(ScreenShake());
+                StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
+                yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+
+                // Check if the other team is dead
+                if (_fighters.Count(e => e.player != activeFighter.player && e.dead == false) == 0)
+                {
+                    combatEnd = true;
+                }
+
+                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+                playerUI.SetActive(true);
+
+                _targetChoosed = false;
+                _actionChoosed = false;
+                turnEnd = true;
+            }
+
+            while (!turnEnd)
             {
                 if (!_actionChoosed)
                 {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
+    public bool isAI = false;
 
     public Ability move1;
 

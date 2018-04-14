@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Move 1
   type: 0
+  damage: 50

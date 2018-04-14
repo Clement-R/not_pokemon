@@ -506,6 +506,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -520,6 +521,18 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f4ca3636de50741be353da067a6407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionMaterial: {fileID: 2100000, guid: 6d8da9a2853871548a5d5482aba35f88, type: 2}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -599,7 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_Material: {fileID: 2100000, guid: bdb88ae3f7be88143b04542530c683d1, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -632,6 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAI: 0
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
@@ -933,7 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_Material: {fileID: 2100000, guid: bdb88ae3f7be88143b04542530c683d1, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -966,6 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAI: 0
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
@@ -1474,6 +1489,7 @@ GameObject:
   - component: {fileID: 1264704392}
   - component: {fileID: 1264704391}
   - component: {fileID: 1264704395}
+  - component: {fileID: 1264704396}
   m_Layer: 0
   m_Name: P2_Fighter2
   m_TagString: Untagged
@@ -1492,7 +1508,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_Material: {fileID: 2100000, guid: bdb88ae3f7be88143b04542530c683d1, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -1525,6 +1541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAI: 1
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
@@ -1602,6 +1619,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1264704396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1264704390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75677d0a0fb0473469a8f3162915c0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1312130847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,6 +1640,7 @@ GameObject:
   - component: {fileID: 1312130848}
   - component: {fileID: 1312130850}
   - component: {fileID: 1312130849}
+  - component: {fileID: 1312130851}
   m_Layer: 5
   m_Name: CombatLog
   m_TagString: Untagged
@@ -1755,6 +1784,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1312130847}
+--- !u!114 &1312130851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1312130847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765611b10e0a12b468c88809579bf46a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AngleMultiplier: 1
+  SpeedMultiplier: 1
+  CurveScale: 10
 --- !u!1 &1327778793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,6 +2563,7 @@ GameObject:
   - component: {fileID: 1999277203}
   - component: {fileID: 1999277202}
   - component: {fileID: 1999277206}
+  - component: {fileID: 1999277207}
   m_Layer: 0
   m_Name: P2_Fighter1
   m_TagString: Untagged
@@ -2538,7 +2582,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_Material: {fileID: 2100000, guid: bdb88ae3f7be88143b04542530c683d1, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -2571,6 +2615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5857938e0506c45a9d4e34cccb5211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAI: 1
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   canPlay: 1
   health: 100
@@ -2648,6 +2693,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1999277207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999277201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75677d0a0fb0473469a8f3162915c0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2115208883
 GameObject:
   m_ObjectHideFlags: 0
