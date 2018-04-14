@@ -22,8 +22,10 @@ public class CombatManager : MonoBehaviour {
     public bool waitForPlayerAction = true;
     public bool waitForPlayerChoice = true;
 
-    public bool combatEnd = false;
+    public GameObject battlefieldUI;
 
+    public bool combatEnd = false;
+    
     public TMP_Text debugText;
 
     private bool _actionChoosed = false;
@@ -33,6 +35,8 @@ public class CombatManager : MonoBehaviour {
     private Fighter fighterToAttack = null;
 
     private TMPro.TMP_Text _combatLogText;
+
+    private float power = 1f;
 
     void Start ()
     {
@@ -126,8 +130,9 @@ public class CombatManager : MonoBehaviour {
                             _combatLogText.text = "";
 
                             // Play attack
-                            StartCoroutine(RevealText(activeFighter.name + " attack " + fighterToAttack.name));
-                            yield return fighterToAttack.TakeDamage(activeFighter.move1.damage);
+                            StartCoroutine(ScreenShake());
+                            StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
+                            yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
 
                             // Remove focus on enemy team
                             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
@@ -167,6 +172,34 @@ public class CombatManager : MonoBehaviour {
         yield return new WaitForSeconds(2f);
 
         Application.Quit();
+    }
+
+    IEnumerator ScreenShake()
+    {
+        Vector2 basePosition = battlefieldUI.transform.position;
+        Vector2 nextPosition = new Vector2();
+
+        float duration = 1f;
+        float counter = 0f;
+
+        float seed = 10f;
+
+        while (counter < duration)
+        {
+            battlefieldUI.transform.position = basePosition;
+            battlefieldUI.transform.rotation = Quaternion.identity;
+
+            nextPosition.x = Mathf.Clamp01(Mathf.PerlinNoise(Time.time * seed, 0f)) - 0.5f; 
+            nextPosition.y = Mathf.Clamp01(Mathf.PerlinNoise(0f, Time.time * seed)) - 0.5f;
+
+            battlefieldUI.transform.position = basePosition + (nextPosition * power);
+
+            counter += Time.deltaTime;
+            yield return null;
+        }
+
+        battlefieldUI.transform.position = basePosition;
+        battlefieldUI.transform.rotation = Quaternion.identity;
     }
 
     IEnumerator RevealText(string text)
