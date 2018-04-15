@@ -109,8 +109,11 @@ public class CombatManager : MonoBehaviour {
 
                 // Play attack
                 StartCoroutine(ScreenShake());
-                StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
-                yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+                // StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
+                // yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+
+                yield return fighterToAttack.TakeDamage(activeFighter.move1.damage);
+                _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name;
 
                 // Check if the other team is dead
                 if (_fighters.Count(e => e.player != activeFighter.player && e.dead == false) == 0)
@@ -168,7 +171,34 @@ public class CombatManager : MonoBehaviour {
                             // Play attack
                             StartCoroutine(ScreenShake());
                             StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
-                            yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+
+                            //yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+
+
+
+                            /**************************/
+                            _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name;
+                            var corAnim = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
+                            var corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+                            _combatLogText.ForceMeshUpdate();
+
+                            waitForPlayerAction = true;
+                            while (waitForPlayerAction)
+                            {
+                                yield return null;
+
+                                if (Input.anyKeyDown)
+                                {
+                                    waitForPlayerAction = false;
+                                }
+                            }
+
+                            StopCoroutine(corAnim);
+                            StopCoroutine(corCol);
+                            _combatLogText.text = "";
+                            /**************************/
+
+
 
                             // Remove focus on enemy team
                             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();

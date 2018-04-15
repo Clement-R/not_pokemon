@@ -16,7 +16,7 @@ public class FadeInText : MonoBehaviour {
     void Start()
     {
         m_TextComponent = GetComponent<TMP_Text>();
-        StartCoroutine(AnimateVertex());
+        // StartCoroutine(AnimateVertex());
     }
 
     /// <summary>
@@ -44,11 +44,65 @@ public class FadeInText : MonoBehaviour {
             _hasTextChanged = true;
     }
 
+
     /// <summary>
     /// Method to animate vertex colors of a TMP Text object.
     /// </summary>
     /// <returns></returns>
-    IEnumerator AnimateVertex()
+    public IEnumerator AnimateVertexColors()
+    {
+        int visibleCount = 0;
+        TMP_TextInfo textInfo = m_TextComponent.textInfo;
+
+        Color32[] newVertexColors;
+        Color32 c0 = m_TextComponent.color;
+
+        while (visibleCount < textInfo.characterCount)
+        {
+            int characterCount = textInfo.characterCount;
+
+            // If No Characters then just yield and wait for some text to be added
+            if (characterCount == 0)
+            {
+                yield return new WaitForSeconds(0.25f);
+                continue;
+            }
+
+            // Get the index of the material used by the current character.
+            int materialIndex = textInfo.characterInfo[visibleCount].materialReferenceIndex;
+
+            // Get the vertex colors of the mesh used by this text element (character or sprite).
+            newVertexColors = textInfo.meshInfo[materialIndex].colors32;
+
+            // Get the index of the first vertex used by this text element.
+            int vertexIndex = textInfo.characterInfo[visibleCount].vertexIndex;
+
+            // Only change the vertex color if the text element is visible.
+            if (textInfo.characterInfo[visibleCount].isVisible)
+            {
+                //c0 = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
+                c0 = new Color32(255, 255, 255, 255);
+
+                newVertexColors[vertexIndex + 0] = c0;
+                newVertexColors[vertexIndex + 1] = c0;
+                newVertexColors[vertexIndex + 2] = c0;
+                newVertexColors[vertexIndex + 3] = c0;
+
+                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            }
+
+            yield return null;
+            visibleCount += 1;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Method to animate vertex colors of a TMP Text object.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator AnimateVertex()
     {
         // We force an update of the text object since it would only be updated at the end of the frame. Ie. before this code is executed on the first frame.
         // Alternatively, we could yield and wait until the end of the frame when the text object will be generated.
