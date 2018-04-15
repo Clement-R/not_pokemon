@@ -13,6 +13,11 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     public Frame frame;
     public Pilot pilot;
 
+    public Part leftShoulder;
+    public Part rightShoulder;
+    public Part rightArm;
+    public Part leftArm;
+
     public bool canPlay = true;
     public int health = 100;
     public bool dead = false;
@@ -25,12 +30,29 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private Button focusSelector;
     private Image _sprite;
+    private StatsManager _stats;
 
-    public void Start()
+    public void Awake()
     {
         _sprite = GetComponent<Image>();
+        _stats = GetComponent<StatsManager>();
         focusSelector = GetComponent<Button>();
         focusSelector.enabled = false;
+    }
+
+    public int GetDexterity()
+    {
+        return _stats.ComputeDexterity();
+    }
+
+    public int GetStrength()
+    {
+        return _stats.ComputeStrength();
+    }
+
+    public int GetAccuracy()
+    {
+        return _stats.ComputeAccuracy();
     }
 
     public IEnumerator TakeDamage(int amount)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Part : ScriptableObject
+public class Part : FighterComponent
 {
-    
+    public string partName = "Part 1";
 }

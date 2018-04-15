@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pilot : ScriptableObject
+public class Pilot : FighterComponent
 {
-
-	
+    public string pilotName = "Pilot 1";
 }

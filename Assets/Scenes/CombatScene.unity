@@ -607,6 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 547214214}
   - component: {fileID: 547214213}
+  - component: {fileID: 547214216}
   - component: {fileID: 547214212}
   - component: {fileID: 547214211}
   - component: {fileID: 547214215}
@@ -664,7 +665,11 @@ MonoBehaviour:
   isAI: 0
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
-  pilot: {fileID: 0}
+  pilot: {fileID: 11400000, guid: 322e8496bb848c645ae94ded50fe6897, type: 2}
+  leftShoulder: {fileID: 0}
+  rightShoulder: {fileID: 0}
+  rightArm: {fileID: 0}
+  leftArm: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -741,6 +746,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &547214216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 547214210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa4c55463cb91d4a90abf916af59f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &687631784
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,6 +960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 738811815}
   - component: {fileID: 738811814}
+  - component: {fileID: 738811817}
   - component: {fileID: 738811813}
   - component: {fileID: 738811812}
   - component: {fileID: 738811816}
@@ -1001,7 +1018,11 @@ MonoBehaviour:
   isAI: 0
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
-  pilot: {fileID: 0}
+  pilot: {fileID: 11400000, guid: fd062b1994567a741bf225b5a4a28624, type: 2}
+  leftShoulder: {fileID: 0}
+  rightShoulder: {fileID: 0}
+  rightArm: {fileID: 0}
+  leftArm: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -1078,6 +1099,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &738811817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 738811811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa4c55463cb91d4a90abf916af59f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &838767502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,6 +1538,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1264704394}
   - component: {fileID: 1264704393}
+  - component: {fileID: 1264704397}
   - component: {fileID: 1264704392}
   - component: {fileID: 1264704391}
   - component: {fileID: 1264704395}
@@ -1565,6 +1598,10 @@ MonoBehaviour:
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
   pilot: {fileID: 0}
+  leftShoulder: {fileID: 0}
+  rightShoulder: {fileID: 0}
+  rightArm: {fileID: 0}
+  leftArm: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -1650,6 +1687,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75677d0a0fb0473469a8f3162915c0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1264704397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1264704390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa4c55463cb91d4a90abf916af59f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1312130847
@@ -2584,6 +2632,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1999277205}
   - component: {fileID: 1999277204}
+  - component: {fileID: 1999277208}
   - component: {fileID: 1999277203}
   - component: {fileID: 1999277202}
   - component: {fileID: 1999277206}
@@ -2643,6 +2692,10 @@ MonoBehaviour:
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
   pilot: {fileID: 0}
+  leftShoulder: {fileID: 0}
+  rightShoulder: {fileID: 0}
+  rightArm: {fileID: 0}
+  leftArm: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -2728,6 +2781,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75677d0a0fb0473469a8f3162915c0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1999277208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999277201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa4c55463cb91d4a90abf916af59f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2115208883

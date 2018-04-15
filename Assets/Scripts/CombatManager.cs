@@ -79,8 +79,9 @@ public class CombatManager : MonoBehaviour {
 
         while (!combatEnd)
         {
-            // TODO : Change for a fighter stats like agility
-            activeFighter = _fighters.DefaultIfEmpty(null).FirstOrDefault(e => e.canPlay == true && e.dead == false);
+            // TODO : Change for a fighter stats like dexterity
+            activeFighter = _fighters.DefaultIfEmpty(null).OrderByDescending(e => e.GetDexterity()).FirstOrDefault(e => e.canPlay == true && e.dead == false);
+            // activeFighter = _fighters.DefaultIfEmpty(null).FirstOrDefault(e => e.canPlay == true && e.dead == false);
 
             // Reset all fighters and select first one
             if (activeFighter == null)
@@ -100,7 +101,7 @@ public class CombatManager : MonoBehaviour {
                 // TODO : Take enemy action
 
                 // TODO : Select first enemy
-                fighterToAttack = _fighters.First(e => e.player != activeFighter.player && e.dead == false);
+                fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
 
                 activeFighter.canPlay = false;
 
