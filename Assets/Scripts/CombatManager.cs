@@ -178,8 +178,7 @@ public class CombatManager : MonoBehaviour {
 
                             /**************************/
                             _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name;
-                            var corAnim = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
-                            var corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+                            Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
                             _combatLogText.ForceMeshUpdate();
 
                             waitForPlayerAction = true;
@@ -193,7 +192,6 @@ public class CombatManager : MonoBehaviour {
                                 }
                             }
 
-                            StopCoroutine(corAnim);
                             StopCoroutine(corCol);
                             _combatLogText.text = "";
                             /**************************/
@@ -266,38 +264,6 @@ public class CombatManager : MonoBehaviour {
 
         battlefieldUI.transform.position = basePosition;
         battlefieldUI.transform.rotation = Quaternion.identity;
-    }
-
-    IEnumerator RevealText(string text)
-    {
-        _combatLogText.text = text;
-        _combatLogText.ForceMeshUpdate();
-
-        TMPro.TMP_TextInfo textInfo = _combatLogText.textInfo;
-
-        int totalVisibleCharacters = textInfo.characterCount;
-        int visibleCount = 0;
-
-        while (visibleCount < totalVisibleCharacters)
-        {
-            _combatLogText.maxVisibleCharacters = visibleCount;
-            visibleCount += 1;
-
-            yield return null;
-        }
-
-        waitForPlayerAction = true;
-        while(waitForPlayerAction)
-        {
-            if(Input.anyKeyDown)
-            {
-                waitForPlayerAction = false;
-            }
-
-            yield return null;
-        }
-
-        _combatLogText.text = "";
     }
 
     public void NotifyPlayerInput(bool waitForPlayer = false)

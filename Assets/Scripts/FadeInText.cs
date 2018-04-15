@@ -57,42 +57,93 @@ public class FadeInText : MonoBehaviour {
         Color32[] newVertexColors;
         Color32 c0 = m_TextComponent.color;
 
+        // We wait one fram to avoid a collision with other effect leading to a miss on first character color animation
+        yield return null;
+
         while (visibleCount < textInfo.characterCount)
         {
-            int characterCount = textInfo.characterCount;
-
-            // If No Characters then just yield and wait for some text to be added
-            if (characterCount == 0)
-            {
-                yield return new WaitForSeconds(0.25f);
-                continue;
-            }
-
             // Get the index of the material used by the current character.
             int materialIndex = textInfo.characterInfo[visibleCount].materialReferenceIndex;
 
             // Get the vertex colors of the mesh used by this text element (character or sprite).
             newVertexColors = textInfo.meshInfo[materialIndex].colors32;
-
+            
+            // Update actual letter
             // Get the index of the first vertex used by this text element.
             int vertexIndex = textInfo.characterInfo[visibleCount].vertexIndex;
 
-            // Only change the vertex color if the text element is visible.
-            if (textInfo.characterInfo[visibleCount].isVisible)
+            c0 = new Color32(255, 255, 255, 125);
+
+            newVertexColors[vertexIndex + 0] = c0;
+            newVertexColors[vertexIndex + 1] = c0;
+            newVertexColors[vertexIndex + 2] = c0;
+            newVertexColors[vertexIndex + 3] = c0;
+
+            if(visibleCount > 1)
             {
-                //c0 = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
-                c0 = new Color32(255, 255, 255, 255);
+                vertexIndex = textInfo.characterInfo[visibleCount - 1].vertexIndex;
+
+                c0 = new Color32(255, 255, 255, 195);
 
                 newVertexColors[vertexIndex + 0] = c0;
                 newVertexColors[vertexIndex + 1] = c0;
                 newVertexColors[vertexIndex + 2] = c0;
                 newVertexColors[vertexIndex + 3] = c0;
 
-                m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                vertexIndex = textInfo.characterInfo[visibleCount - 2].vertexIndex;
+
+                c0 = new Color32(255, 255, 255, 255);
+
+                newVertexColors[vertexIndex + 0] = c0;
+                newVertexColors[vertexIndex + 1] = c0;
+                newVertexColors[vertexIndex + 2] = c0;
+                newVertexColors[vertexIndex + 3] = c0;
             }
 
+            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
             yield return null;
-            visibleCount += 1;
+            yield return null;
+            yield return null;
+
+            visibleCount++;
+        }
+
+        int count = 0;
+        while(count <= 1)
+        {
+            // Get the index of the material used by the current character.
+            int materialIndex = textInfo.characterInfo[visibleCount - 1].materialReferenceIndex;
+
+            // Get the vertex colors of the mesh used by this text element (character or sprite).
+            newVertexColors = textInfo.meshInfo[materialIndex].colors32;
+            
+            // Update actual letter
+            // Get the index of the first vertex used by this text element.
+            int vertexIndex = textInfo.characterInfo[visibleCount - 1].vertexIndex;
+            
+            switch (count)
+            {
+                case 0:
+                    c0 = new Color32(255, 255, 255, 195);
+                    break;
+                case 1:
+                    c0 = new Color32(255, 255, 255, 255);
+                    break;
+            }
+
+            newVertexColors[vertexIndex + 0] = c0;
+            newVertexColors[vertexIndex + 1] = c0;
+            newVertexColors[vertexIndex + 2] = c0;
+            newVertexColors[vertexIndex + 3] = c0;
+
+            m_TextComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
+            yield return null;
+            yield return null;
+            yield return null;
+
+            count++;
         }
     }
 
