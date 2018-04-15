@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -582,6 +583,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68d391f5aee5f347958150da5056992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battlefieldUI: {fileID: 1037757885}
+  power: 1
 --- !u!1 &547214210
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +661,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAI: 0
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
+  frame: {fileID: 0}
+  pilot: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -982,6 +998,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAI: 0
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
+  frame: {fileID: 0}
+  pilot: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -1543,6 +1561,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAI: 1
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
+  frame: {fileID: 0}
+  pilot: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0
@@ -2617,6 +2637,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAI: 1
   move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
+  frame: {fileID: 0}
+  pilot: {fileID: 0}
   canPlay: 1
   health: 100
   dead: 0

@@ -10,6 +10,9 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public Ability move1;
 
+    public Frame frame;
+    public Pilot pilot;
+
     public bool canPlay = true;
     public int health = 100;
     public bool dead = false;

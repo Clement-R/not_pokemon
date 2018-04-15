@@ -26,6 +26,9 @@ public class Ability : ScriptableObject
 
     public string abilityName = "Move 1";
     public AbilityType type = AbilityType.ATTACK;
+    public AbilityTarget target;
+
+    public GameObject effect;
 
     public int damage = 50;
 

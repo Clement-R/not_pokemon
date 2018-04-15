@@ -108,7 +108,8 @@ public class CombatManager : MonoBehaviour {
                 _combatLogText.text = "";
 
                 // Play attack
-                StartCoroutine(ScreenShake());
+                Camera.main.GetComponent<Screenshake>().ScreenShake();
+
                 // StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
                 // yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
 
@@ -172,9 +173,9 @@ public class CombatManager : MonoBehaviour {
                             StartCoroutine(ScreenShake());
                             StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
 
+                            Instantiate(activeFighter.move1.effect);
+
                             //yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
-
-
 
                             /**************************/
                             _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name;
@@ -195,8 +196,6 @@ public class CombatManager : MonoBehaviour {
                             StopCoroutine(corCol);
                             _combatLogText.text = "";
                             /**************************/
-
-
 
                             // Remove focus on enemy team
                             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
