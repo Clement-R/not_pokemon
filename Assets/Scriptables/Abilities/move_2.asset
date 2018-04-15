@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae885c7b54879649a36d7df8ea8f1bd, type: 3}
   m_Name: move_2
   m_EditorClassIdentifier: 
-  abilityName: Move 1
+  abilityName: Move 2
   type: 0
-  target: 0
-  effect: {fileID: 0}
-  damage: 50
+  target: 1
+  effect: {fileID: 1011638187603876, guid: 5afa766069e620a4d8547ff70bfb1b96, type: 2}
+  damage: 25

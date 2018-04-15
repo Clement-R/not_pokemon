@@ -62,6 +62,11 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
             counter++;
         }
     }
+
+    public void ForceSelect()
+    {
+        _sprite.color = Color.blue;
+    }
     
     public void OnSelect(BaseEventData eventData)
     {
@@ -110,6 +115,8 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         if(health <= 0)
         {
+            print(name + " is dead");
+
             healthBar.transform.parent.gameObject.SetActive(false);
             dead = true;
             gameObject.SetActive(false);

@@ -29,6 +29,7 @@ public class CombatManager : MonoBehaviour {
     public TMP_Text debugText;
 
     private bool _actionChoosed = false;
+    private Ability _choosedAbility = null;
     private bool _targetChoosed = false;
 
     private List<Fighter> _fighters = new List<Fighter>();
@@ -53,7 +54,7 @@ public class CombatManager : MonoBehaviour {
 
     private void Update()
     {
-        if(_actionChoosed && !_targetChoosed)
+        if (_actionChoosed && !_targetChoosed)
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
@@ -84,8 +85,8 @@ public class CombatManager : MonoBehaviour {
             // Reset all fighters and select first one
             if (activeFighter == null)
             {
-                _fighters.Select(c => { c.canPlay = true; return c; }).ToList();
-                activeFighter = _fighters.First(e => e.canPlay == true);
+                _fighters.FindAll(e => e.dead == false).Select(c => { c.canPlay = true; return c; }).ToList();
+                activeFighter = _fighters.First(e => e.canPlay == true && e.dead == false);
             }
             
             debugText.text = activeFighter.name;
@@ -113,8 +114,24 @@ public class CombatManager : MonoBehaviour {
                 // StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
                 // yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
 
-                yield return fighterToAttack.TakeDamage(activeFighter.move1.damage);
+                StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
                 _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name;
+
+                Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+
+                waitForPlayerAction = true;
+                while (waitForPlayerAction)
+                {
+                    yield return null;
+
+                    if (Input.anyKeyDown)
+                    {
+                        waitForPlayerAction = false;
+                    }
+                }
+
+                StopCoroutine(corCol);
+                _combatLogText.text = "";
 
                 // Check if the other team is dead
                 if (_fighters.Count(e => e.player != activeFighter.player && e.dead == false) == 0)
@@ -149,19 +166,39 @@ public class CombatManager : MonoBehaviour {
                     {
                         activeFighter.canPlay = false;
 
-                        // Choose which enemy to attack
-                        // Set enemy team to be focusable
-                        _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
-
-                        // Wait for player focus choice
+                        // Wait for player enemy target choice
                         playerUI.SetActive(false);
-                        EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != activeFighter.player && e.dead == false).gameObject);
-                        
-                        waitForPlayerChoice = true;
-                        while (waitForPlayerChoice && _actionChoosed)
+
+                        if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
                         {
-                            yield return null;
+                            _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+
+                            waitForPlayerChoice = true;
+                            while (waitForPlayerChoice && _actionChoosed)
+                            {
+                                yield return null;
+
+                                if (Input.GetKeyDown(KeyCode.Space))
+                                {
+                                    waitForPlayerChoice = false;
+                                    _targetChoosed = true;
+                                }
+                            }
                         }
+                        else
+                        {
+                            // Set enemy team to be focusable
+                            _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+
+                            // Set first enemy as focused
+                            EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != activeFighter.player && e.dead == false).gameObject);
+
+                            waitForPlayerChoice = true;
+                            while (waitForPlayerChoice && _actionChoosed)
+                            {
+                                yield return null;
+                            }
+                        };
 
                         if (_targetChoosed)
                         {
@@ -169,18 +206,37 @@ public class CombatManager : MonoBehaviour {
                             // Show log
                             _combatLogText.text = "";
 
+
                             // Play attack
-                            StartCoroutine(ScreenShake());
-                            StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
+                            //StartCoroutine(ScreenShake());
+                            Camera.main.GetComponent<Screenshake>().ScreenShake();
 
-                            Instantiate(activeFighter.move1.effect);
+                            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+                            {
+                                foreach (Fighter fighter in _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false))
+                                {
+                                    StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+                                }
+                            }
+                            else
+                            {
+                                StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
+                            }
 
-                            //yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
+                            // Play ability animation
+                            Instantiate(_choosedAbility.effect);
 
-                            /**************************/
-                            _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name;
+                            // Display combat log and wait for the player to press a key
+                            if(_choosedAbility.target == Ability.AbilityTarget.SINGLE)
+                            {
+                                _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name + "with " + _choosedAbility.abilityName;
+                            }
+                            else
+                            {
+                                _combatLogText.text = activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
+                            }
+                            
                             Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
-                            _combatLogText.ForceMeshUpdate();
 
                             waitForPlayerAction = true;
                             while (waitForPlayerAction)
@@ -195,7 +251,6 @@ public class CombatManager : MonoBehaviour {
 
                             StopCoroutine(corCol);
                             _combatLogText.text = "";
-                            /**************************/
 
                             // Remove focus on enemy team
                             _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
@@ -232,6 +287,8 @@ public class CombatManager : MonoBehaviour {
 
         print("Combat end");
 
+        Camera.main.GetComponent<TransitionPostProcess>().TransitionEffect();
+
         yield return new WaitForSeconds(2f);
 
         Application.Quit();
@@ -265,9 +322,10 @@ public class CombatManager : MonoBehaviour {
         battlefieldUI.transform.rotation = Quaternion.identity;
     }
 
-    public void NotifyPlayerInput(bool waitForPlayer = false)
+    public void NotifyPlayerActionChoosed(Ability ability)
     {
-        waitForPlayerAction = waitForPlayer;
+        waitForPlayerAction = false;
+        _choosedAbility = ability;
         _actionChoosed = true;
     }
 

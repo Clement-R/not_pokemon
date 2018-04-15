@@ -11,4 +11,25 @@ public class TransitionPostProcess : MonoBehaviour {
     {
         Graphics.Blit(source, destination, TransitionMaterial);
     }
+
+    public void Start()
+    {
+        TransitionMaterial.SetFloat("_Cutoff", 0);
+    }
+
+    public void TransitionEffect()
+    {
+        StartCoroutine(DoTransitionEffect());
+    }
+
+    private IEnumerator DoTransitionEffect()
+    {
+        float cutoff = 0f;
+        while(cutoff < 1f)
+        {
+            cutoff += 0.05f;
+            TransitionMaterial.SetFloat("_Cutoff", cutoff);
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
 }

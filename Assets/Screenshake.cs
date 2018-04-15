@@ -22,13 +22,15 @@ public class Screenshake : MonoBehaviour {
         float duration = 1f;
         float counter = 0f;
 
+        float frequency = 10f;
+
         while (counter < duration)
         {
             battlefieldUI.transform.position = basePosition;
             battlefieldUI.transform.rotation = Quaternion.identity;
 
-            nextPosition.x = Mathf.Clamp01(Mathf.PerlinNoise(Time.time, 0f)) - 0.5f;
-            nextPosition.y = Mathf.Clamp01(Mathf.PerlinNoise(0f, Time.time)) - 0.5f;
+            nextPosition.x = Mathf.Clamp01(Mathf.PerlinNoise(Time.time * frequency, 0f)) - 0.5f;
+            nextPosition.y = Mathf.Clamp01(Mathf.PerlinNoise(0f, Time.time * frequency)) - 0.5f;
 
             battlefieldUI.transform.position = basePosition + (nextPosition * power);
 
