@@ -101,7 +101,8 @@ public class CombatManager : MonoBehaviour {
                 // TODO : Take enemy action
 
                 // TODO : Select first enemy
-                fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
+                // fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
+                fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderByDescending(e => e.health).First();
 
                 activeFighter.canPlay = false;
 
@@ -234,7 +235,7 @@ public class CombatManager : MonoBehaviour {
                                 // Display combat log and wait for the player to press a key
                                 if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
                                 {
-                                    _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name + "with " + _choosedAbility.abilityName;
+                                    _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name + " with " + _choosedAbility.abilityName;
                                 }
                                 else
                                 {
@@ -351,7 +352,7 @@ public class CombatManager : MonoBehaviour {
                                 // Display combat log and wait for the player to press a key
                                 if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
                                 {
-                                    _combatLogText.text = activeFighter.name + " heal " + fighterToAttack.name + "with " + _choosedAbility.abilityName;
+                                    _combatLogText.text = activeFighter.name + " heal " + fighterToAttack.name + " with " + _choosedAbility.abilityName;
                                 }
                                 else
                                 {

@@ -2492,7 +2492,7 @@ MonoBehaviour:
         m_MethodName: NotifyPlayerActionChoosed
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: c992ad43cc13c3042810c8bfe96795db,
+          m_ObjectArgument: {fileID: 11400000, guid: 45cfc7acd03afb14291e4ec3a71d97af,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: Ability, Assembly-CSharp
           m_IntArgument: 0
