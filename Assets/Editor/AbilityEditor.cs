@@ -10,23 +10,31 @@ public class AbilityEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-
         ability = (Ability)target;
 
-        if(ability.type == Ability.AbilityType.ATTACK)
+        ability.abilityName = EditorGUILayout.TextField("Ability name", ability.abilityName);
+        ability.type = (Ability.AbilityType) EditorGUILayout.EnumPopup("Type", ability.type);
+        ability.target = (Ability.AbilityTarget)EditorGUILayout.EnumPopup("Target", ability.target);
+        ability.effect = (GameObject) EditorGUILayout.ObjectField("Effect", ability.effect, typeof(GameObject), false);
+
+        if (ability.type == Ability.AbilityType.ATTACK)
         {
-            if (GUILayout.Button("Change things for ATTACK"))
-            {
-                Debug.Log("Debug");
-            }
+            ability.damage = EditorGUILayout.IntField("Damage", ability.damage);
+            ability.attackType = (Ability.AbilityAttackType)EditorGUILayout.EnumPopup("Attack type", ability.attackType);
+
+            //if (GUILayout.Button("Change things for ATTACK"))
+            //{
+            //    Debug.Log("Debug");
+            //}
         }
         else
         {
-            if (GUILayout.Button("Change things for SUPPORT"))
-            {
-                Debug.Log("Debug");
-            }
+            ability.heal = EditorGUILayout.IntField("Heal", ability.heal);
+
+            //if (GUILayout.Button("Change things for SUPPORT"))
+            //{
+            //    Debug.Log("Debug");
+            //}
         }
 
         // EditorGUILayout.EnumPopup(ability.type);

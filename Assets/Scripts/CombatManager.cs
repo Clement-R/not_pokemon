@@ -170,116 +170,234 @@ public class CombatManager : MonoBehaviour {
                         // Wait for player enemy target choice
                         playerUI.SetActive(false);
 
-                        if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+
+                        if(_choosedAbility.type == Ability.AbilityType.ATTACK)
                         {
-                            _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
-
-                            waitForPlayerChoice = true;
-                            while (waitForPlayerChoice && _actionChoosed)
-                            {
-                                yield return null;
-
-                                if (Input.GetKeyDown(KeyCode.Space))
-                                {
-                                    waitForPlayerChoice = false;
-                                    _targetChoosed = true;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // Set enemy team to be focusable
-                            _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
-
-                            // Set first enemy as focused
-                            EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != activeFighter.player && e.dead == false).gameObject);
-
-                            waitForPlayerChoice = true;
-                            while (waitForPlayerChoice && _actionChoosed)
-                            {
-                                yield return null;
-                            }
-                        };
-
-                        if (_targetChoosed)
-                        {
-                            // TODO : Remove action logic from here
-                            // Show log
-                            _combatLogText.text = "";
-
-
-                            // Play attack
-                            //StartCoroutine(ScreenShake());
-                            Camera.main.GetComponent<Screenshake>().ScreenShake();
-
                             if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
                             {
-                                foreach (Fighter fighter in _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false))
+                                _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+
+                                waitForPlayerChoice = true;
+                                while (waitForPlayerChoice && _actionChoosed)
                                 {
-                                    StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+                                    yield return null;
+
+                                    if (Input.GetKeyDown(KeyCode.Space))
+                                    {
+                                        waitForPlayerChoice = false;
+                                        _targetChoosed = true;
+                                    }
                                 }
                             }
                             else
                             {
-                                StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
-                            }
+                                // Set enemy team to be focusable
+                                _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
 
-                            // Play ability animation
-                            Instantiate(_choosedAbility.effect);
+                                // Set first enemy as focused
+                                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != activeFighter.player && e.dead == false).gameObject);
 
-                            // Display combat log and wait for the player to press a key
-                            if(_choosedAbility.target == Ability.AbilityTarget.SINGLE)
-                            {
-                                _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name + "with " + _choosedAbility.abilityName;
-                            }
-                            else
-                            {
-                                _combatLogText.text = activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
-                            }
-                            
-                            Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
-
-                            waitForPlayerAction = true;
-                            while (waitForPlayerAction)
-                            {
-                                yield return null;
-
-                                if (Input.anyKeyDown)
+                                waitForPlayerChoice = true;
+                                while (waitForPlayerChoice && _actionChoosed)
                                 {
-                                    waitForPlayerAction = false;
+                                    yield return null;
                                 }
                             }
 
-                            StopCoroutine(corCol);
-                            _combatLogText.text = "";
-
-                            // Remove focus on enemy team
-                            _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
-
-                            // Check if the other team is dead
-                            if (_fighters.Count(e => e.player != activeFighter.player && e.dead == false) == 0)
+                            if (_targetChoosed)
                             {
-                                combatEnd = true;
+                                // TODO : Remove action logic from here
+                                // Show log
+                                _combatLogText.text = "";
+
+
+                                // Play attack
+                                //StartCoroutine(ScreenShake());
+                                Camera.main.GetComponent<Screenshake>().ScreenShake();
+
+                                if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+                                {
+                                    foreach (Fighter fighter in _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false))
+                                    {
+                                        StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+                                    }
+                                }
+                                else
+                                {
+                                    StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
+                                }
+
+                                // Play ability animation
+                                GameObject effect = Instantiate(_choosedAbility.effect);
+                                Destroy(effect, 2f);
+
+                                // Display combat log and wait for the player to press a key
+                                if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
+                                {
+                                    _combatLogText.text = activeFighter.name + " attack " + fighterToAttack.name + "with " + _choosedAbility.abilityName;
+                                }
+                                else
+                                {
+                                    _combatLogText.text = activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
+                                }
+
+                                Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+                                // Coroutine corMov = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
+
+                                waitForPlayerAction = true;
+                                while (waitForPlayerAction)
+                                {
+                                    yield return null;
+
+                                    if (Input.anyKeyDown)
+                                    {
+                                        waitForPlayerAction = false;
+                                    }
+                                }
+
+                                StopCoroutine(corCol);
+                                //StopCoroutine(corMov);
+                                _combatLogText.text = "";
+
+                                // Remove focus on enemy team
+                                _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+
+                                // Check if the other team is dead
+                                if (_fighters.Count(e => e.player != activeFighter.player && e.dead == false) == 0)
+                                {
+                                    combatEnd = true;
+                                }
+
+                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+                                playerUI.SetActive(true);
+
+                                _targetChoosed = false;
+                                _actionChoosed = false;
+                                turnEnd = true;
                             }
+                            else
+                            {
+                                // Remove focus on enemy team
+                                _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
 
-                            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
 
-                            playerUI.SetActive(true);
-
-                            _targetChoosed = false;
-                            _actionChoosed = false;
-                            turnEnd = true;
+                                playerUI.SetActive(true);
+                            }
                         }
                         else
                         {
-                            // Remove focus on enemy team
-                            _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+                            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+                            {
+                                _fighters.FindAll(e => e.player == activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
 
-                            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+                                waitForPlayerChoice = true;
+                                while (waitForPlayerChoice && _actionChoosed)
+                                {
+                                    yield return null;
 
-                            playerUI.SetActive(true);
+                                    if (Input.GetKeyDown(KeyCode.Space))
+                                    {
+                                        waitForPlayerChoice = false;
+                                        _targetChoosed = true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Set enemy team to be focusable
+                                _fighters.FindAll(e => e.player == activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+
+                                // Set first ally as focused
+                                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player == activeFighter.player && e.dead == false).gameObject);
+
+                                waitForPlayerChoice = true;
+                                while (waitForPlayerChoice && _actionChoosed)
+                                {
+                                    yield return null;
+                                }
+                            }
+
+                            if (_targetChoosed)
+                            {
+                                // TODO : Remove action logic from here
+                                // Show log
+                                _combatLogText.text = "";
+
+
+                                // Play attack
+                                //StartCoroutine(ScreenShake());
+                                // Camera.main.GetComponent<Screenshake>().ScreenShake();
+
+                                if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+                                {
+                                    foreach (Fighter fighter in _fighters.FindAll(e => e.player == activeFighter.player && e.dead == false))
+                                    {
+                                        StartCoroutine(fighter.Heal(_choosedAbility.heal));
+                                    }
+                                }
+                                else
+                                {
+                                    StartCoroutine(fighterToAttack.Heal(_choosedAbility.heal));
+                                }
+
+                                // Play ability animation
+                                GameObject effect = Instantiate(_choosedAbility.effect);
+                                Destroy(effect, 2f);
+
+                                // Display combat log and wait for the player to press a key
+                                if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
+                                {
+                                    _combatLogText.text = activeFighter.name + " heal " + fighterToAttack.name + "with " + _choosedAbility.abilityName;
+                                }
+                                else
+                                {
+                                    _combatLogText.text = activeFighter.name + " heal all alies with " + _choosedAbility.abilityName;
+                                }
+
+                                Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+                                // Coroutine corMov = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
+
+                                waitForPlayerAction = true;
+                                while (waitForPlayerAction)
+                                {
+                                    yield return null;
+
+                                    if (Input.anyKeyDown)
+                                    {
+                                        waitForPlayerAction = false;
+                                    }
+                                }
+
+                                StopCoroutine(corCol);
+                                //StopCoroutine(corMov);
+                                _combatLogText.text = "";
+
+                                // Remove focus on enemy team
+                                _fighters.FindAll(e => e.player == activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+
+                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+                                playerUI.SetActive(true);
+
+                                _targetChoosed = false;
+                                _actionChoosed = false;
+                                turnEnd = true;
+                            }
+                            else
+                            {
+                                // Remove focus on allies
+                                _fighters.FindAll(e => e.player == activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+
+                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+                                playerUI.SetActive(true);
+                            }
                         }
                     }
                 }

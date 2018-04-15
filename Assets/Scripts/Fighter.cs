@@ -55,16 +55,26 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         return _stats.ComputeAccuracy();
     }
 
+    public IEnumerator Heal(int amount)
+    {
+        health += amount;
+        yield return StartCoroutine(HealthBarAnimation());
+    }
+
     public IEnumerator TakeDamage(int amount)
     {
         health -= amount;
 
         StartCoroutine(Blink());
-        yield return StartCoroutine(LoseHealth());
-        
-        if(health <= 0)
+        yield return StartCoroutine(HealthBarAnimation());
+
+        if (health <= 0)
         {
+            print(name + " is dead");
+
+            healthBar.transform.parent.gameObject.SetActive(false);
             dead = true;
+            gameObject.SetActive(false);
         }
     }
 
@@ -121,7 +131,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         }
     }
 
-    IEnumerator LoseHealth()
+    IEnumerator HealthBarAnimation()
     {
         float start = healthBar.fillAmount;
         float end = (float)health / 100f;
@@ -133,15 +143,6 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
             t += Time.deltaTime;
             healthBar.fillAmount = Mathf.Lerp(start, end, t);
             yield return null;
-        }
-
-        if(health <= 0)
-        {
-            print(name + " is dead");
-
-            healthBar.transform.parent.gameObject.SetActive(false);
-            dead = true;
-            gameObject.SetActive(false);
         }
     }
 }

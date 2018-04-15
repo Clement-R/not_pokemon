@@ -6,7 +6,7 @@ public class StatsManager : MonoBehaviour {
 
     private Fighter _fighter;
 
-	void Start ()
+	void Awake ()
     {
         _fighter = GetComponent<Fighter>();
     }

@@ -27,4 +27,21 @@ public class ScriptableCreator
     {
         ScriptableCreatorUtility.CreateAsset<Part>();
     }
+
+
+    // Statuses
+
+    /*
+    [MenuItem("Assets/Scriptable/Buff")]
+    public static void CreateBuff()
+    {
+        ScriptableCreatorUtility.CreateAsset<Buff>();
+    }
+
+    [MenuItem("Assets/Scriptable/Debuff")]
+    public static void CreateDebuff()
+    {
+        ScriptableCreatorUtility.CreateAsset<Debuff>();
+    }
+    */
 }

@@ -31,5 +31,7 @@ public class Ability : ScriptableObject
     public GameObject effect;
 
     public int damage = 50;
+    public int heal = 0;
+    public AbilityAttackType attackType;
 
 }
