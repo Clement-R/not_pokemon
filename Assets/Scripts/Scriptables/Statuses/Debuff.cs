@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Debuff : Status
+public abstract class Debuff : Status
 {
-
+    public abstract void ApplyEffect();
 }
