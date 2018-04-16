@@ -10,6 +10,8 @@ public class CombatManager : MonoBehaviour {
 
     // DEBUG
     public Status healBuff;
+    public Status burnDebuff;
+    public ModificatorStatus dexBoost;
 
     public Fighter P1_Fighter1;
     public Fighter P1_Fighter2;
@@ -56,7 +58,8 @@ public class CombatManager : MonoBehaviour {
         // DEBUG
         print("Heal buff added");
         P1_Fighter1.AddBuff(healBuff);
-
+        P1_Fighter1.AddDebuff(burnDebuff);
+        P1_Fighter1.AddBuff(dexBoost);
 
         StartCoroutine(CombatLogic());
     }

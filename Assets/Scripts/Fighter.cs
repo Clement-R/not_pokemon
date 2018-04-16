@@ -32,8 +32,8 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     private Image _sprite;
     private StatsManager _stats;
 
-    private List<Status> _buffs = new List<Status>();
-    private List<Status> _debuffs = new List<Status>();
+    public List<Status> buffs = new List<Status>();
+    public List<Status> debuffs = new List<Status>();
 
     public void Awake()
     {
@@ -45,28 +45,39 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void AddBuff(Status buff)
     {
-        _buffs.Add(Instantiate(buff));
+        buffs.Add(Instantiate(buff));
     }
 
     public void AddDebuff(Status debuff)
     {
-        _debuffs.Add(Instantiate(debuff));
+        debuffs.Add(Instantiate(debuff));
     }
 
     public IEnumerator ApplyStatuses()
     {
-        if(_buffs.Count > 0)
+        // Manage buff
+        if (buffs.Count > 0)
         {
-            foreach (Status buff in _buffs)
+            foreach (Status buff in buffs)
             {
                 yield return buff.Apply(this);
             }
         }
 
         // Remove all done buff
-        _buffs.RemoveAll(e => e.isDone == true);
+        buffs.RemoveAll(e => e.isDone == true);
 
-        // TODO : Manage debuff
+        // Manage debuff
+        if (debuffs.Count > 0)
+        {
+            foreach (Status debuff in debuffs)
+            {
+                yield return debuff.Apply(this);
+            }
+        }
+
+        // Remove all done debuff
+        debuffs.RemoveAll(e => e.isDone == true);
     }
 
     public int GetDexterity()

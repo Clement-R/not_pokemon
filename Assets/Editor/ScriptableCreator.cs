@@ -36,6 +36,18 @@ public class ScriptableCreator
         ScriptableCreatorUtility.CreateAsset<HealOverTime>();
     }
 
+    [MenuItem("Assets/Scriptable/Debuff/DoT")]
+    public static void CreateDoTDebuff()
+    {
+        ScriptableCreatorUtility.CreateAsset<BurnOverTime>();
+    }
+
+    [MenuItem("Assets/Scriptable/Modificator")]
+    public static void CreateModificator()
+    {
+        ScriptableCreatorUtility.CreateAsset<ModificatorStatus>();
+    }
+
     /*
     [MenuItem("Assets/Scriptable/Debuff")]
     public static void CreateDebuff()

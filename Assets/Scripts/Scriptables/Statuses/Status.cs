@@ -7,7 +7,8 @@ public abstract class Status : ScriptableObject
     public enum StatusType
     {
         BUFF,
-        DEBUFF
+        DEBUFF,
+        MODIFICATOR
     }
 
     public string statusName;

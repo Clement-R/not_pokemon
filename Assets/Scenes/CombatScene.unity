@@ -676,6 +676,8 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1123925873}
   player: 1
+  buffs: []
+  debuffs: []
 --- !u!224 &547214214
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1029,6 +1031,8 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1760601004}
   player: 1
+  buffs: []
+  debuffs: []
 --- !u!224 &738811815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1608,6 +1612,8 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 838767504}
   player: 2
+  buffs: []
+  debuffs: []
 --- !u!224 &1264704394
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2236,6 +2242,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healBuff: {fileID: 11400000, guid: ccfb88153bf0e994391617919e157f8a, type: 2}
+  burnDebuff: {fileID: 11400000, guid: f72d876ea6a959742966458c9987aa4a, type: 2}
+  dexBoost: {fileID: 11400000, guid: c71645136544dcf428ca9e63597644a0, type: 2}
   P1_Fighter1: {fileID: 547214213}
   P1_Fighter2: {fileID: 738811814}
   P2_Fighter1: {fileID: 1999277204}
@@ -2703,6 +2711,8 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1046770540}
   player: 2
+  buffs: []
+  debuffs: []
 --- !u!224 &1999277205
 RectTransform:
   m_ObjectHideFlags: 0

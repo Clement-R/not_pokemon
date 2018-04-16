@@ -15,7 +15,7 @@ public class StatsManager : MonoBehaviour {
     {
         int dexterity = 0;
 
-        // TODO : Apply stuff dexterity
+        // Apply stuff dexterity
         if (_fighter.frame != null)
             dexterity += _fighter.frame.dexterity;
 
@@ -35,6 +35,17 @@ public class StatsManager : MonoBehaviour {
             dexterity += _fighter.rightArm.dexterity;
 
         // TODO : Apply statuses (buff/debuff)
+        foreach (Status buff in _fighter.buffs.FindAll(e => e.type == Status.StatusType.MODIFICATOR))
+        {
+            ModificatorStatus modificator = (ModificatorStatus)buff;
+            dexterity += modificator.dexterity;
+        }
+
+        foreach (Status debuff in _fighter.debuffs.FindAll(e => e.type == Status.StatusType.MODIFICATOR))
+        {
+            ModificatorStatus modificator = (ModificatorStatus)debuff;
+            dexterity += modificator.dexterity;
+        }
 
         return dexterity;
     }
@@ -43,7 +54,7 @@ public class StatsManager : MonoBehaviour {
     {
         int strength = 0;
 
-        // TODO : Apply stuff strength
+        // Apply stuff strength
         if(_fighter.frame != null)
             strength += _fighter.frame.strength;
 
@@ -71,7 +82,7 @@ public class StatsManager : MonoBehaviour {
     {
         int accuracy = 0;
 
-        // TODO : Apply stuff accuracy
+        // Apply stuff accuracy
         if (_fighter.frame != null)
             accuracy += _fighter.frame.accuracy;
 
