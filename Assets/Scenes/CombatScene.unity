@@ -928,7 +928,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1871859459
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &705900099
@@ -1182,6 +1182,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 838767502}
+--- !u!1001 &966009963
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -13.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.1366718
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079456820858424, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7e35d2f934da6aa40859caa38e0fcd9b, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &999182911
 GameObject:
   m_ObjectHideFlags: 0
@@ -2241,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f331e31c1b1b8c24b914944b7cd56eb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healBuff: {fileID: 11400000, guid: ccfb88153bf0e994391617919e157f8a, type: 2}
+  healBuff: {fileID: 11400000, guid: b058d10e9004752418e2d0b352d14b22, type: 2}
   burnDebuff: {fileID: 11400000, guid: f72d876ea6a959742966458c9987aa4a, type: 2}
   dexBoost: {fileID: 11400000, guid: c71645136544dcf428ca9e63597644a0, type: 2}
   P1_Fighter1: {fileID: 547214213}

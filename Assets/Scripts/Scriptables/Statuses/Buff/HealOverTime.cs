@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealOverTime : Status {
 
-    int healAmount = 10;
+    public int healAmount = 10;
 
     public override IEnumerator ApplyEffect(Fighter target)
     {

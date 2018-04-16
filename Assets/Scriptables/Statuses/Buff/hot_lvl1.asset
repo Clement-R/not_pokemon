@@ -8,10 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1b22fb21d77df134eb924dc4eff10de6, type: 3}
   m_Name: hot_lvl1
-  m_EditorClassIdentifier: Assembly-CSharp::HealOverTime
-  statusName: Heal
+  m_EditorClassIdentifier: 
+  statusName: HoT
   duration: 2
   type: 0
   effect: {fileID: 1225369512042054, guid: 7a8a542407d9baf4cb21b0c8e10d206a, type: 2}
