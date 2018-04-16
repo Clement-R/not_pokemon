@@ -9,10 +9,12 @@ using TMPro;
 public class CombatManager : MonoBehaviour {
 
     // DEBUG
+    [Header("Debug to remove")]
     public Status healBuff;
     public Status burnDebuff;
     public ModificatorStatus dexBoost;
 
+    [Header("Fighters")]
     public Fighter P1_Fighter1;
     public Fighter P1_Fighter2;
 
