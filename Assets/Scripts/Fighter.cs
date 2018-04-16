@@ -32,12 +32,41 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     private Image _sprite;
     private StatsManager _stats;
 
+    private List<Status> _buffs = new List<Status>();
+    private List<Status> _debuffs = new List<Status>();
+
     public void Awake()
     {
         _sprite = GetComponent<Image>();
         _stats = GetComponent<StatsManager>();
         focusSelector = GetComponent<Button>();
         focusSelector.enabled = false;
+    }
+
+    public void AddBuff(Status buff)
+    {
+        _buffs.Add(Instantiate(buff));
+    }
+
+    public void AddDebuff(Status debuff)
+    {
+        _debuffs.Add(Instantiate(debuff));
+    }
+
+    public IEnumerator ApplyStatuses()
+    {
+        if(_buffs.Count > 0)
+        {
+            foreach (Status buff in _buffs)
+            {
+                yield return buff.Apply(this);
+            }
+        }
+
+        // Remove all done buff
+        _buffs.RemoveAll(e => e.isDone == true);
+
+        // TODO : Manage debuff
     }
 
     public int GetDexterity()

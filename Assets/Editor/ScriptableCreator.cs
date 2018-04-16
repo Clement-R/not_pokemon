@@ -30,14 +30,13 @@ public class ScriptableCreator
 
 
     // Statuses
-
-    /*
-    [MenuItem("Assets/Scriptable/Buff")]
-    public static void CreateBuff()
+    [MenuItem("Assets/Scriptable/Buff/HoT")]
+    public static void CreateHoTBuff()
     {
-        ScriptableCreatorUtility.CreateAsset<Buff>();
+        ScriptableCreatorUtility.CreateAsset<HealOverTime>();
     }
 
+    /*
     [MenuItem("Assets/Scriptable/Debuff")]
     public static void CreateDebuff()
     {

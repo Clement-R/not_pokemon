@@ -8,13 +8,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ae885c7b54879649a36d7df8ea8f1bd, type: 3}
-  m_Name: heal
-  m_EditorClassIdentifier: 
-  abilityName: 
-  type: 1
-  target: 0
+  m_Script: {fileID: 0}
+  m_Name: hot_lvl1
+  m_EditorClassIdentifier: Assembly-CSharp::HealOverTime
+  statusName: Heal
+  duration: 2
+  type: 0
   effect: {fileID: 1225369512042054, guid: 7a8a542407d9baf4cb21b0c8e10d206a, type: 2}
-  damage: 0
-  heal: 50
-  attackType: 0
+  isDone: 0

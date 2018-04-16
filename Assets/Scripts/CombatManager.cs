@@ -8,6 +8,9 @@ using TMPro;
 
 public class CombatManager : MonoBehaviour {
 
+    // DEBUG
+    public Status healBuff;
+
     public Fighter P1_Fighter1;
     public Fighter P1_Fighter2;
 
@@ -35,7 +38,7 @@ public class CombatManager : MonoBehaviour {
     private List<Fighter> _fighters = new List<Fighter>();
     private Fighter fighterToAttack = null;
 
-    private TMPro.TMP_Text _combatLogText;
+    private TMP_Text _combatLogText;
 
     private float power = 1f;
 
@@ -47,7 +50,13 @@ public class CombatManager : MonoBehaviour {
         _fighters.Add(P2_Fighter1);
         _fighters.Add(P2_Fighter2);
 
-        _combatLogText = combatLog.GetComponent<TMPro.TMP_Text>();
+        _combatLogText = combatLog.GetComponent<TMP_Text>();
+
+
+        // DEBUG
+        print("Heal buff added");
+        P1_Fighter1.AddBuff(healBuff);
+
 
         StartCoroutine(CombatLogic());
     }
@@ -93,6 +102,9 @@ public class CombatManager : MonoBehaviour {
             debugText.text = activeFighter.name;
 
             bool turnEnd = false;
+
+            // Apply buff and debuff
+            yield return activeFighter.ApplyStatuses();
 
             if (activeFighter.isAI)
             {

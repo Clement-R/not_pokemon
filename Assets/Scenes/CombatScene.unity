@@ -2235,6 +2235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f331e31c1b1b8c24b914944b7cd56eb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healBuff: {fileID: 11400000, guid: ccfb88153bf0e994391617919e157f8a, type: 2}
   P1_Fighter1: {fileID: 547214213}
   P1_Fighter2: {fileID: 738811814}
   P2_Fighter1: {fileID: 1999277204}
