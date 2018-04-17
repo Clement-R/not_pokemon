@@ -28,6 +28,8 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public int player = 1;
 
+    public Skillset skillset;
+
     private Button focusSelector;
     private Image _sprite;
     private StatsManager _stats;
@@ -41,6 +43,11 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         _stats = GetComponent<StatsManager>();
         focusSelector = GetComponent<Button>();
         focusSelector.enabled = false;
+
+        if(skillset == null)
+        {
+            skillset = new Skillset();
+        }
     }
 
     public void AddBuff(Status buff)
@@ -73,6 +80,10 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
             foreach (Status debuff in debuffs)
             {
                 yield return debuff.Apply(this);
+                if (dead)
+                {
+                    break;
+                }
             }
         }
 

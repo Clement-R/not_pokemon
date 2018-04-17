@@ -269,11 +269,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485868700}
         m_MethodName: NotifyPlayerActionChoosed
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Ability, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -372,12 +371,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485868700}
         m_MethodName: NotifyPlayerActionChoosed
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: c992ad43cc13c3042810c8bfe96795db,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Ability, Assembly-CSharp
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -676,6 +674,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1123925873}
   player: 1
+  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
   buffs: []
   debuffs: []
 --- !u!224 &547214214
@@ -1031,6 +1030,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1760601004}
   player: 1
+  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
   buffs: []
   debuffs: []
 --- !u!224 &738811815
@@ -1654,6 +1654,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 838767504}
   player: 2
+  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
   buffs: []
   debuffs: []
 --- !u!224 &1264704394
@@ -2179,12 +2180,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485868700}
         m_MethodName: NotifyPlayerActionChoosed
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 13a89c336d3da4f46b84a095304f7aaa,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Ability, Assembly-CSharp
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2541,12 +2541,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485868700}
         m_MethodName: NotifyPlayerActionChoosed
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 45cfc7acd03afb14291e4ec3a71d97af,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Ability, Assembly-CSharp
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2753,6 +2752,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1046770540}
   player: 2
+  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
   buffs: []
   debuffs: []
 --- !u!224 &1999277205

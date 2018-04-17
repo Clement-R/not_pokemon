@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BurnOverTime : Status {
 
-    int damageAmount = 10;
+    public int damageAmount = 10;
 
     public override IEnumerator ApplyEffect(Fighter target)
     {

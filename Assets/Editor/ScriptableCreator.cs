@@ -48,6 +48,12 @@ public class ScriptableCreator
         ScriptableCreatorUtility.CreateAsset<ModificatorStatus>();
     }
 
+    [MenuItem("Assets/Scriptable/Skillset")]
+    public static void CreateSkillset()
+    {
+        ScriptableCreatorUtility.CreateAsset<Skillset>();
+    }
+
     /*
     [MenuItem("Assets/Scriptable/Debuff")]
     public static void CreateDebuff()

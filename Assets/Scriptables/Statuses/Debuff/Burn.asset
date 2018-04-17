@@ -16,3 +16,4 @@ MonoBehaviour:
   type: 1
   effect: {fileID: 1227684290039638, guid: 7fbd58f14469b2548b1133a1bf14f897, type: 2}
   isDone: 0
+  damageAmount: 25
