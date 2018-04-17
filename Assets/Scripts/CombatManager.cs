@@ -44,8 +44,6 @@ public class CombatManager : MonoBehaviour {
 
     private TMP_Text _combatLogText;
 
-    private float power = 1f;
-
     private Fighter _activeFighter = null;
 
     void Start ()
@@ -133,7 +131,7 @@ public class CombatManager : MonoBehaviour {
                 // StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
                 // yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
 
-                StartCoroutine(fighterToAttack.TakeDamage(_activeFighter.move1.damage));
+                StartCoroutine(fighterToAttack.TakeDamage(_activeFighter.skillset.GetAbility(0).damage));
                 _combatLogText.text = _activeFighter.name + " attack " + fighterToAttack.name;
 
                 Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
