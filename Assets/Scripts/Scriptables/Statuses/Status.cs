@@ -21,8 +21,9 @@ public abstract class Status : ScriptableObject
     public IEnumerator Apply(Fighter target)
     {
         // TODO : Trigger event to hide player UI
-        yield return ApplyEffect(target);
+        yield return target.StartCoroutine(ApplyEffect(target));
         
+        // TODO : Move that code in a dedicated manager that communicate through event manager
         bool waitForPlayerAction = true;
         while (waitForPlayerAction)
         {

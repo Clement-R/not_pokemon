@@ -20,6 +20,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public bool canPlay = true;
     public int health = 100;
+    public int maxHealth = 100;
     public bool dead = false;
 
     public bool focused = false;
@@ -79,7 +80,10 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             foreach (Status debuff in debuffs)
             {
-                yield return debuff.Apply(this);
+                yield return StartCoroutine(debuff.Apply(this));
+
+                Debug.Log(dead);
+
                 if (dead)
                 {
                     break;
@@ -109,6 +113,8 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     public IEnumerator Heal(int amount)
     {
         health += amount;
+
+        health = Mathf.Clamp(health, 0, maxHealth);
         yield return StartCoroutine(HealthBarAnimation());
     }
 
@@ -121,11 +127,10 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         if (health <= 0)
         {
-            print(name + " is dead");
-
             healthBar.transform.parent.gameObject.SetActive(false);
             dead = true;
-            gameObject.SetActive(false);
+
+            _sprite.color = new Color(0, 0, 0, 0);
         }
     }
 

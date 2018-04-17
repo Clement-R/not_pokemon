@@ -58,11 +58,6 @@ public class CombatManager : MonoBehaviour {
 
         _combatLogText = combatLog.GetComponent<TMP_Text>();
 
-        // DEBUG
-        P1_Fighter1.AddBuff(healBuff);
-        P1_Fighter1.AddDebuff(burnDebuff);
-        P1_Fighter1.AddBuff(dexBoost);
-
         StartCoroutine(CombatLogic());
     }
 
@@ -110,6 +105,7 @@ public class CombatManager : MonoBehaviour {
 
             if(_activeFighter.dead)
             {
+                print("Active fighter dead");
                 turnEnd = true;
             }
 
@@ -173,6 +169,7 @@ public class CombatManager : MonoBehaviour {
             }
             else if(_activeFighter.isAI && _activeFighter.dead)
             {
+                print("Dead AI");
                 turnEnd = true;
             }
 
@@ -463,6 +460,12 @@ public class CombatManager : MonoBehaviour {
             // Check if the other team is dead
             if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
             {
+                print("Combat end : win");
+                combatEnd = true;
+            }
+            else if(_fighters.Count(e => e.player == _activeFighter.player && e.dead == false) == 0)
+            {
+                print("Combat end : loose");
                 combatEnd = true;
             }
         }
@@ -474,34 +477,6 @@ public class CombatManager : MonoBehaviour {
         yield return new WaitForSeconds(2f);
 
         Application.Quit();
-    }
-
-    IEnumerator ScreenShake()
-    {
-        Vector2 basePosition = battlefieldUI.transform.position;
-        Vector2 nextPosition = new Vector2();
-
-        float duration = 1f;
-        float counter = 0f;
-
-        float seed = 10f;
-
-        while (counter < duration)
-        {
-            battlefieldUI.transform.position = basePosition;
-            battlefieldUI.transform.rotation = Quaternion.identity;
-
-            nextPosition.x = Mathf.Clamp01(Mathf.PerlinNoise(Time.time * seed, 0f)) - 0.5f; 
-            nextPosition.y = Mathf.Clamp01(Mathf.PerlinNoise(0f, Time.time * seed)) - 0.5f;
-
-            battlefieldUI.transform.position = basePosition + (nextPosition * power);
-
-            counter += Time.deltaTime;
-            yield return null;
-        }
-
-        battlefieldUI.transform.position = basePosition;
-        battlefieldUI.transform.rotation = Quaternion.identity;
     }
 
     public void NotifyPlayerActionChoosed(int abilityIndex)

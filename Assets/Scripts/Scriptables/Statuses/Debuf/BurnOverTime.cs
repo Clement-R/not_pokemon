@@ -13,6 +13,6 @@ public class BurnOverTime : Status {
 
         DisplayLog(target.name + " is hurt for " + damageAmount);
 
-        yield return target.TakeDamage(damageAmount);
+        yield return target.StartCoroutine(target.TakeDamage(damageAmount));
     }
 }

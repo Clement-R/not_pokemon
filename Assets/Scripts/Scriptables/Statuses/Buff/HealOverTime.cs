@@ -13,6 +13,6 @@ public class HealOverTime : Status {
 
         DisplayLog(target.name + " heal itself for " + healAmount);
 
-        yield return target.Heal(healAmount);
+        yield return target.StartCoroutine(target.Heal(healAmount));
     }
 }
