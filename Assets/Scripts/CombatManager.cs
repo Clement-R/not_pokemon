@@ -7,13 +7,6 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 public class CombatManager : MonoBehaviour {
-
-    // DEBUG
-    [Header("Debug to remove")]
-    public Status healBuff;
-    public Status burnDebuff;
-    public ModificatorStatus dexBoost;
-
     [Header("Fighters")]
     public Fighter P1_Fighter1;
     public Fighter P1_Fighter2;
@@ -128,9 +121,6 @@ public class CombatManager : MonoBehaviour {
                 // Play attack
                 Camera.main.GetComponent<Screenshake>().ScreenShake();
 
-                // StartCoroutine(fighterToAttack.TakeDamage(activeFighter.move1.damage));
-                // yield return RevealText(activeFighter.name + " attack " + fighterToAttack.name);
-
                 StartCoroutine(fighterToAttack.TakeDamage(_activeFighter.skillset.GetAbility(0).damage));
                 _combatLogText.text = _activeFighter.name + " attack " + fighterToAttack.name;
 
@@ -232,7 +222,6 @@ public class CombatManager : MonoBehaviour {
 
 
                                 // Play attack
-
                                 Camera.main.GetComponent<Screenshake>().ScreenShake();
 
                                 if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
@@ -380,10 +369,7 @@ public class CombatManager : MonoBehaviour {
                                 _combatLogText.text = "";
 
 
-                                // Play attack
-                                //StartCoroutine(ScreenShake());
-                                // Camera.main.GetComponent<Screenshake>().ScreenShake();
-
+                                // Play ability
                                 if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
                                 {
                                     foreach (Fighter fighter in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
@@ -411,7 +397,6 @@ public class CombatManager : MonoBehaviour {
                                 }
 
                                 Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
-                                // Coroutine corMov = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
 
                                 waitForPlayerAction = true;
                                 while (waitForPlayerAction)
@@ -425,7 +410,6 @@ public class CombatManager : MonoBehaviour {
                                 }
 
                                 StopCoroutine(corCol);
-                                //StopCoroutine(corMov);
                                 _combatLogText.text = "";
 
                                 // Remove focus on enemy team
@@ -458,23 +442,17 @@ public class CombatManager : MonoBehaviour {
             // Check if the other team is dead
             if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
             {
-                print("Combat end : win");
                 combatEnd = true;
             }
             else if(_fighters.Count(e => e.player == _activeFighter.player && e.dead == false) == 0)
             {
-                print("Combat end : loose");
                 combatEnd = true;
             }
         }
 
-        print("Combat end");
-
         Camera.main.GetComponent<TransitionPostProcess>().TransitionEffect();
 
         yield return new WaitForSeconds(2f);
-
-        Application.Quit();
     }
 
     public void NotifyPlayerActionChoosed(int abilityIndex)
