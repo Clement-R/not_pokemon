@@ -661,7 +661,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAI: 0
-  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
   pilot: {fileID: 11400000, guid: 322e8496bb848c645ae94ded50fe6897, type: 2}
   leftShoulder: {fileID: 0}
@@ -670,6 +669,7 @@ MonoBehaviour:
   leftArm: {fileID: 0}
   canPlay: 1
   health: 100
+  maxHealth: 100
   dead: 0
   focused: 0
   healthBar: {fileID: 1123925873}
@@ -1017,7 +1017,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAI: 0
-  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
   pilot: {fileID: 11400000, guid: fd062b1994567a741bf225b5a4a28624, type: 2}
   leftShoulder: {fileID: 0}
@@ -1026,6 +1025,7 @@ MonoBehaviour:
   leftArm: {fileID: 0}
   canPlay: 1
   health: 100
+  maxHealth: 100
   dead: 0
   focused: 0
   healthBar: {fileID: 1760601004}
@@ -1641,7 +1641,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAI: 1
-  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
   pilot: {fileID: 0}
   leftShoulder: {fileID: 0}
@@ -1650,6 +1649,7 @@ MonoBehaviour:
   leftArm: {fileID: 0}
   canPlay: 1
   health: 100
+  maxHealth: 100
   dead: 0
   focused: 0
   healthBar: {fileID: 838767504}
@@ -2283,9 +2283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f331e31c1b1b8c24b914944b7cd56eb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healBuff: {fileID: 11400000, guid: b058d10e9004752418e2d0b352d14b22, type: 2}
-  burnDebuff: {fileID: 11400000, guid: f72d876ea6a959742966458c9987aa4a, type: 2}
-  dexBoost: {fileID: 11400000, guid: c71645136544dcf428ca9e63597644a0, type: 2}
   P1_Fighter1: {fileID: 547214213}
   P1_Fighter2: {fileID: 738811814}
   P2_Fighter1: {fileID: 1999277204}
@@ -2739,7 +2736,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAI: 1
-  move1: {fileID: 11400000, guid: 78f57bde4ebdebf449e517e5682fc99c, type: 2}
   frame: {fileID: 0}
   pilot: {fileID: 0}
   leftShoulder: {fileID: 0}
@@ -2748,6 +2744,7 @@ MonoBehaviour:
   leftArm: {fileID: 0}
   canPlay: 1
   health: 100
+  maxHealth: 100
   dead: 0
   focused: 0
   healthBar: {fileID: 1046770540}
