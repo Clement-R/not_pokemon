@@ -56,9 +56,7 @@ public class CombatManager : MonoBehaviour {
 
         _combatLogText = combatLog.GetComponent<TMP_Text>();
 
-
         // DEBUG
-        print("Heal buff added");
         P1_Fighter1.AddBuff(healBuff);
         P1_Fighter1.AddDebuff(burnDebuff);
         P1_Fighter1.AddBuff(dexBoost);
@@ -93,15 +91,14 @@ public class CombatManager : MonoBehaviour {
 
         while (!combatEnd)
         {
-            // TODO : Change for a fighter stats like dexterity
+            // Choose next fighter, depending of the dexterity stat
             activeFighter = _fighters.DefaultIfEmpty(null).OrderByDescending(e => e.GetDexterity()).FirstOrDefault(e => e.canPlay == true && e.dead == false);
-            // activeFighter = _fighters.DefaultIfEmpty(null).FirstOrDefault(e => e.canPlay == true && e.dead == false);
 
-            // Reset all fighters and select first one
+            // If no fighter can play, reset all fighters and select first one
             if (activeFighter == null)
             {
                 _fighters.FindAll(e => e.dead == false).Select(c => { c.canPlay = true; return c; }).ToList();
-                activeFighter = _fighters.First(e => e.canPlay == true && e.dead == false);
+                activeFighter = _fighters.OrderByDescending(e => e.GetDexterity()).First(e => e.canPlay == true && e.dead == false);
             }
             
             debugText.text = activeFighter.name;
@@ -119,6 +116,8 @@ public class CombatManager : MonoBehaviour {
 
                 // TODO : Select first enemy
                 // fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
+                
+                // Take enemy with max health
                 fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderByDescending(e => e.health).First();
 
                 activeFighter.canPlay = false;
@@ -188,7 +187,6 @@ public class CombatManager : MonoBehaviour {
                         // Wait for player enemy target choice
                         playerUI.SetActive(false);
 
-
                         if(_choosedAbility.type == Ability.AbilityType.ATTACK)
                         {
                             if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
@@ -230,7 +228,7 @@ public class CombatManager : MonoBehaviour {
 
 
                                 // Play attack
-                                //StartCoroutine(ScreenShake());
+
                                 Camera.main.GetComponent<Screenshake>().ScreenShake();
 
                                 if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
@@ -248,6 +246,22 @@ public class CombatManager : MonoBehaviour {
                                 // Play ability animation
                                 GameObject effect = Instantiate(_choosedAbility.effect);
                                 Destroy(effect, 2f);
+
+                                // Add debuff
+                                foreach (Status debuff in _choosedAbility.debuffs)
+                                {
+                                    fighterToAttack.AddDebuff(debuff);
+
+                                    // TODO : Manage multi status
+                                }
+
+                                // Add buff
+                                foreach (Status buff in _choosedAbility.buffs)
+                                {
+                                    activeFighter.AddBuff(buff);
+
+                                    // TODO : Manage multi status
+                                }
 
                                 // Display combat log and wait for the player to press a key
                                 if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
@@ -306,7 +320,7 @@ public class CombatManager : MonoBehaviour {
                                 playerUI.SetActive(true);
                             }
                         }
-                        else
+                        else if(_choosedAbility.type == Ability.AbilityType.SUPPORT)
                         {
                             if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
                             {

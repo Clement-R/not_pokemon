@@ -34,4 +34,6 @@ public class Ability : ScriptableObject
     public int heal = 0;
     public AbilityAttackType attackType;
 
+    public List<Status> buffs = new List<Status>();
+    public List<Status> debuffs = new List<Status>();
 }

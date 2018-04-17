@@ -22,10 +22,9 @@ public class BackgroundParallax : MonoBehaviour {
     {
         while(true)
         {
-            float counter = 0f;
+            float counter = 3f;
             foreach (var layer in layers)
             {
-                counter += 1f;
                 Vector2 currentPos = layer.layer.transform.localPosition;
 
                 if(currentPos.x <= -3f)
@@ -45,6 +44,8 @@ public class BackgroundParallax : MonoBehaviour {
                 {
                     layer.layer.transform.localPosition = new Vector2(currentPos.x - 0.025f / counter, currentPos.y);
                 }
+
+                counter--;
             }
 
             yield return null;

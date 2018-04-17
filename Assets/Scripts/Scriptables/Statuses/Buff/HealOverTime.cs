@@ -8,9 +8,10 @@ public class HealOverTime : Status {
 
     public override IEnumerator ApplyEffect(Fighter target)
     {
-        Debug.Log("HOT launched");
-        GameObject effect = Instantiate(this.effect);
+        GameObject effect = Instantiate(this.effect, new Vector2(target.transform.position.x, target.transform.position.y), Quaternion.identity);
         Destroy(effect, 2f);
+
+        DisplayLog(target.name + " heal itself for " + healAmount);
 
         yield return target.Heal(healAmount);
     }

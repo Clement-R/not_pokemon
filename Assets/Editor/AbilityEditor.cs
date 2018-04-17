@@ -10,6 +10,8 @@ public class AbilityEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
+
         ability = (Ability)target;
 
         ability.abilityName = EditorGUILayout.TextField("Ability name", ability.abilityName);
