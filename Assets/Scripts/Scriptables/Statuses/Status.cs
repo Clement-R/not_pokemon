@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using pkm.EventManager;
 
 public abstract class Status : ScriptableObject
 {
@@ -20,20 +21,19 @@ public abstract class Status : ScriptableObject
 
     public IEnumerator Apply(Fighter target)
     {
-        // TODO : Trigger event to hide player UI
         yield return target.StartCoroutine(ApplyEffect(target));
         
         // TODO : Move that code in a dedicated manager that communicate through event manager
-        bool waitForPlayerAction = true;
-        while (waitForPlayerAction)
-        {
-            yield return null;
+        //bool waitForPlayerAction = true;
+        //while (waitForPlayerAction)
+        //{
+        //    yield return null;
 
-            if (Input.anyKeyDown)
-            {
-                waitForPlayerAction = false;
-            }
-        }
+        //    if (Input.anyKeyDown)
+        //    {
+        //        waitForPlayerAction = false;
+        //    }
+        //}
 
         LowerDuration();
     }
@@ -44,6 +44,7 @@ public abstract class Status : ScriptableObject
     {
         // TODO : Trigger event to launch combat log animation
         Debug.Log(log);
+        EventManager.TriggerEvent("displayText", new { text = log });
     }
 
     public void LowerDuration()

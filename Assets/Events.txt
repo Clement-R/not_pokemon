@@ -1,0 +1,7 @@
+displayText -> Ask combat log manager to display given text
+obj.text
+
+activateCombatLog -> Combat log is going to display text and wait for user input
+
+HideCombatUI
+ShowCombatUI
