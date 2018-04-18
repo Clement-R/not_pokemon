@@ -11,10 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae885c7b54879649a36d7df8ea8f1bd, type: 3}
   m_Name: group_heal
   m_EditorClassIdentifier: 
-  abilityName: Move 1
-  type: 0
-  target: 0
-  effect: {fileID: 0}
+  abilityName: Group heal
+  type: 1
+  target: 1
+  effect: {fileID: 1225369512042054, guid: 732b3b83211dd64459723499b04a3a4f, type: 2}
   damage: 50
-  heal: 0
+  heal: 20
   attackType: 0
+  buffs: []
+  debuffs: []
