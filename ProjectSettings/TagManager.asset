@@ -47,3 +47,6 @@ TagManager:
   - name: Background
     uniqueID: 616159087
     locked: 0
+  - name: MenuUI
+    uniqueID: 1469605889
+    locked: 0
