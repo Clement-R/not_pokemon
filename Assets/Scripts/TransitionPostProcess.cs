@@ -22,6 +22,11 @@ public class TransitionPostProcess : MonoBehaviour {
         StartCoroutine(DoTransitionEffect());
     }
 
+    public IEnumerator TransitionCoroutine()
+    {
+        yield return StartCoroutine(DoTransitionEffect());
+    }
+
     private IEnumerator DoTransitionEffect()
     {
         float cutoff = 0f;

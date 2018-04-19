@@ -23,11 +23,10 @@ public class CombatManager : MonoBehaviour {
     public bool waitForPlayerChoice = true;
 
     public GameObject battlefieldUI;
-
-    public bool combatEnd = false;
     
     public TMP_Text debugText;
 
+    private bool _combatEnd = false;
     private bool _actionChoosed = false;
     private Ability _choosedAbility = null;
     private bool _targetChoosed = false;
@@ -39,6 +38,20 @@ public class CombatManager : MonoBehaviour {
 
     private Fighter _activeFighter = null;
 
+    private CombatPhase _actualPhase = CombatPhase.COMBAT_START;
+    private bool _coroutineEnd = false;
+
+    public enum CombatPhase
+    {
+        COMBAT_START,
+        TURN_INIT,
+        STATUSES,
+        WAIT_PLAYER_ACTION_CHOICE,
+        WAIT_PLAYER_TARGET_CHOICE,
+        WAIT_PLAYER_INPUT,
+        COMBAT_END
+    }
+
     void Start ()
     {
         _fighters.Add(P1_Fighter1);
@@ -49,7 +62,8 @@ public class CombatManager : MonoBehaviour {
 
         _combatLogText = combatLog.GetComponent<TMP_Text>();
 
-        StartCoroutine(CombatLogic());
+        // StartCoroutine(CombatLogic());
+        StartCoroutine(Logic());
     }
 
     private void Update()
@@ -63,20 +77,118 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
-    IEnumerator WaitForPlayerChoice()
+    // TODO : Call actual coroutines
+    private string GetCoroutinePhase(CombatPhase phase)
     {
+        string routine = null;
+        switch (phase)
+        {
+            case CombatPhase.COMBAT_START:
+                routine = "StartCombat";
+                break;
+
+            case CombatPhase.TURN_INIT:
+                routine = "TurnInitialization";
+                break;
+
+            case CombatPhase.STATUSES:
+                routine = "ApplyStatuses";
+                break;
+
+            case CombatPhase.WAIT_PLAYER_ACTION_CHOICE:
+                routine = "WaitForPlayerActionChoice";
+                break;
+
+            case CombatPhase.WAIT_PLAYER_TARGET_CHOICE:
+                routine = "WaitForPlayerTargetChoice";
+                break;
+
+            case CombatPhase.WAIT_PLAYER_INPUT:
+                routine = "";
+                break;
+
+            case CombatPhase.COMBAT_END:
+                routine = "CombatEnd";
+                break;
+        }
+
+        return routine;
+    }
+
+
+    /*
+     * Main coroutine that will end at the end of the combat
+     * 
+     * It will launch a coroutine following the actual state of the game (CombatPhase)
+     * by calling the function GetCoroutinePhase and wait for its end (coroutineEnd)
+     * before searching the next step until the end of combat.
+     */
+    IEnumerator Logic()
+    {
+        while (!_combatEnd)
+        {
+            Debug.Log("Entering " + _actualPhase);
+            yield return StartCoroutine(GetCoroutinePhase(_actualPhase));
+        }
+    }
+
+    IEnumerator StartCombat()
+    {
+        yield return new WaitForSeconds(2f);
+
+        // Going to turn initialization
+        _actualPhase = CombatPhase.TURN_INIT;
+    }
+
+    IEnumerator TurnInitialization()
+    {
+        // Choose next fighter, depending of the dexterity stat
+        _activeFighter = _fighters.DefaultIfEmpty(null).OrderByDescending(e => e.GetDexterity()).FirstOrDefault(e => e.canPlay == true && e.dead == false);
+
+        // If no fighter can play, reset all fighters and select first one
+        if (_activeFighter == null)
+        {
+            _fighters.FindAll(e => e.dead == false).Select(c => { c.canPlay = true; return c; }).ToList();
+            _activeFighter = _fighters.OrderByDescending(e => e.GetDexterity()).First(e => e.canPlay == true && e.dead == false);
+        }
+
+        // Going to turn initialization
+        _actualPhase = CombatPhase.STATUSES;
+
         yield return null;
     }
 
-    IEnumerator WaitForPlayer()
+    IEnumerator ApplyStatuses()
     {
         yield return null;
+        _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+    }
+
+    IEnumerator WaitForPlayerActionChoice()
+    {
+        yield return null;
+        _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
+    }
+
+    IEnumerator WaitForPlayerTargetChoice()
+    {
+        yield return null;
+        _actualPhase = CombatPhase.COMBAT_END;
+    }
+
+    IEnumerator CombatEnd()
+    {
+        yield return StartCoroutine(Camera.main.GetComponent<TransitionPostProcess>().TransitionCoroutine());
+        _combatEnd = true;
     }
 
     IEnumerator CombatLogic()
     {
-        while (!combatEnd)
+        while (!_combatEnd)
         {
+
+            // TURN_INIT
+
             // Choose next fighter, depending of the dexterity stat
             _activeFighter = _fighters.DefaultIfEmpty(null).OrderByDescending(e => e.GetDexterity()).FirstOrDefault(e => e.canPlay == true && e.dead == false);
 
@@ -88,6 +200,10 @@ public class CombatManager : MonoBehaviour {
             }
             
             debugText.text = _activeFighter.name;
+
+
+            
+
 
             bool turnEnd = false;
 
@@ -143,7 +259,7 @@ public class CombatManager : MonoBehaviour {
                 // Check if the other team is dead
                 if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
                 {
-                    combatEnd = true;
+                    _combatEnd = true;
                 }
 
                 EventSystem.current.SetSelectedGameObject(firstFocusedMove);
@@ -306,7 +422,7 @@ public class CombatManager : MonoBehaviour {
                                 // Check if the other team is dead
                                 if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
                                 {
-                                    combatEnd = true;
+                                    _combatEnd = true;
                                 }
 
                                 EventSystem.current.SetSelectedGameObject(firstFocusedMove);
@@ -442,11 +558,11 @@ public class CombatManager : MonoBehaviour {
             // Check if the other team is dead
             if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
             {
-                combatEnd = true;
+                _combatEnd = true;
             }
             else if(_fighters.Count(e => e.player == _activeFighter.player && e.dead == false) == 0)
             {
-                combatEnd = true;
+                _combatEnd = true;
             }
         }
 
