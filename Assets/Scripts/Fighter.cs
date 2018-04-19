@@ -66,7 +66,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             foreach (Status buff in buffs)
             {
-                yield return buff.Apply(this);
+                yield return StartCoroutine(buff.Apply(this));
             }
         }
 

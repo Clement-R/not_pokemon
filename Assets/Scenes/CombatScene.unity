@@ -2750,8 +2750,7 @@ MonoBehaviour:
   player: 1
   skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
   buffs: []
-  debuffs:
-  - {fileID: 11400000, guid: f72d876ea6a959742966458c9987aa4a, type: 2}
+  debuffs: []
 --- !u!224 &738811815
 RectTransform:
   m_ObjectHideFlags: 0

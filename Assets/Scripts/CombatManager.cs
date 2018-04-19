@@ -155,19 +155,38 @@ public class CombatManager : MonoBehaviour {
         // Going to turn initialization
         _actualPhase = CombatPhase.STATUSES;
 
+        debugText.text = _activeFighter.name;
+
         yield return null;
     }
 
     IEnumerator ApplyStatuses()
     {
-        yield return null;
-        _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+        // Apply buff and debuff
+        yield return StartCoroutine(_activeFighter.ApplyStatuses());
+
+        // IF a debuff killed the actual fighter we go back
+        // to turn intialization
+        if (_activeFighter.dead)
+        {
+            _actualPhase = CombatPhase.TURN_INIT;
+        }
+        else
+        {
+            _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+        }
     }
 
     IEnumerator WaitForPlayerActionChoice()
     {
         yield return null;
-        _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
+        // _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
+
+
+        // DEBUG
+        yield return new WaitForSeconds(2f);
+        _activeFighter.canPlay = false;
+        _actualPhase = CombatPhase.TURN_INIT;
     }
 
     IEnumerator WaitForPlayerTargetChoice()
@@ -200,11 +219,7 @@ public class CombatManager : MonoBehaviour {
             }
             
             debugText.text = _activeFighter.name;
-
-
             
-
-
             bool turnEnd = false;
 
             // Apply buff and debuff
