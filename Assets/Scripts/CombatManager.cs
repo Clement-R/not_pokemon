@@ -145,7 +145,7 @@ public class CombatManager : MonoBehaviour {
 
     IEnumerator StartCombat()
     {
-        yield return new WaitForSeconds(2f);
+        yield return null;
 
         // Going to turn initialization
         _actualPhase = CombatPhase.TURN_INIT;

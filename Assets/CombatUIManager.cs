@@ -10,14 +10,14 @@ public class CombatUIManager : MonoBehaviour {
     private void Start()
     {
         _canvas = GetComponent<CanvasGroup>();
-        EventManager.StartListening("HideCombatUI", OnHideUI);
-        EventManager.StartListening("ShowCombatUI", OnShowUI);
+        EventManager.StartListening(EventList.HIDE_COMBAT_UI.ToString(), OnHideUI);
+        EventManager.StartListening(EventList.SHOW_COMBAT_UI.ToString(), OnShowUI);
     }
 
     private void OnDestroy()
     {
-        EventManager.StopListening("HideCombatUI", OnHideUI);
-        EventManager.StopListening("ShowCombatUI", OnShowUI);
+        EventManager.StopListening(EventList.HIDE_COMBAT_UI.ToString(), OnHideUI);
+        EventManager.StopListening(EventList.SHOW_COMBAT_UI.ToString(), OnShowUI);
     }
 
     private void OnHideUI(dynamic obj)

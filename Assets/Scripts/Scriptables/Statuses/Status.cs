@@ -22,8 +22,7 @@ public abstract class Status : ScriptableObject
     public IEnumerator Apply(Fighter target)
     {
         yield return target.StartCoroutine(ApplyEffect(target));
-
-
+        
         while (!CombatLogManager.instance.doneDisplaying)
         {
             yield return null;

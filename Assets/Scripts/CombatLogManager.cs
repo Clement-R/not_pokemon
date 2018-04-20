@@ -34,12 +34,12 @@ public class CombatLogManager : MonoBehaviour {
     {
         _combatLog = GetComponent<TMP_Text>();
         _fadeManager = GetComponent<FadeInText>();
-        EventManager.StartListening("DisplayText", OnDisplayText);
+        EventManager.StartListening(EventList.DISPLAY_TEXT.ToString(), OnDisplayText);
     }
 
     private void OnDestroy()
     {
-        EventManager.StopListening("DisplayText", OnDisplayText);
+        EventManager.StopListening(EventList.DISPLAY_TEXT.ToString(), OnDisplayText);
     }
     
     private void OnDisplayText(dynamic obj)
