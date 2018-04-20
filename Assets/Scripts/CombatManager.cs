@@ -190,15 +190,17 @@ public class CombatManager : MonoBehaviour {
             }
             else
             {
-                _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+                _actualPhase = CombatPhase.AI_ACTION_PHASE;
             }
         }
     }
 
     IEnumerator WaitForPlayerActionChoice()
     {
-        waitForPlayerAction = true;
+        EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+        firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
 
+        waitForPlayerAction = true;
         // waitForPlayerAction will be updated by the buttons
         // calling NotifyPlayerActionChoosed method
         while (waitForPlayerAction)
@@ -363,16 +365,14 @@ public class CombatManager : MonoBehaviour {
         
         // Play attack
         Camera.main.GetComponent<Screenshake>().ScreenShake();
-
-
         
-
         // Play ability animation
         GameObject effect = Instantiate(_choosedAbility.effect);
         Destroy(effect, 2f);
 
         yield return null;
 
+        _activeFighter.canPlay = false;
         _actualPhase = CombatPhase.TURN_INIT;
     }
 
