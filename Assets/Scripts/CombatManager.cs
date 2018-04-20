@@ -257,6 +257,9 @@ public class CombatManager : MonoBehaviour {
     {
         _fighters.FindAll(e => e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
 
+        // Set UI in turn begin state
+        EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+        firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
         playerUI.SetActive(true);
     }
 
@@ -318,13 +321,58 @@ public class CombatManager : MonoBehaviour {
 
         _activeFighter.canPlay = false;
         _actualPhase = CombatPhase.TURN_INIT;
+    }
 
-        //_actualPhase = CombatPhase.COMBAT_END;
+    private void ExecuteAbility()
+    {
+        if (_choosedAbility.type == Ability.AbilityType.ATTACK)
+        {
+            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+            {
+                foreach (Fighter fighter in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
+                {
+                    StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+                }
+            }
+            else
+            {
+                StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
+            }
+        }
+        else
+        {
+            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+            {
+                foreach (Fighter fighter in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
+                {
+                    StartCoroutine(fighter.Heal(_choosedAbility.heal));
+                }
+            }
+            else
+            {
+                StartCoroutine(fighterToAttack.Heal(_choosedAbility.heal));
+            }
+        }
+        
     }
 
     IEnumerator PlayAction()
     {
+        // ExecuteAbility();
+        
+        // Play attack
+        Camera.main.GetComponent<Screenshake>().ScreenShake();
+
+
+        
+
+        // Play ability animation
+        GameObject effect = Instantiate(_choosedAbility.effect);
+        Destroy(effect, 2f);
+
         yield return null;
+
+        _actualPhase = CombatPhase.TURN_INIT;
     }
 
     IEnumerator CombatEnd()
