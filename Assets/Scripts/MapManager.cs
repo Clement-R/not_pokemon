@@ -25,13 +25,24 @@ public class MapManager : MonoBehaviour {
     public MapLocation startLocation;
 
     private static MapManager _mapManager;
-    private MapLocation _lastLocation;
+    private MapLocation _lastLocation = null;
 
     void Start ()
     {
         DontDestroyOnLoad(gameObject);
+        if(_lastLocation == null)
+        {
+            _lastLocation = startLocation;
+        }
+        else
+        {
+            SetLocation();
+        }
+    }
 
-        _lastLocation = startLocation;
+    public void SetLocation()
+    {
+        _lastLocation.ToggleFocus();
     }
 
     public void MoveToLocation(MapLocation newLocation)
@@ -43,7 +54,7 @@ public class MapManager : MonoBehaviour {
         
         // Focus on newlocation
         _lastLocation.ToggleFocus();
-
+        
 
         _lastLocation.LaunchEvent();
 

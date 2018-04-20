@@ -1,0 +1,7 @@
+﻿enum EventList
+{
+    DISPLAY_TEXT,
+    HIDE_COMBAT_UI,
+    SHOW_COMBAT_UI,
+    ACTIVATE_COMBAT_LOG
+}

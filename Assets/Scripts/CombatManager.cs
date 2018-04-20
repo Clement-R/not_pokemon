@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class CombatManager : MonoBehaviour {
@@ -377,8 +378,11 @@ public class CombatManager : MonoBehaviour {
 
     IEnumerator CombatEnd()
     {
+        AsyncOperation op = SceneManager.LoadSceneAsync("Map");
+        op.allowSceneActivation = false;
         yield return StartCoroutine(Camera.main.GetComponent<TransitionPostProcess>().TransitionCoroutine());
         _combatEnd = true;
+        op.allowSceneActivation = true;
     }
 
     IEnumerator CombatLogic()

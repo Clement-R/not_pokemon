@@ -6,10 +6,7 @@ using UnityEngine.Events;
 
 namespace pkm.EventManager {
     public class EventManager : MonoBehaviour {
-        private Dictionary<string, Action<dynamic>> eventDict;
-
-        private static EventManager eventManager;
-
+        
         public static EventManager instance
         {
             get
@@ -31,6 +28,9 @@ namespace pkm.EventManager {
                 return eventManager;
             }
         }
+
+        private Dictionary<string, Action<dynamic>> eventDict;
+        private static EventManager eventManager;
 
         void Init()
         {

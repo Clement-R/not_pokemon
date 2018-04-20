@@ -22,18 +22,13 @@ public abstract class Status : ScriptableObject
     public IEnumerator Apply(Fighter target)
     {
         yield return target.StartCoroutine(ApplyEffect(target));
-        
-        // TODO : Move that code in a dedicated manager that communicate through event manager
-        //bool waitForPlayerAction = true;
-        //while (waitForPlayerAction)
-        //{
-        //    yield return null;
 
-        //    if (Input.anyKeyDown)
-        //    {
-        //        waitForPlayerAction = false;
-        //    }
-        //}
+
+        while (!CombatLogManager.instance.doneDisplaying)
+        {
+            yield return null;
+
+        }
 
         LowerDuration();
     }
@@ -42,9 +37,7 @@ public abstract class Status : ScriptableObject
 
     public void DisplayLog(string log)
     {
-        // TODO : Trigger event to launch combat log animation
-        Debug.Log(log);
-        EventManager.TriggerEvent("displayText", new { text = log });
+        EventManager.TriggerEvent(EventList.DISPLAY_TEXT.ToString(), new { text = log });
     }
 
     public void LowerDuration()

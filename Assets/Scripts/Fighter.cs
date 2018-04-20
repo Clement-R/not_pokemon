@@ -47,6 +47,9 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             skillset = new Skillset();
         }
+
+        // TODO : REMOVE DEBUG
+        AddDebuff(skillset.GetAbility(1).debuffs[0]);
     }
 
     public void AddBuff(Status buff)
@@ -79,8 +82,6 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
             foreach (Status debuff in debuffs)
             {
                 yield return StartCoroutine(debuff.Apply(this));
-
-                Debug.Log(dead);
 
                 if (dead)
                 {
