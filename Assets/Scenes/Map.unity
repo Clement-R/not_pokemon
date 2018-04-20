@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253fe61ae8c7d264e8249702df2bea86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startLocation: {fileID: 1190740472}
 --- !u!4 &278446411
 Transform:
   m_ObjectHideFlags: 0
@@ -160,6 +161,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 534669409}
     m_Modifications:
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224833970231940932, guid: 713e82763102dfd4a8c027dc4058e8e2,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -250,6 +256,36 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 278446410}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MoveToLocation
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: MapLocation, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1190740472}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 713e82763102dfd4a8c027dc4058e8e2, type: 2}
   m_IsPrefabParent: 0
@@ -260,6 +296,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 534669409}
     m_Modifications:
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224833970231940932, guid: 713e82763102dfd4a8c027dc4058e8e2,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -354,6 +395,36 @@ Prefab:
       propertyPath: m_Name
       value: Location (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 278446410}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MoveToLocation
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: MapLocation, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894933491550040, guid: 713e82763102dfd4a8c027dc4058e8e2,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 520270454}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 713e82763102dfd4a8c027dc4058e8e2, type: 2}
   m_IsPrefabParent: 0
@@ -362,6 +433,23 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224833970231940932, guid: 713e82763102dfd4a8c027dc4058e8e2,
     type: 2}
   m_PrefabInternal: {fileID: 520270451}
+--- !u!1 &520270453 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1524942334766526, guid: 713e82763102dfd4a8c027dc4058e8e2,
+    type: 2}
+  m_PrefabInternal: {fileID: 520270451}
+--- !u!114 &520270454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 520270453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1846bb4c3a30d1c44a7a2560d6258f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapEvent: {fileID: 11400000, guid: 7acceec74a6542848afcc7ad7ad73a01, type: 2}
 --- !u!1 &534669405
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +555,18 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224833970231940932, guid: 713e82763102dfd4a8c027dc4058e8e2,
     type: 2}
   m_PrefabInternal: {fileID: 396048210}
+--- !u!114 &1190740472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1190740470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1846bb4c3a30d1c44a7a2560d6258f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapEvent: {fileID: 11400000, guid: 7acceec74a6542848afcc7ad7ad73a01, type: 2}
 --- !u!20 &2083407038
 Camera:
   m_ObjectHideFlags: 0

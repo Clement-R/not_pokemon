@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MapLocation : MonoBehaviour {
 
+    public MapEvent mapEvent;
+
     private Image _sprite;
     private bool _isFocus = false;
 
@@ -26,5 +28,10 @@ public class MapLocation : MonoBehaviour {
         {
             _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0.5f);
         }
+    }
+
+    public void LaunchEvent()
+    {
+        mapEvent.LaunchEvent();
     }
 }

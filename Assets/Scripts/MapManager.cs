@@ -44,6 +44,9 @@ public class MapManager : MonoBehaviour {
         // Focus on newlocation
         _lastLocation.ToggleFocus();
 
+
+        _lastLocation.LaunchEvent();
+
         // TODO : Save progression
     }
 }

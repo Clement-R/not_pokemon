@@ -54,6 +54,12 @@ public class ScriptableCreator
         ScriptableCreatorUtility.CreateAsset<Skillset>();
     }
 
+    [MenuItem("Assets/Scriptable/MapEvent/CombatMapEvent")]
+    public static void CreateCombatMapEvent()
+    {
+        ScriptableCreatorUtility.CreateAsset<CombatMapEvent>();
+    }
+
     /*
     [MenuItem("Assets/Scriptable/Debuff")]
     public static void CreateDebuff()
