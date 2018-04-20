@@ -49,6 +49,8 @@ public class CombatManager : MonoBehaviour {
         WAIT_PLAYER_ACTION_CHOICE,
         WAIT_PLAYER_TARGET_CHOICE,
         WAIT_PLAYER_INPUT,
+        AI_ACTION_PHASE,
+        ACTION_PHASE,
         COMBAT_END
     }
 
@@ -105,6 +107,14 @@ public class CombatManager : MonoBehaviour {
 
             case CombatPhase.WAIT_PLAYER_INPUT:
                 routine = "";
+                break;
+
+            case CombatPhase.ACTION_PHASE:
+                routine = "PlayAction";
+                break;
+
+            case CombatPhase.AI_ACTION_PHASE:
+                routine = "PlayAITurn";
                 break;
 
             case CombatPhase.COMBAT_END:
@@ -173,26 +183,148 @@ public class CombatManager : MonoBehaviour {
         }
         else
         {
-            _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+            if(!_activeFighter.isAI)
+            {
+                _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+            }
+            else
+            {
+                _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+            }
         }
     }
 
     IEnumerator WaitForPlayerActionChoice()
     {
-        yield return null;
-        // _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
+        waitForPlayerAction = true;
 
+        // waitForPlayerAction will be updated by the buttons
+        // calling NotifyPlayerActionChoosed method
+        while (waitForPlayerAction)
+        {
+            yield return null;
+        }
+        
+        _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
 
         // DEBUG
-        yield return new WaitForSeconds(2f);
-        _activeFighter.canPlay = false;
-        _actualPhase = CombatPhase.TURN_INIT;
+        //yield return new WaitForSeconds(2f);
+        //_activeFighter.canPlay = false;
+        //_actualPhase = CombatPhase.TURN_INIT;
+    }
+
+    /*
+     * Set the focus on the enemy or the ally team
+     * and on a single or multi target
+     */
+    private void SetFocus(Ability.AbilityTarget target, Ability.AbilityType type)
+    {
+        // Wait for player enemy target choice
+        playerUI.SetActive(false);
+
+        if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+        {
+            if (_choosedAbility.type == Ability.AbilityType.ATTACK)
+            {
+                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+            }
+            else
+            {
+                // Set enemy team to be focusable
+                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+                // Set first enemy as focused
+                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != _activeFighter.player && e.dead == false).gameObject);
+            }
+        }
+        else
+        {
+            if (_choosedAbility.type == Ability.AbilityType.ATTACK)
+            {
+                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+            }
+            else
+            {
+                // Set enemy team to be focusable
+                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+
+                // Set first ally as focused
+                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player == _activeFighter.player && e.dead == false).gameObject);
+            }
+        }
+    }
+
+    private void ClearFocus()
+    {
+        _fighters.FindAll(e => e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+
+        playerUI.SetActive(true);
     }
 
     IEnumerator WaitForPlayerTargetChoice()
     {
+        SetFocus(_choosedAbility.target, _choosedAbility.type);
+
+        bool playerCancel = false;
+
+        // Wait for player action
+        if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+        {
+            waitForPlayerChoice = true;
+            while ((waitForPlayerChoice && _actionChoosed) && !playerCancel)
+            {
+                yield return null;
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    waitForPlayerChoice = false;
+                    _targetChoosed = true;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    playerCancel = true;
+                }
+            }
+        }
+        else
+        {
+            while (!_targetChoosed && !playerCancel)
+            {
+                if(Input.GetKeyDown(KeyCode.Escape))
+                {
+                    playerCancel = true;
+                }
+
+                yield return null;
+            }
+        }
+
+        ClearFocus();
+
+        if (playerCancel)
+        {
+            print("Player cancel");
+            _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
+        }
+        else
+        {
+            _actualPhase = CombatPhase.ACTION_PHASE;
+        }
+    }
+
+    IEnumerator PlayAITurn()
+    {
         yield return null;
-        _actualPhase = CombatPhase.COMBAT_END;
+
+        _activeFighter.canPlay = false;
+        _actualPhase = CombatPhase.TURN_INIT;
+
+        //_actualPhase = CombatPhase.COMBAT_END;
+    }
+
+    IEnumerator PlayAction()
+    {
+        yield return null;
     }
 
     IEnumerator CombatEnd()
