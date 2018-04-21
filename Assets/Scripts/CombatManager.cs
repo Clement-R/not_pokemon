@@ -326,7 +326,7 @@ public class CombatManager : MonoBehaviour {
         _actualPhase = CombatPhase.TURN_INIT;
     }
 
-    private void ExecuteAbility()
+    private IEnumerator ExecuteAbility()
     {
         if (_choosedAbility.type == Ability.AbilityType.ATTACK)
         {
@@ -334,12 +334,12 @@ public class CombatManager : MonoBehaviour {
             {
                 foreach (Fighter fighter in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
                 {
-                    StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+                    yield return StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
                 }
             }
             else
             {
-                StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
+                yield return StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
             }
         }
         else
@@ -348,12 +348,12 @@ public class CombatManager : MonoBehaviour {
             {
                 foreach (Fighter fighter in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
                 {
-                    StartCoroutine(fighter.Heal(_choosedAbility.heal));
+                    yield return StartCoroutine(fighter.Heal(_choosedAbility.heal));
                 }
             }
             else
             {
-                StartCoroutine(fighterToAttack.Heal(_choosedAbility.heal));
+                yield return StartCoroutine(fighterToAttack.Heal(_choosedAbility.heal));
             }
         }
         
@@ -361,7 +361,7 @@ public class CombatManager : MonoBehaviour {
 
     IEnumerator PlayAction()
     {
-        // ExecuteAbility();
+        yield return StartCoroutine(ExecuteAbility());
         
         // Play attack
         Camera.main.GetComponent<Screenshake>().ScreenShake();
