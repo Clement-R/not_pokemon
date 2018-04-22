@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using pkm.EventManager;
 using TMPro;
 
 public class CombatManager : MonoBehaviour {
@@ -33,7 +34,7 @@ public class CombatManager : MonoBehaviour {
     private bool _targetChoosed = false;
 
     private List<Fighter> _fighters = new List<Fighter>();
-    private Fighter fighterToAttack = null;
+    private Fighter _fighterToAttack = null;
 
     private TMP_Text _combatLogText;
 
@@ -209,11 +210,6 @@ public class CombatManager : MonoBehaviour {
         }
         
         _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
-
-        // DEBUG
-        //yield return new WaitForSeconds(2f);
-        //_activeFighter.canPlay = false;
-        //_actualPhase = CombatPhase.TURN_INIT;
     }
 
     /*
@@ -272,7 +268,7 @@ public class CombatManager : MonoBehaviour {
 
         bool playerCancel = false;
 
-        // Wait for player action
+        // Wait for player action (cancel or validatinon)
         if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
         {
             waitForPlayerChoice = true;
@@ -309,7 +305,6 @@ public class CombatManager : MonoBehaviour {
 
         if (playerCancel)
         {
-            print("Player cancel");
             _actualPhase = CombatPhase.WAIT_PLAYER_ACTION_CHOICE;
         }
         else
@@ -323,23 +318,33 @@ public class CombatManager : MonoBehaviour {
         yield return null;
 
         _activeFighter.canPlay = false;
+        // DEBUG
         _actualPhase = CombatPhase.TURN_INIT;
+
+        //_actualPhase = CombatPhase.ACTION_PHASE;
     }
 
     private IEnumerator ExecuteAbility()
     {
+        Coroutine effect = null;
+        string log = "";
+
         if (_choosedAbility.type == Ability.AbilityType.ATTACK)
         {
             if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
             {
                 foreach (Fighter fighter in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
                 {
-                    yield return StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+                    effect = StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
                 }
+
+                log = _activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
             }
             else
             {
-                yield return StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
+                effect = StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
+
+                log = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
             }
         }
         else
@@ -348,29 +353,40 @@ public class CombatManager : MonoBehaviour {
             {
                 foreach (Fighter fighter in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
                 {
-                    yield return StartCoroutine(fighter.Heal(_choosedAbility.heal));
+                    effect = StartCoroutine(fighter.Heal(_choosedAbility.heal));
                 }
+
+                log = _activeFighter.name + " heal all alies with " + _choosedAbility.abilityName;
             }
             else
             {
-                yield return StartCoroutine(fighterToAttack.Heal(_choosedAbility.heal));
+                effect = StartCoroutine(_fighterToAttack.Heal(_choosedAbility.heal));
+
+                log = _activeFighter.name + " heal " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
             }
         }
-        
+
+        // TODO : Add combat log event
+        EventManager.TriggerEvent(EventList.DISPLAY_TEXT.ToString(), new { text = log });
+
+        while (!CombatLogManager.instance.doneDisplaying)
+        {
+            yield return null;
+        }
+
+        yield return effect;
     }
 
     IEnumerator PlayAction()
     {
-        yield return StartCoroutine(ExecuteAbility());
-        
         // Play attack
         Camera.main.GetComponent<Screenshake>().ScreenShake();
-        
+
         // Play ability animation
         GameObject effect = Instantiate(_choosedAbility.effect);
         Destroy(effect, 2f);
 
-        yield return null;
+        yield return StartCoroutine(ExecuteAbility());
 
         _activeFighter.canPlay = false;
         _actualPhase = CombatPhase.TURN_INIT;
@@ -425,7 +441,7 @@ public class CombatManager : MonoBehaviour {
                 // fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
                 
                 // Take enemy with max health
-                fighterToAttack = _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).OrderByDescending(e => e.health).First();
+                _fighterToAttack = _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).OrderByDescending(e => e.health).First();
 
                 _activeFighter.canPlay = false;
 
@@ -436,8 +452,8 @@ public class CombatManager : MonoBehaviour {
                 // Play attack
                 Camera.main.GetComponent<Screenshake>().ScreenShake();
 
-                StartCoroutine(fighterToAttack.TakeDamage(_activeFighter.skillset.GetAbility(0).damage));
-                _combatLogText.text = _activeFighter.name + " attack " + fighterToAttack.name;
+                StartCoroutine(_fighterToAttack.TakeDamage(_activeFighter.skillset.GetAbility(0).damage));
+                _combatLogText.text = _activeFighter.name + " attack " + _fighterToAttack.name;
 
                 Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
 
@@ -548,7 +564,7 @@ public class CombatManager : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    StartCoroutine(fighterToAttack.TakeDamage(_choosedAbility.damage));
+                                    StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
                                 }
 
                                 // Play ability animation
@@ -567,7 +583,7 @@ public class CombatManager : MonoBehaviour {
                                     }
                                     else
                                     {
-                                        fighterToAttack.AddDebuff(debuff);
+                                        _fighterToAttack.AddDebuff(debuff);
                                     }
                                 }
 
@@ -590,7 +606,7 @@ public class CombatManager : MonoBehaviour {
                                 // Display combat log and wait for the player to press a key
                                 if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
                                 {
-                                    _combatLogText.text = _activeFighter.name + " attack " + fighterToAttack.name + " with " + _choosedAbility.abilityName;
+                                    _combatLogText.text = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
                                 }
                                 else
                                 {
@@ -694,7 +710,7 @@ public class CombatManager : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    StartCoroutine(fighterToAttack.Heal(_choosedAbility.heal));
+                                    StartCoroutine(_fighterToAttack.Heal(_choosedAbility.heal));
                                 }
 
                                 // Play ability animation
@@ -704,7 +720,7 @@ public class CombatManager : MonoBehaviour {
                                 // Display combat log and wait for the player to press a key
                                 if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
                                 {
-                                    _combatLogText.text = _activeFighter.name + " heal " + fighterToAttack.name + " with " + _choosedAbility.abilityName;
+                                    _combatLogText.text = _activeFighter.name + " heal " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
                                 }
                                 else
                                 {
@@ -779,7 +795,7 @@ public class CombatManager : MonoBehaviour {
 
     public void NotifyPlayerEnemyChoice(Fighter fighterToAttack)
     {
-        this.fighterToAttack = fighterToAttack;
+        _fighterToAttack = fighterToAttack;
         waitForPlayerChoice = false;
         _targetChoosed = true;
     }
