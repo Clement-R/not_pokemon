@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae885c7b54879649a36d7df8ea8f1bd, type: 3}
   m_Name: firelaunch_multi
   m_EditorClassIdentifier: 
-  abilityName: Move 2
+  abilityName: Flamethrower
   type: 0
   target: 1
   effect: {fileID: 1011638187603876, guid: 5afa766069e620a4d8547ff70bfb1b96, type: 2}

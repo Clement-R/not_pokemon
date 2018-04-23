@@ -28,6 +28,8 @@ public class CombatManager : MonoBehaviour {
     
     public TMP_Text debugText;
 
+    public Text[] moves;
+
     private bool _combatEnd = false;
     private bool _actionChoosed = false;
     private Ability _choosedAbility = null;
@@ -80,8 +82,7 @@ public class CombatManager : MonoBehaviour {
             }
         }
     }
-
-    // TODO : Call actual coroutines
+    
     private string GetCoroutinePhase(CombatPhase phase)
     {
         string routine = null;
@@ -164,10 +165,27 @@ public class CombatManager : MonoBehaviour {
             _activeFighter = _fighters.OrderByDescending(e => e.GetDexterity()).First(e => e.canPlay == true && e.dead == false);
         }
 
-        // Going to turn initialization
-        _actualPhase = CombatPhase.STATUSES;
-
-        debugText.text = _activeFighter.name;
+        // Display abilities names
+        for (int i = 0; i < 4; i++)
+        {
+            moves[i].text = _activeFighter.skillset._abilities[i].abilityName;
+        }
+        
+        // Check if one team is KO
+        if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
+        {
+            _actualPhase = CombatPhase.COMBAT_END;
+        }
+        else if (_fighters.Count(e => e.player == _activeFighter.player && e.dead == false) == 0)
+        {
+            _actualPhase = CombatPhase.COMBAT_END;
+        }
+        else
+        {
+            debugText.text = _activeFighter.name;
+            // Going to turn initialization
+            _actualPhase = CombatPhase.STATUSES;
+        }
 
         yield return null;
     }
@@ -208,6 +226,8 @@ public class CombatManager : MonoBehaviour {
         {
             yield return null;
         }
+
+        print(_choosedAbility.abilityName);
         
         _actualPhase = CombatPhase.WAIT_PLAYER_TARGET_CHOICE;
     }
@@ -229,23 +249,22 @@ public class CombatManager : MonoBehaviour {
             }
             else
             {
-                // Set enemy team to be focusable
-                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
-                // Set first enemy as focused
-                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != _activeFighter.player && e.dead == false).gameObject);
+                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
             }
         }
         else
         {
             if (_choosedAbility.type == Ability.AbilityType.ATTACK)
             {
-                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+                // Set enemies focusable
+                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+                // Set first ally as focused
+                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != _activeFighter.player && e.dead == false).gameObject);
             }
             else
             {
-                // Set enemy team to be focusable
+                // Set allies focusable
                 _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
-
                 // Set first ally as focused
                 EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player == _activeFighter.player && e.dead == false).gameObject);
             }
@@ -264,6 +283,13 @@ public class CombatManager : MonoBehaviour {
 
     IEnumerator WaitForPlayerTargetChoice()
     {
+        // Add some delay with previous action to avoid
+        // an unwanted action due to fast input detection
+        yield return null;
+        yield return null;
+        yield return null;
+
+        _targetChoosed = false;
         SetFocus(_choosedAbility.target, _choosedAbility.type);
 
         bool playerCancel = false;
@@ -271,14 +297,12 @@ public class CombatManager : MonoBehaviour {
         // Wait for player action (cancel or validatinon)
         if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
         {
-            waitForPlayerChoice = true;
-            while ((waitForPlayerChoice && _actionChoosed) && !playerCancel)
+            print(_targetChoosed);
+            print(playerCancel);
+            while (!_targetChoosed && !playerCancel)
             {
-                yield return null;
-
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    waitForPlayerChoice = false;
                     _targetChoosed = true;
                 }
 
@@ -286,6 +310,8 @@ public class CombatManager : MonoBehaviour {
                 {
                     playerCancel = true;
                 }
+
+                yield return null;
             }
         }
         else
@@ -342,6 +368,7 @@ public class CombatManager : MonoBehaviour {
             }
             else
             {
+                print(_fighterToAttack);
                 effect = StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
 
                 log = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
@@ -366,7 +393,39 @@ public class CombatManager : MonoBehaviour {
             }
         }
 
-        // TODO : Add combat log event
+        // Add debuff
+        foreach (Status debuff in _choosedAbility.debuffs)
+        {
+            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+            {
+                foreach (Fighter enemy in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
+                {
+                    enemy.AddDebuff(debuff);
+                }
+            }
+            else
+            {
+                _fighterToAttack.AddDebuff(debuff);
+            }
+        }
+
+        // Add buff
+        foreach (Status buff in _choosedAbility.buffs)
+        {
+            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+            {
+                foreach (Fighter ally in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
+                {
+                    ally.AddBuff(buff);
+                }
+            }
+            else
+            {
+                _activeFighter.AddBuff(buff);
+            }
+        }
+
+        // Display combat log
         EventManager.TriggerEvent(EventList.DISPLAY_TEXT.ToString(), new { text = log });
 
         while (!CombatLogManager.instance.doneDisplaying)
