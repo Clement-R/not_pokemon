@@ -7,6 +7,14 @@ public class CombatMapEvent : MapEvent
 {
     public override void LaunchEvent()
     {
-        SceneManager.LoadScene("CombatScene");
+        Camera.main.GetComponent<TransitionPostProcess>().StartCoroutine(LoadCombatScene());
+    }
+
+    private IEnumerator LoadCombatScene()
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync("CombatScene");
+        op.allowSceneActivation = false;
+        yield return Camera.main.GetComponent<TransitionPostProcess>().TransitionCoroutine();
+        op.allowSceneActivation = true;
     }
 }
