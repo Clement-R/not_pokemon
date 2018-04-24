@@ -29,12 +29,14 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public Skillset skillset;
 
+    public List<Status> buffs = new List<Status>();
+    public List<Status> debuffs = new List<Status>();
+
+    public Ability[] availableAbilities;
+
     private Button focusSelector;
     private Image _sprite;
     private StatsManager _stats;
-
-    public List<Status> buffs = new List<Status>();
-    public List<Status> debuffs = new List<Status>();
 
     public void Awake()
     {
