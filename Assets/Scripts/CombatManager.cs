@@ -67,8 +67,7 @@ public class CombatManager : MonoBehaviour {
         _fighters.Add(P2_Fighter2);
 
         _combatLogText = combatLog.GetComponent<TMP_Text>();
-
-        // StartCoroutine(CombatLogic());
+        
         StartCoroutine(Logic());
     }
 
@@ -368,9 +367,7 @@ public class CombatManager : MonoBehaviour {
             }
             else
             {
-                print(_fighterToAttack);
                 effect = StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
-
                 log = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
             }
         }
@@ -460,390 +457,390 @@ public class CombatManager : MonoBehaviour {
         op.allowSceneActivation = true;
     }
 
-    IEnumerator CombatLogic()
-    {
-        while (!_combatEnd)
-        {
+    //IEnumerator CombatLogic()
+    //{
+    //    while (!_combatEnd)
+    //    {
 
-            // TURN_INIT
+    //        // TURN_INIT
 
-            // Choose next fighter, depending of the dexterity stat
-            _activeFighter = _fighters.DefaultIfEmpty(null).OrderByDescending(e => e.GetDexterity()).FirstOrDefault(e => e.canPlay == true && e.dead == false);
+    //        // Choose next fighter, depending of the dexterity stat
+    //        _activeFighter = _fighters.DefaultIfEmpty(null).OrderByDescending(e => e.GetDexterity()).FirstOrDefault(e => e.canPlay == true && e.dead == false);
 
-            // If no fighter can play, reset all fighters and select first one
-            if (_activeFighter == null)
-            {
-                _fighters.FindAll(e => e.dead == false).Select(c => { c.canPlay = true; return c; }).ToList();
-                _activeFighter = _fighters.OrderByDescending(e => e.GetDexterity()).First(e => e.canPlay == true && e.dead == false);
-            }
+    //        // If no fighter can play, reset all fighters and select first one
+    //        if (_activeFighter == null)
+    //        {
+    //            _fighters.FindAll(e => e.dead == false).Select(c => { c.canPlay = true; return c; }).ToList();
+    //            _activeFighter = _fighters.OrderByDescending(e => e.GetDexterity()).First(e => e.canPlay == true && e.dead == false);
+    //        }
             
-            debugText.text = _activeFighter.name;
+    //        debugText.text = _activeFighter.name;
             
-            bool turnEnd = false;
+    //        bool turnEnd = false;
 
-            // Apply buff and debuff
-            yield return _activeFighter.ApplyStatuses();
+    //        // Apply buff and debuff
+    //        yield return _activeFighter.ApplyStatuses();
 
-            if(_activeFighter.dead)
-            {
-                print("Active fighter dead");
-                turnEnd = true;
-            }
+    //        if(_activeFighter.dead)
+    //        {
+    //            print("Active fighter dead");
+    //            turnEnd = true;
+    //        }
 
-            if (_activeFighter.isAI && !_activeFighter.dead)
-            {
-                playerUI.SetActive(false);
+    //        if (_activeFighter.isAI && !_activeFighter.dead)
+    //        {
+    //            playerUI.SetActive(false);
 
-                // TODO : Take enemy action
+    //            // TODO : Take enemy action
 
-                // TODO : Select first enemy
-                // fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
+    //            // TODO : Select first enemy
+    //            // fighterToAttack = _fighters.FindAll(e => e.player != activeFighter.player && e.dead == false).OrderBy(x => Random.Range(0, 10)).First();
                 
-                // Take enemy with max health
-                _fighterToAttack = _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).OrderByDescending(e => e.health).First();
+    //            // Take enemy with max health
+    //            _fighterToAttack = _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).OrderByDescending(e => e.health).First();
 
-                _activeFighter.canPlay = false;
+    //            _activeFighter.canPlay = false;
 
-                // Apply attack
-                // Show log
-                _combatLogText.text = "";
+    //            // Apply attack
+    //            // Show log
+    //            _combatLogText.text = "";
 
-                // Play attack
-                Camera.main.GetComponent<Screenshake>().ScreenShake();
+    //            // Play attack
+    //            Camera.main.GetComponent<Screenshake>().ScreenShake();
 
-                StartCoroutine(_fighterToAttack.TakeDamage(_activeFighter.skillset.GetAbility(0).damage));
-                _combatLogText.text = _activeFighter.name + " attack " + _fighterToAttack.name;
+    //            StartCoroutine(_fighterToAttack.TakeDamage(_activeFighter.skillset.GetAbility(0).damage));
+    //            _combatLogText.text = _activeFighter.name + " attack " + _fighterToAttack.name;
 
-                Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+    //            Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
 
-                waitForPlayerAction = true;
-                while (waitForPlayerAction)
-                {
-                    yield return null;
+    //            waitForPlayerAction = true;
+    //            while (waitForPlayerAction)
+    //            {
+    //                yield return null;
 
-                    if (Input.anyKeyDown)
-                    {
-                        waitForPlayerAction = false;
-                    }
-                }
+    //                if (Input.anyKeyDown)
+    //                {
+    //                    waitForPlayerAction = false;
+    //                }
+    //            }
 
-                StopCoroutine(corCol);
-                _combatLogText.text = "";
+    //            StopCoroutine(corCol);
+    //            _combatLogText.text = "";
 
-                // Check if the other team is dead
-                if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
-                {
-                    _combatEnd = true;
-                }
+    //            // Check if the other team is dead
+    //            if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
+    //            {
+    //                _combatEnd = true;
+    //            }
 
-                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+    //            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+    //            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
 
-                playerUI.SetActive(true);
+    //            playerUI.SetActive(true);
 
-                _targetChoosed = false;
-                _actionChoosed = false;
-                turnEnd = true;
-            }
-            else if(_activeFighter.isAI && _activeFighter.dead)
-            {
-                print("Dead AI");
-                turnEnd = true;
-            }
+    //            _targetChoosed = false;
+    //            _actionChoosed = false;
+    //            turnEnd = true;
+    //        }
+    //        else if(_activeFighter.isAI && _activeFighter.dead)
+    //        {
+    //            print("Dead AI");
+    //            turnEnd = true;
+    //        }
 
-            while (!turnEnd)
-            {
-                if (!_actionChoosed)
-                {
-                    // Wait for player action choice
-                    waitForPlayerAction = true;
-                    while (waitForPlayerAction)
-                    {
-                        yield return null;
-                    }
-                }
-                else
-                {
-                    if (!_targetChoosed)
-                    {
-                        _activeFighter.canPlay = false;
+    //        while (!turnEnd)
+    //        {
+    //            if (!_actionChoosed)
+    //            {
+    //                // Wait for player action choice
+    //                waitForPlayerAction = true;
+    //                while (waitForPlayerAction)
+    //                {
+    //                    yield return null;
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (!_targetChoosed)
+    //                {
+    //                    _activeFighter.canPlay = false;
 
-                        // Wait for player enemy target choice
-                        playerUI.SetActive(false);
+    //                    // Wait for player enemy target choice
+    //                    playerUI.SetActive(false);
 
-                        if(_choosedAbility.type == Ability.AbilityType.ATTACK)
-                        {
-                            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
-                            {
-                                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+    //                    if(_choosedAbility.type == Ability.AbilityType.ATTACK)
+    //                    {
+    //                        if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+    //                        {
+    //                            _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
 
-                                waitForPlayerChoice = true;
-                                while (waitForPlayerChoice && _actionChoosed)
-                                {
-                                    yield return null;
+    //                            waitForPlayerChoice = true;
+    //                            while (waitForPlayerChoice && _actionChoosed)
+    //                            {
+    //                                yield return null;
 
-                                    if (Input.GetKeyDown(KeyCode.Space))
-                                    {
-                                        waitForPlayerChoice = false;
-                                        _targetChoosed = true;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                // Set enemy team to be focusable
-                                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+    //                                if (Input.GetKeyDown(KeyCode.Space))
+    //                                {
+    //                                    waitForPlayerChoice = false;
+    //                                    _targetChoosed = true;
+    //                                }
+    //                            }
+    //                        }
+    //                        else
+    //                        {
+    //                            // Set enemy team to be focusable
+    //                            _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
 
-                                // Set first enemy as focused
-                                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != _activeFighter.player && e.dead == false).gameObject);
+    //                            // Set first enemy as focused
+    //                            EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player != _activeFighter.player && e.dead == false).gameObject);
 
-                                waitForPlayerChoice = true;
-                                while (waitForPlayerChoice && _actionChoosed)
-                                {
-                                    yield return null;
-                                }
-                            }
+    //                            waitForPlayerChoice = true;
+    //                            while (waitForPlayerChoice && _actionChoosed)
+    //                            {
+    //                                yield return null;
+    //                            }
+    //                        }
 
-                            if (_targetChoosed)
-                            {
-                                // TODO : Remove action logic from here
-                                // Show log
-                                _combatLogText.text = "";
-
-
-                                // Play attack
-                                Camera.main.GetComponent<Screenshake>().ScreenShake();
-
-                                if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
-                                {
-                                    foreach (Fighter fighter in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
-                                    {
-                                        StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
-                                    }
-                                }
-                                else
-                                {
-                                    StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
-                                }
-
-                                // Play ability animation
-                                GameObject effect = Instantiate(_choosedAbility.effect);
-                                Destroy(effect, 2f);
-
-                                // Add debuff
-                                foreach (Status debuff in _choosedAbility.debuffs)
-                                {
-                                    if(_choosedAbility.target == Ability.AbilityTarget.MULTI)
-                                    {
-                                        foreach (Fighter enemy in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
-                                        {
-                                            enemy.AddDebuff(debuff);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        _fighterToAttack.AddDebuff(debuff);
-                                    }
-                                }
-
-                                // Add buff
-                                foreach (Status buff in _choosedAbility.buffs)
-                                {
-                                    if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
-                                    {
-                                        foreach (Fighter ally in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
-                                        {
-                                            ally.AddBuff(buff);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        _activeFighter.AddBuff(buff);
-                                    }
-                                }
-
-                                // Display combat log and wait for the player to press a key
-                                if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
-                                {
-                                    _combatLogText.text = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
-                                }
-                                else
-                                {
-                                    _combatLogText.text = _activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
-                                }
-
-                                Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
-                                // Coroutine corMov = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
-
-                                waitForPlayerAction = true;
-                                while (waitForPlayerAction)
-                                {
-                                    yield return null;
-
-                                    if (Input.anyKeyDown)
-                                    {
-                                        waitForPlayerAction = false;
-                                    }
-                                }
-
-                                StopCoroutine(corCol);
-                                //StopCoroutine(corMov);
-                                _combatLogText.text = "";
-
-                                // Remove focus on enemy team
-                                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
-
-                                // Check if the other team is dead
-                                if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
-                                {
-                                    _combatEnd = true;
-                                }
-
-                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
-
-                                playerUI.SetActive(true);
-
-                                _targetChoosed = false;
-                                _actionChoosed = false;
-                                turnEnd = true;
-                            }
-                            else
-                            {
-                                // Remove focus on enemy team
-                                _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
-
-                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
-
-                                playerUI.SetActive(true);
-                            }
-                        }
-                        else if(_choosedAbility.type == Ability.AbilityType.SUPPORT)
-                        {
-                            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
-                            {
-                                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
-
-                                waitForPlayerChoice = true;
-                                while (waitForPlayerChoice && _actionChoosed)
-                                {
-                                    yield return null;
-
-                                    if (Input.GetKeyDown(KeyCode.Space))
-                                    {
-                                        waitForPlayerChoice = false;
-                                        _targetChoosed = true;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                // Set enemy team to be focusable
-                                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
-
-                                // Set first ally as focused
-                                EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player == _activeFighter.player && e.dead == false).gameObject);
-
-                                waitForPlayerChoice = true;
-                                while (waitForPlayerChoice && _actionChoosed)
-                                {
-                                    yield return null;
-                                }
-                            }
-
-                            if (_targetChoosed)
-                            {
-                                // TODO : Remove action logic from here
-                                // Show log
-                                _combatLogText.text = "";
+    //                        if (_targetChoosed)
+    //                        {
+    //                            // TODO : Remove action logic from here
+    //                            // Show log
+    //                            _combatLogText.text = "";
 
 
-                                // Play ability
-                                if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
-                                {
-                                    foreach (Fighter fighter in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
-                                    {
-                                        StartCoroutine(fighter.Heal(_choosedAbility.heal));
-                                    }
-                                }
-                                else
-                                {
-                                    StartCoroutine(_fighterToAttack.Heal(_choosedAbility.heal));
-                                }
+    //                            // Play attack
+    //                            Camera.main.GetComponent<Screenshake>().ScreenShake();
 
-                                // Play ability animation
-                                GameObject effect = Instantiate(_choosedAbility.effect);
-                                Destroy(effect, 2f);
+    //                            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+    //                            {
+    //                                foreach (Fighter fighter in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
+    //                                {
+    //                                    StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+    //                                }
+    //                            }
+    //                            else
+    //                            {
+    //                                StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
+    //                            }
 
-                                // Display combat log and wait for the player to press a key
-                                if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
-                                {
-                                    _combatLogText.text = _activeFighter.name + " heal " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
-                                }
-                                else
-                                {
-                                    _combatLogText.text = _activeFighter.name + " heal all alies with " + _choosedAbility.abilityName;
-                                }
+    //                            // Play ability animation
+    //                            GameObject effect = Instantiate(_choosedAbility.effect);
+    //                            Destroy(effect, 2f);
 
-                                Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+    //                            // Add debuff
+    //                            foreach (Status debuff in _choosedAbility.debuffs)
+    //                            {
+    //                                if(_choosedAbility.target == Ability.AbilityTarget.MULTI)
+    //                                {
+    //                                    foreach (Fighter enemy in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
+    //                                    {
+    //                                        enemy.AddDebuff(debuff);
+    //                                    }
+    //                                }
+    //                                else
+    //                                {
+    //                                    _fighterToAttack.AddDebuff(debuff);
+    //                                }
+    //                            }
 
-                                waitForPlayerAction = true;
-                                while (waitForPlayerAction)
-                                {
-                                    yield return null;
+    //                            // Add buff
+    //                            foreach (Status buff in _choosedAbility.buffs)
+    //                            {
+    //                                if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+    //                                {
+    //                                    foreach (Fighter ally in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
+    //                                    {
+    //                                        ally.AddBuff(buff);
+    //                                    }
+    //                                }
+    //                                else
+    //                                {
+    //                                    _activeFighter.AddBuff(buff);
+    //                                }
+    //                            }
 
-                                    if (Input.anyKeyDown)
-                                    {
-                                        waitForPlayerAction = false;
-                                    }
-                                }
+    //                            // Display combat log and wait for the player to press a key
+    //                            if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
+    //                            {
+    //                                _combatLogText.text = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
+    //                            }
+    //                            else
+    //                            {
+    //                                _combatLogText.text = _activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
+    //                            }
 
-                                StopCoroutine(corCol);
-                                _combatLogText.text = "";
+    //                            Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+    //                            // Coroutine corMov = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertex());
 
-                                // Remove focus on enemy team
-                                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+    //                            waitForPlayerAction = true;
+    //                            while (waitForPlayerAction)
+    //                            {
+    //                                yield return null;
 
-                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+    //                                if (Input.anyKeyDown)
+    //                                {
+    //                                    waitForPlayerAction = false;
+    //                                }
+    //                            }
 
-                                playerUI.SetActive(true);
+    //                            StopCoroutine(corCol);
+    //                            //StopCoroutine(corMov);
+    //                            _combatLogText.text = "";
 
-                                _targetChoosed = false;
-                                _actionChoosed = false;
-                                turnEnd = true;
-                            }
-                            else
-                            {
-                                // Remove focus on allies
-                                _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+    //                            // Remove focus on enemy team
+    //                            _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
 
-                                EventSystem.current.SetSelectedGameObject(firstFocusedMove);
-                                firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+    //                            // Check if the other team is dead
+    //                            if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
+    //                            {
+    //                                _combatEnd = true;
+    //                            }
 
-                                playerUI.SetActive(true);
-                            }
-                        }
-                    }
-                }
-            }
+    //                            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+    //                            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
 
-            // Check if the other team is dead
-            if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
-            {
-                _combatEnd = true;
-            }
-            else if(_fighters.Count(e => e.player == _activeFighter.player && e.dead == false) == 0)
-            {
-                _combatEnd = true;
-            }
-        }
+    //                            playerUI.SetActive(true);
 
-        Camera.main.GetComponent<TransitionPostProcess>().TransitionEffect();
+    //                            _targetChoosed = false;
+    //                            _actionChoosed = false;
+    //                            turnEnd = true;
+    //                        }
+    //                        else
+    //                        {
+    //                            // Remove focus on enemy team
+    //                            _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
 
-        yield return new WaitForSeconds(2f);
-    }
+    //                            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+    //                            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+    //                            playerUI.SetActive(true);
+    //                        }
+    //                    }
+    //                    else if(_choosedAbility.type == Ability.AbilityType.SUPPORT)
+    //                    {
+    //                        if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+    //                        {
+    //                            _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ForceSelect(); return e; }).ToList();
+
+    //                            waitForPlayerChoice = true;
+    //                            while (waitForPlayerChoice && _actionChoosed)
+    //                            {
+    //                                yield return null;
+
+    //                                if (Input.GetKeyDown(KeyCode.Space))
+    //                                {
+    //                                    waitForPlayerChoice = false;
+    //                                    _targetChoosed = true;
+    //                                }
+    //                            }
+    //                        }
+    //                        else
+    //                        {
+    //                            // Set enemy team to be focusable
+    //                            _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(true); return e; }).ToList();
+
+    //                            // Set first ally as focused
+    //                            EventSystem.current.SetSelectedGameObject(_fighters.First(e => e.player == _activeFighter.player && e.dead == false).gameObject);
+
+    //                            waitForPlayerChoice = true;
+    //                            while (waitForPlayerChoice && _actionChoosed)
+    //                            {
+    //                                yield return null;
+    //                            }
+    //                        }
+
+    //                        if (_targetChoosed)
+    //                        {
+    //                            // TODO : Remove action logic from here
+    //                            // Show log
+    //                            _combatLogText.text = "";
+
+
+    //                            // Play ability
+    //                            if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
+    //                            {
+    //                                foreach (Fighter fighter in _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false))
+    //                                {
+    //                                    StartCoroutine(fighter.Heal(_choosedAbility.heal));
+    //                                }
+    //                            }
+    //                            else
+    //                            {
+    //                                StartCoroutine(_fighterToAttack.Heal(_choosedAbility.heal));
+    //                            }
+
+    //                            // Play ability animation
+    //                            GameObject effect = Instantiate(_choosedAbility.effect);
+    //                            Destroy(effect, 2f);
+
+    //                            // Display combat log and wait for the player to press a key
+    //                            if (_choosedAbility.target == Ability.AbilityTarget.SINGLE)
+    //                            {
+    //                                _combatLogText.text = _activeFighter.name + " heal " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
+    //                            }
+    //                            else
+    //                            {
+    //                                _combatLogText.text = _activeFighter.name + " heal all alies with " + _choosedAbility.abilityName;
+    //                            }
+
+    //                            Coroutine corCol = StartCoroutine(_combatLogText.gameObject.GetComponent<FadeInText>().AnimateVertexColors());
+
+    //                            waitForPlayerAction = true;
+    //                            while (waitForPlayerAction)
+    //                            {
+    //                                yield return null;
+
+    //                                if (Input.anyKeyDown)
+    //                                {
+    //                                    waitForPlayerAction = false;
+    //                                }
+    //                            }
+
+    //                            StopCoroutine(corCol);
+    //                            _combatLogText.text = "";
+
+    //                            // Remove focus on enemy team
+    //                            _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+
+    //                            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+    //                            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+    //                            playerUI.SetActive(true);
+
+    //                            _targetChoosed = false;
+    //                            _actionChoosed = false;
+    //                            turnEnd = true;
+    //                        }
+    //                        else
+    //                        {
+    //                            // Remove focus on allies
+    //                            _fighters.FindAll(e => e.player == _activeFighter.player && e.dead == false).Select(e => { e.ChangeFocus(false); return e; }).ToList();
+
+    //                            EventSystem.current.SetSelectedGameObject(firstFocusedMove);
+    //                            firstFocusedMove.GetComponent<ButtonColorFocus>().Focus();
+
+    //                            playerUI.SetActive(true);
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+
+    //        // Check if the other team is dead
+    //        if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
+    //        {
+    //            _combatEnd = true;
+    //        }
+    //        else if(_fighters.Count(e => e.player == _activeFighter.player && e.dead == false) == 0)
+    //        {
+    //            _combatEnd = true;
+    //        }
+    //    }
+
+    //    Camera.main.GetComponent<TransitionPostProcess>().TransitionEffect();
+
+    //    yield return new WaitForSeconds(2f);
+    //}
 
     public void NotifyPlayerActionChoosed(int abilityIndex)
     {
