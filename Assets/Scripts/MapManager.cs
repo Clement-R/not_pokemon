@@ -1,47 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour {
 
-    public static MapManager instance
-    {
-        get
-        {
-            if (!_mapManager)
-            {
-                _mapManager = FindObjectOfType(typeof(MapManager)) as MapManager;
-
-                if (!_mapManager)
-                {
-                    Debug.LogError("There needs to be one active OptionsManager script on a GameObject in your scene.");
-                }
-            }
-
-            return _mapManager;
-        }
-    }
+    public static MapManager instance;
 
     public MapLocation startLocation;
 
-    private static MapManager _mapManager;
     private MapLocation _lastLocation = null;
+    private int _lastLocationId = -1;
 
     void Start ()
     {
-        DontDestroyOnLoad(gameObject);
+        if(MapManager.instance == null)
+        {
+            MapManager.instance = FindObjectOfType(typeof(MapManager)) as MapManager;
+        }
+
+        int _lastLocationId = PlayerPrefs.GetInt("last_location");
+        if(_lastLocationId == -1)
+        {
+            _lastLocationId = 0;
+        }
+
+        print(_lastLocationId);
+
         if(_lastLocation == null)
         {
-            _lastLocation = startLocation;
+            foreach (MapLocation location in GameObject.FindObjectsOfType<MapLocation>())
+            {
+                if(location.id == _lastLocationId)
+                {
+                    _lastLocation = location;
+                    break;
+                }
+            } 
         }
-        else
-        {
-            SetLocation();
-        }
+
+        StartCoroutine(SetupMap());
+    }
+
+    IEnumerator SetupMap()
+    {
+        yield return new WaitForSeconds(0.1f);
+        SetLocation();
     }
 
     public void SetLocation()
     {
+        EventSystem.current.SetSelectedGameObject(_lastLocation.gameObject);
         _lastLocation.ToggleFocus();
     }
 
@@ -54,10 +64,14 @@ public class MapManager : MonoBehaviour {
         
         // Focus on newlocation
         _lastLocation.ToggleFocus();
-        
-
-        _lastLocation.LaunchEvent();
 
         // TODO : Save progression
+        // Variables to save :
+        // Seed (procgen map)
+        // Id of the last position (the algorithm should always give the id the same way to ensure that the same ID on the same seed always refer to the same place)
+        PlayerPrefs.SetInt("last_location", newLocation.id);
+        PlayerPrefs.Save();
+
+        _lastLocation.LaunchEvent();
     }
 }

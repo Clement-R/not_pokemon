@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MapLocation : MonoBehaviour {
 
     public MapEvent mapEvent;
+    public int id;
 
     private Image _sprite;
     private bool _isFocus = false;
