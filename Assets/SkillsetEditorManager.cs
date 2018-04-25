@@ -33,6 +33,13 @@ public class SkillsetEditorManager : MonoBehaviour {
     private void OnEnable()
     {
         EventManager.StartListening(EventList.DISPLAY_SKILLSET_EDITOR.ToString(), UpdateUI);
+        EventManager.StartListening(EventList.FIGHTER_STUFF_UPDATE.ToString(), UpdateUI);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(EventList.DISPLAY_SKILLSET_EDITOR.ToString(), UpdateUI);
+        EventManager.StopListening(EventList.FIGHTER_STUFF_UPDATE.ToString(), UpdateUI);
     }
 
     void UpdateUI(dynamic obj)
@@ -42,29 +49,29 @@ public class SkillsetEditorManager : MonoBehaviour {
         if(activeFighter.leftArm != null)
         {
             // LeftArmAbilities
-            // activeFighter.leftArm.abilities[0]
-            // activeFighter.leftArm.abilities[1]
+            LeftArmAbilities[0].GetComponent<TMPro.TMP_Text>().text = activeFighter.leftArm.abilities[0].abilityName;
+            LeftArmAbilities[1].GetComponent<TMPro.TMP_Text>().text = activeFighter.leftArm.abilities[1].abilityName;
         }
 
         if (activeFighter.rightArm != null)
         {
             // RightArmAbilities
-            // activeFighter.rightArm.abilities[0]
-            // activeFighter.rightArm.abilities[1]
+            RightArmAbilities[0].GetComponent<TMPro.TMP_Text>().text = activeFighter.rightArm.abilities[0].abilityName;
+            RightArmAbilities[1].GetComponent<TMPro.TMP_Text>().text = activeFighter.rightArm.abilities[1].abilityName;
         }
 
         if (activeFighter.leftShoulder != null)
         {
             // LeftShoulderAbilities
-            // activeFighter.leftShoulder.abilities[0]
-            // activeFighter.leftShoulder.abilities[1]
+            LeftShoulderAbilities[0].GetComponent<TMPro.TMP_Text>().text = activeFighter.leftShoulder.abilities[0].abilityName;
+            LeftShoulderAbilities[1].GetComponent<TMPro.TMP_Text>().text = activeFighter.leftShoulder.abilities[1].abilityName;
         }
 
         if (activeFighter.rightShoulder != null)
         {
             // RightShoulderAbilities
-            // activeFighter.rightShoulder.abilities[0]
-            // activeFighter.rightShoulder.abilities[1]
+            RightShoulderAbilities[0].GetComponent<TMPro.TMP_Text>().text = activeFighter.rightShoulder.abilities[0].abilityName;
+            RightShoulderAbilities[1].GetComponent<TMPro.TMP_Text>().text = activeFighter.rightShoulder.abilities[1].abilityName;
         }
     }
 }
