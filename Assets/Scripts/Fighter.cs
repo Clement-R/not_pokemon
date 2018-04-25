@@ -34,7 +34,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     public List<Status> buffs = new List<Status>();
     public List<Status> debuffs = new List<Status>();
 
-    public Ability[] availableAbilities;
+    public List<Ability> availableAbilities = new List<Ability>();
 
     private Button focusSelector;
     private Image _sprite;
@@ -49,37 +49,68 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         if(skillset == null)
         {
-            skillset = new Skillset();
+            skillset = ScriptableObject.CreateInstance<Skillset>();
         }
     }
 
     private void Start()
     {
         UpdateAvailableAbilities();
+
+
+        /// DEBUG ///
+        // skillset.DebugAbilities();
+        for (int ii = 0; ii < availableAbilities.Count; ii++)
+        {
+            Debug.Log(availableAbilities[ii].abilityName);
+        }
+        EventManager.TriggerEvent(EventList.FIGHTER_STUFF_UPDATE.ToString(), new { fighter = this });
+        Debug.Log("-----------------------------------");
+
+        skillset._abilities[0] = availableAbilities[0];
+        skillset._abilities[1] = availableAbilities[1];
+        skillset._abilities[2] = availableAbilities[4];
+        skillset._abilities[3] = availableAbilities[5];
     }
 
     public void ChangePart(PartSlot slot, Part newPart)
     {
         // TODO : Put old part to inventory
 
-        // TODO : Remove old abilities from skillset if used
-
+        
         // Set new part and refresh fighter abilties and stats
+        Part changedPart = null;
         switch (slot)
         {
             case PartSlot.LEFT_ARM:
+                changedPart = leftArm;
                 leftArm = newPart;
                 break;
             case PartSlot.RIGHT_ARM:
+                changedPart = rightArm;
                 rightArm = newPart;
                 break;
             case PartSlot.LEFT_SHOULDER:
+                changedPart = leftShoulder;
                 leftShoulder = newPart;
                 break;
             case PartSlot.RIGHT_SHOULDER:
+                changedPart = rightShoulder;
                 rightShoulder = newPart;
                 break;
         }
+
+        // Remove old abilities from skillset if used
+        int abilityIndex = -1;
+        for (int ii = 0; ii < 2; ii++)
+        {
+            abilityIndex = ArrayUtility.IndexOf(skillset._abilities, changedPart.abilities[ii]);
+            if (abilityIndex != -1)
+            {
+                skillset._abilities[abilityIndex] = newPart.abilities[ii];
+            }
+        }
+
         // TODO : Handle this trigger somewhere in UI
         EventManager.TriggerEvent(EventList.FIGHTER_STUFF_UPDATE.ToString(), new { fighter = this });
         UpdateAvailableAbilities();
@@ -224,19 +255,21 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     private void UpdateAvailableAbilities()
     {
         // TODO : Maybe this size will change, find a better way to handle this or fix game design to be sure
-        Ability[] abilities = new Ability[8];
+        List<Ability> abilities = new List<Ability>();
 
         if (leftShoulder != null)
-            ArrayUtility.AddRange(ref abilities, leftShoulder.abilities);
+            abilities.AddRange(leftShoulder.abilities);
 
         if (rightShoulder != null)
-            ArrayUtility.AddRange(ref abilities, rightShoulder.abilities);
+            abilities.AddRange(rightShoulder.abilities);
 
         if (leftArm != null)
-            ArrayUtility.AddRange(ref abilities, leftArm.abilities);
+            abilities.AddRange(leftArm.abilities);
 
         if (rightArm != null)
-            ArrayUtility.AddRange(ref abilities, rightArm.abilities);
+            abilities.AddRange(rightArm.abilities);
+
+        availableAbilities = abilities;
     }
 
     private IEnumerator HealthBarAnimation()

@@ -14,4 +14,12 @@ public class Skillset : ScriptableObject {
     {
         return _abilities[index];
     }
+
+    public void DebugAbilities()
+    {
+        for (int ii = 0; ii < _abilities.Length; ii++)
+        {
+            Debug.Log(_abilities[ii].abilityName);
+        }
+    }
 }

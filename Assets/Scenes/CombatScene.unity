@@ -3244,10 +3244,10 @@ MonoBehaviour:
   isAI: 0
   frame: {fileID: 0}
   pilot: {fileID: 11400000, guid: 322e8496bb848c645ae94ded50fe6897, type: 2}
-  leftShoulder: {fileID: 0}
-  rightShoulder: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftArm: {fileID: 0}
+  leftShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
+  leftArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
   canPlay: 1
   health: 100
   maxHealth: 100
@@ -3255,7 +3255,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1123925873}
   player: 1
-  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
+  skillset: {fileID: 0}
   buffs: []
   debuffs: []
   availableAbilities: []
@@ -3750,10 +3750,10 @@ MonoBehaviour:
   isAI: 0
   frame: {fileID: 0}
   pilot: {fileID: 11400000, guid: fd062b1994567a741bf225b5a4a28624, type: 2}
-  leftShoulder: {fileID: 0}
-  rightShoulder: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftArm: {fileID: 0}
+  leftShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
+  leftArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
   canPlay: 1
   health: 100
   maxHealth: 100
@@ -3761,7 +3761,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1760601004}
   player: 1
-  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
+  skillset: {fileID: 0}
   buffs: []
   debuffs: []
   availableAbilities: []
@@ -7687,7 +7687,9 @@ MonoBehaviour:
   LeftArmAbilities:
   - {fileID: 184686229}
   - {fileID: 1103020435}
-  RightArmAbilities: []
+  RightArmAbilities:
+  - {fileID: 310565892}
+  - {fileID: 175028179}
   LeftShoulderAbilities:
   - {fileID: 456502492}
   - {fileID: 1495954364}
@@ -8359,10 +8361,10 @@ MonoBehaviour:
   isAI: 1
   frame: {fileID: 0}
   pilot: {fileID: 0}
-  leftShoulder: {fileID: 0}
-  rightShoulder: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftArm: {fileID: 0}
+  leftShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
+  leftArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
   canPlay: 1
   health: 100
   maxHealth: 100
@@ -8370,7 +8372,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 838767504}
   player: 2
-  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
+  skillset: {fileID: 0}
   buffs: []
   debuffs: []
   availableAbilities: []
@@ -12606,10 +12608,10 @@ MonoBehaviour:
   isAI: 1
   frame: {fileID: 0}
   pilot: {fileID: 0}
-  leftShoulder: {fileID: 0}
-  rightShoulder: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftArm: {fileID: 0}
+  leftShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
+  rightArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
+  leftArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
   canPlay: 1
   health: 100
   maxHealth: 100
@@ -12617,7 +12619,7 @@ MonoBehaviour:
   focused: 0
   healthBar: {fileID: 1046770540}
   player: 2
-  skillset: {fileID: 11400000, guid: e9878266929e78347b315b1f7668455e, type: 2}
+  skillset: {fileID: 0}
   buffs: []
   debuffs: []
   availableAbilities: []
