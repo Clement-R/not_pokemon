@@ -62,6 +62,8 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         // TODO : Put old part to inventory
 
+        // TODO : Remove old abilities from skillset if used
+
         // Set new part and refresh fighter abilties and stats
         switch (slot)
         {
