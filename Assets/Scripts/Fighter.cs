@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using pkm.EventManager;
+using UnityEditor;
 
 public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
@@ -38,7 +40,7 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     private Image _sprite;
     private StatsManager _stats;
 
-    public void Awake()
+    private void Awake()
     {
         _sprite = GetComponent<Image>();
         _stats = GetComponent<StatsManager>();
@@ -49,9 +51,38 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             skillset = new Skillset();
         }
+    }
 
-        // TODO : REMOVE DEBUG
-        AddDebuff(skillset.GetAbility(1).debuffs[0]);
+    private void Start()
+    {
+        UpdateAvailableAbilities();
+    }
+
+    public void ChangePart(PartSlot slot, Part newPart)
+    {
+        // TODO : Put old part to inventory
+
+        // Set new part and refresh fighter abilties and stats
+        switch (slot)
+        {
+            case PartSlot.LEFT_ARM:
+                leftArm = newPart;
+                break;
+            case PartSlot.RIGHT_ARM:
+                rightArm = newPart;
+                break;
+            case PartSlot.LEFT_SHOULDER:
+                leftShoulder = newPart;
+                break;
+            case PartSlot.RIGHT_SHOULDER:
+                rightShoulder = newPart;
+                break;
+        }
+        // TODO : Handle this trigger somewhere in UI
+        EventManager.TriggerEvent(EventList.FIGHTER_STUFF_UPDATE.ToString(), new { fighter = this });
+        UpdateAvailableAbilities();
+
+        // TODO : Remove new part of the inventory
     }
 
     public void AddBuff(Status buff)
@@ -188,7 +219,25 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         }
     }
 
-    IEnumerator HealthBarAnimation()
+    private void UpdateAvailableAbilities()
+    {
+        // TODO : Maybe this size will change, find a better way to handle this or fix game design to be sure
+        Ability[] abilities = new Ability[8];
+
+        if (leftShoulder != null)
+            ArrayUtility.AddRange(ref abilities, leftShoulder.abilities);
+
+        if (rightShoulder != null)
+            ArrayUtility.AddRange(ref abilities, rightShoulder.abilities);
+
+        if (leftArm != null)
+            ArrayUtility.AddRange(ref abilities, leftArm.abilities);
+
+        if (rightArm != null)
+            ArrayUtility.AddRange(ref abilities, rightArm.abilities);
+    }
+
+    private IEnumerator HealthBarAnimation()
     {
         float start = healthBar.fillAmount;
         float end = (float)health / 100f;
