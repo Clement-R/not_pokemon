@@ -188,12 +188,9 @@ public class CombatManager : MonoBehaviour {
             _activeFighter = _fighters.OrderByDescending(e => e.GetDexterity()).First(e => e.canPlay == true && e.dead == false);
         }
 
-        // Display abilities names
-        for (int i = 0; i < 4; i++)
-        {
-            moves[i].text = _activeFighter.skillset._abilities[i].abilityName;
-        }
-        
+        EventManager.TriggerEvent(EventList.SHOW_COMBAT_UI.ToString(), new { });
+        EventManager.TriggerEvent(EventList.FIGHTER_STUFF_UPDATE.ToString(), new { fighter = GetActiveFighter()});
+
         // Check if one team is KO
         if (_fighters.Count(e => e.player != _activeFighter.player && e.dead == false) == 0)
         {

@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using pkm.EventManager;
 
 public class CombatUIManager : MonoBehaviour {
+
+    public GameObject[] abilities;
 
     private CanvasGroup _canvas;
 
@@ -28,6 +31,11 @@ public class CombatUIManager : MonoBehaviour {
 
     private void OnShowUI(dynamic obj)
     {
+        for (int i = 0; i < abilities.Length; i++)
+        {
+            abilities[i].GetComponent<Text>().text = CombatManager.instance.GetActiveFighter().skillset._abilities[i].abilityName;
+        }
+
         _canvas.alpha = 1f;
         _canvas.interactable = true;
     }

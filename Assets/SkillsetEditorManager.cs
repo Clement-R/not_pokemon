@@ -23,23 +23,31 @@ public class SkillsetEditorManager : MonoBehaviour
         }
     }
 
-    public GameObject[] LeftArmAbilities;
-    public GameObject[] RightArmAbilities;
-    public GameObject[] LeftShoulderAbilities;
-    public GameObject[] RightShoulderAbilities;
+    public GameObject[] availableAbilities;
 
-    public CanvasGroup activeAbilities;
-    public CanvasGroup availableAbilities;
+    public GameObject[] leftArmAbilities;
+    public GameObject[] rightArmAbilities;
+    public GameObject[] leftShoulderAbilities;
+    public GameObject[] rightShoulderAbilities;
+
+    public CanvasGroup activeAbilitiesCanvas;
+    public CanvasGroup availableAbilitiesCanvas;
 
     private static SkillsetEditorManager _skillsetEditor;
     private int _abilityIndex = -1;
     private bool _abilityChoosed = false;
 
     // When the user clicks on an available ability
-    public void OnAbilityUIClick(Ability ability)
+    public void OnAbilityUIClick(PartAbilityUI partUI)
     {
-        CombatManager.instance.GetActiveFighter().ChangeAbility(_abilityIndex, ability);
+        CombatManager.instance.GetActiveFighter().ChangeAbility(_abilityIndex, partUI.ability);
         _abilityChoosed = true;
+
+        UpdateUI(new { fighter = CombatManager.instance.GetActiveFighter() });
+
+        // Unselect available abilities canvas group and set focus on actual abilities canvas group
+        availableAbilitiesCanvas.interactable = false;
+        activeAbilitiesCanvas.interactable = true;
     }
     
     // When the user clicks on an active ability
@@ -49,6 +57,11 @@ public class SkillsetEditorManager : MonoBehaviour
         StartCoroutine(WaitForPlayerChoice());
     }
 
+    public void OnHide()
+    {
+        EventManager.TriggerEvent(EventList.SHOW_COMBAT_UI.ToString(), new { });
+    }
+
     private IEnumerator WaitForPlayerChoice()
     {
         while (!_abilityChoosed)
@@ -56,8 +69,8 @@ public class SkillsetEditorManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 // Unselect available abilities canvas group and set focus on actual abilities canvas group
-                availableAbilities.interactable = false;
-                activeAbilities.interactable = true;
+                availableAbilitiesCanvas.interactable = false;
+                activeAbilitiesCanvas.interactable = true;
                 break;
             }
 
@@ -84,49 +97,70 @@ public class SkillsetEditorManager : MonoBehaviour
         if (activeFighter.leftArm != null)
         {
             // LeftArmAbilities
-            LeftArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftArm.abilities[0].abilityName;
-            LeftArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftArm.abilities[1].abilityName;
+            leftArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftArm.abilities[0].abilityName;
+            leftArmAbilities[0].GetComponent<PartAbilityUI>().ability = activeFighter.leftArm.abilities[0];
+            leftArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftArm.abilities[1].abilityName;
+            leftArmAbilities[1].GetComponent<PartAbilityUI>().ability = activeFighter.leftArm.abilities[1];
         }
         else
         {
-            LeftArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
-            LeftArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            leftArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            leftArmAbilities[0].GetComponent<PartAbilityUI>().ability = null;
+            leftArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            leftArmAbilities[1].GetComponent<PartAbilityUI>().ability = null;
         }
 
         if (activeFighter.rightArm != null)
         {
             // RightArmAbilities
-            RightArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightArm.abilities[0].abilityName;
-            RightArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightArm.abilities[1].abilityName;
+            rightArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightArm.abilities[0].abilityName;
+            rightArmAbilities[0].GetComponent<PartAbilityUI>().ability = activeFighter.rightArm.abilities[0];
+            rightArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightArm.abilities[1].abilityName;
+            rightArmAbilities[1].GetComponent<PartAbilityUI>().ability = activeFighter.rightArm.abilities[1];
         }
         else
         {
-            RightArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
-            RightArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            rightArmAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            rightArmAbilities[0].GetComponent<PartAbilityUI>().ability = null;
+            rightArmAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            rightArmAbilities[1].GetComponent<PartAbilityUI>().ability = null;
         }
 
         if (activeFighter.leftShoulder != null)
         {
             // LeftShoulderAbilities
-            LeftShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftShoulder.abilities[0].abilityName;
-            LeftShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftShoulder.abilities[1].abilityName;
+            leftShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftShoulder.abilities[0].abilityName;
+            leftShoulderAbilities[0].GetComponent<PartAbilityUI>().ability = activeFighter.leftShoulder.abilities[0];
+            leftShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.leftShoulder.abilities[1].abilityName;
+            leftShoulderAbilities[1].GetComponent<PartAbilityUI>().ability = activeFighter.leftShoulder.abilities[1];
         }
         else
         {
-            LeftShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
-            LeftShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            leftShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            leftShoulderAbilities[0].GetComponent<PartAbilityUI>().ability = null;
+            leftShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            leftShoulderAbilities[1].GetComponent<PartAbilityUI>().ability = null;
         }
 
         if (activeFighter.rightShoulder != null)
         {
             // RightShoulderAbilities
-            RightShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightShoulder.abilities[0].abilityName;
-            RightShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightShoulder.abilities[1].abilityName;
+            rightShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightShoulder.abilities[0].abilityName;
+            rightShoulderAbilities[0].GetComponent<PartAbilityUI>().ability = activeFighter.rightShoulder.abilities[0];
+            rightShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.rightShoulder.abilities[1].abilityName;
+            rightShoulderAbilities[1].GetComponent<PartAbilityUI>().ability = activeFighter.rightShoulder.abilities[1];
         }
         else
         {
-            RightShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
-            RightShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            rightShoulderAbilities[0].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            rightShoulderAbilities[0].GetComponent<PartAbilityUI>().ability = null;
+            rightShoulderAbilities[1].GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            rightShoulderAbilities[1].GetComponent<PartAbilityUI>().ability = null;
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            availableAbilities[i].GetComponentInChildren<TMPro.TMP_Text>().text = activeFighter.skillset._abilities[i].abilityName;
         }
     }
 }

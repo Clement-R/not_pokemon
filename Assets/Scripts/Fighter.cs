@@ -57,20 +57,19 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         UpdateAvailableAbilities();
 
-
         /// DEBUG ///
         // skillset.DebugAbilities();
-        for (int ii = 0; ii < availableAbilities.Count; ii++)
-        {
-            Debug.Log(availableAbilities[ii].abilityName);
-        }
-        EventManager.TriggerEvent(EventList.FIGHTER_STUFF_UPDATE.ToString(), new { fighter = this });
-        Debug.Log("-----------------------------------");
-
+        //for (int ii = 0; ii < availableAbilities.Count; ii++)
+        //{
+        //    Debug.Log(availableAbilities[ii].abilityName);
+        //}
+        //Debug.Log("-----------------------------------");
         skillset._abilities[0] = availableAbilities[0];
         skillset._abilities[1] = availableAbilities[1];
         skillset._abilities[2] = availableAbilities[4];
         skillset._abilities[3] = availableAbilities[5];
+
+        //EventManager.TriggerEvent(EventList.FIGHTER_STUFF_UPDATE.ToString(), new { fighter = this });
     }
 
     public void ChangeAbility(int abilityIndex, Ability ability)
