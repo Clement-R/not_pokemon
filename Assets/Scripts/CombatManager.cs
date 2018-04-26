@@ -58,6 +58,25 @@ public class CombatManager : MonoBehaviour {
         COMBAT_END
     }
 
+    public static CombatManager instance
+    {
+        get
+        {
+            if (!_combatManager)
+            {
+                _combatManager = FindObjectOfType(typeof(CombatManager)) as CombatManager;
+
+                if (!_combatManager)
+                {
+                    Debug.LogError("There needs to be one active CombatManager script on a GameObject in your scene.");
+                }
+            }
+
+            return _combatManager;
+        }
+    }
+    private static CombatManager _combatManager;
+
     void Start ()
     {
         _fighters.Add(P1_Fighter1);
@@ -80,6 +99,11 @@ public class CombatManager : MonoBehaviour {
                 _actionChoosed = false;
             }
         }
+    }
+
+    public Fighter GetActiveFighter()
+    {
+        return _activeFighter;
     }
     
     private string GetCoroutinePhase(CombatPhase phase)
@@ -296,8 +320,6 @@ public class CombatManager : MonoBehaviour {
         // Wait for player action (cancel or validatinon)
         if (_choosedAbility.target == Ability.AbilityTarget.MULTI)
         {
-            print(_targetChoosed);
-            print(playerCancel);
             while (!_targetChoosed && !playerCancel)
             {
                 if (Input.GetKeyDown(KeyCode.Space))

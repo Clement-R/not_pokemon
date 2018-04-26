@@ -73,6 +73,14 @@ public class Fighter : MonoBehaviour, ISelectHandler, IDeselectHandler
         skillset._abilities[3] = availableAbilities[5];
     }
 
+    public void ChangeAbility(int abilityIndex, Ability ability)
+    {
+        if(skillset._abilities[abilityIndex] != ability)
+        {
+            skillset._abilities[abilityIndex] = ability;
+        }
+    }
+
     public void ChangePart(PartSlot slot, Part newPart)
     {
         // TODO : Put old part to inventory
