@@ -1827,6 +1827,7 @@ GameObject:
   - component: {fileID: 345807059}
   - component: {fileID: 345807060}
   - component: {fileID: 345807058}
+  - component: {fileID: 345807061}
   m_Layer: 5
   m_Name: RHand
   m_TagString: Untagged
@@ -1926,10 +1927,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 305887986}
         m_MethodName: ShowPartsList
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 345807056}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1937,6 +1938,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &345807061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 345807056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128c5ea93853e1846b31b881f09766e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 0
 --- !u!1 &348856417
 GameObject:
   m_ObjectHideFlags: 0
@@ -4273,7 +4286,7 @@ MonoBehaviour:
   leftShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
   rightShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
   rightArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
-  leftArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
+  leftArm: {fileID: 0}
   canPlay: 1
   health: 100
   maxHealth: 100
@@ -5937,6 +5950,7 @@ GameObject:
   - component: {fileID: 1071622604}
   - component: {fileID: 1071622605}
   - component: {fileID: 1071622603}
+  - component: {fileID: 1071622606}
   m_Layer: 5
   m_Name: RShoulder
   m_TagString: Untagged
@@ -6036,10 +6050,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 305887986}
         m_MethodName: ShowPartsList
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1071622601}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6047,6 +6061,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1071622606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1071622601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128c5ea93853e1846b31b881f09766e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 1
 --- !u!1 &1072869342
 GameObject:
   m_ObjectHideFlags: 0
@@ -9986,6 +10012,7 @@ GameObject:
   - component: {fileID: 1686538487}
   - component: {fileID: 1686538488}
   - component: {fileID: 1686538486}
+  - component: {fileID: 1686538489}
   m_Layer: 5
   m_Name: LShoulder
   m_TagString: Untagged
@@ -10085,10 +10112,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 305887986}
         m_MethodName: ShowPartsList
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1686538484}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10096,6 +10123,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1686538489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686538484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128c5ea93853e1846b31b881f09766e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 1
 --- !u!1 &1705678447
 GameObject:
   m_ObjectHideFlags: 0
@@ -10731,6 +10770,7 @@ GameObject:
   - component: {fileID: 1776948542}
   - component: {fileID: 1776948543}
   - component: {fileID: 1776948541}
+  - component: {fileID: 1776948544}
   m_Layer: 5
   m_Name: LHand
   m_TagString: Untagged
@@ -10830,10 +10870,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 305887986}
         m_MethodName: ShowPartsList
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1776948539}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10841,6 +10881,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1776948544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1776948539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128c5ea93853e1846b31b881f09766e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 0
 --- !u!1 &1785645406
 GameObject:
   m_ObjectHideFlags: 0

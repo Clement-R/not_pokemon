@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using pkm.EventManager;
 
 public class TeamUIManager : MonoBehaviour {
 
@@ -53,14 +54,36 @@ public class TeamUIManager : MonoBehaviour {
     private static TeamUIManager _teamUIManager;
     private bool _playerChoiceMade = false;
     private Coroutine _waitingRoutine = null;
-    private PartSlot _lastSelectedSlot;
+    private PartType _lastSelectedSlot;
+
+    private void OnEnable()
+    {
+        // TODO : Create new event to call when the player change the focused team member
+        EventManager.StartListening(EventList.TEAM_MEMBER_UI_SELECT.ToString(), OnMemberChange);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening(EventList.TEAM_MEMBER_UI_SELECT.ToString(), OnMemberChange);
+    }
+
+    private void OnMemberChange(dynamic obj)
+    {
+        Fighter fighter = obj.fighter;
+        if(fighter != null)
+        {
+            UpdateMemberPanel(fighter);
+        }
+    }
 
     public void Show()
     {
         // Set focus on first team member
         EventSystem.current.SetSelectedGameObject(firstSelectedMember);
+
         // Refresh fighter informations
-        UpdateMemberPanel(CombatManager.instance.GetActiveFighter());
+        // TODO : Use currently selected fighter and not the active one
+        UpdateMemberPanel(firstSelectedMember.GetComponent<TeamMemberUI>().fighter);
     }
 
     public void Hide()
@@ -72,20 +95,32 @@ public class TeamUIManager : MonoBehaviour {
         teamUI.interactable = false;
     }
 
+    public void SwitchToMember()
+    {
+        memberCustomization.interactable = false;
+        membersList.interactable = true;
+
+        EventSystem.current.SetSelectedGameObject(firstSelectedMember);
+    }
+
     public void SwitchToMemberCustomization()
     {
         memberCustomization.interactable = true;
         membersList.interactable = false;
 
         EventSystem.current.SetSelectedGameObject(firstSelectedPart);
+
+        // TODO : start coroutine to let the player cancel
     }
 
-    public void ShowPartsList(PartSlot partSlot)
+    public void ShowPartsList(GameObject selectedPart)
     {
-        _lastSelectedSlot = partSlot;
+        _lastSelectedSlot = selectedPart.GetComponent<PartUI>().slot;
+
+        Debug.Log(_lastSelectedSlot.ToString());
 
         // TODO : Update parts list with valid items
-        // availablePartsList 
+        // availablePartsList
 
         availablePartsList.alpha = 1;
         availablePartsList.interactable = true;

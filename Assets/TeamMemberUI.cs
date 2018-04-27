@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using pkm.EventManager;
 
 public class TeamMemberUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
@@ -30,6 +31,7 @@ public class TeamMemberUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
-        // TODO : Update team member info panel
+        // Trigger event to update the TeamUIManager with the new focused team member
+        EventManager.TriggerEvent(EventList.TEAM_MEMBER_UI_SELECT.ToString(), new { fighter });
     }
 }
