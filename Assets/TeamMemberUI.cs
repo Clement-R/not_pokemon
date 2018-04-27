@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class TeamMemberUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
+    public Fighter fighter;
+
     private Button _button;
 
     void Start ()
@@ -23,7 +25,7 @@ public class TeamMemberUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnDeselect(BaseEventData eventData)
     {
-        // TODO : Manage color selection here, because Unity    
+        // TODO : Manage color selection here, because Unity
     }
 
     public void OnSelect(BaseEventData eventData)
