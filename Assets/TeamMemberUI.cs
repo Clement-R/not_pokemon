@@ -23,7 +23,6 @@ public class TeamMemberUI : MonoBehaviour, ISelectHandler, IDeselectHandler
         TeamUIManager.instance.SwitchToMemberCustomization();
     }
 	
-
     public void OnDeselect(BaseEventData eventData)
     {
         // TODO : Manage color selection here, because Unity

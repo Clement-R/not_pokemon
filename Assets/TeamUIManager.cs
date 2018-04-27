@@ -110,7 +110,7 @@ public class TeamUIManager : MonoBehaviour {
 
         EventSystem.current.SetSelectedGameObject(firstSelectedPart);
 
-        // TODO : start coroutine to let the player cancel
+        // TODO : start coroutine to let the player cancel and call SwitchToMember if so
     }
 
     public void ShowPartsList(GameObject selectedPart)
@@ -119,8 +119,8 @@ public class TeamUIManager : MonoBehaviour {
 
         Debug.Log(_lastSelectedSlot.ToString());
 
-        // TODO : Update parts list with valid items
-        // availablePartsList
+        // TODO : Trigger evnet to update parts list with valid items
+        EventManager.TriggerEvent(EventList.SHOW_PARTS_LIST.ToString(), new { slot = _lastSelectedSlot });
 
         availablePartsList.alpha = 1;
         availablePartsList.interactable = true;
