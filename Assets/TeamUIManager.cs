@@ -55,6 +55,7 @@ public class TeamUIManager : MonoBehaviour {
     private bool _playerChoiceMade = false;
     private Coroutine _waitingRoutine = null;
     private PartType _lastSelectedSlot;
+    private bool _playerCancel = false;
 
     private void OnEnable()
     {
@@ -109,8 +110,24 @@ public class TeamUIManager : MonoBehaviour {
         membersList.interactable = false;
 
         EventSystem.current.SetSelectedGameObject(firstSelectedPart);
+        
+        StartCoroutine(WaitForPlayerCancel());
+    }
 
-        // TODO : start coroutine to let the player cancel and call SwitchToMember if so
+    private IEnumerator WaitForPlayerCancel()
+    {
+        while (!_playerCancel)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                _playerCancel = true;
+                SwitchToMember();
+                break;
+            }
+
+            yield return null;
+        }
+        _playerCancel = false;
     }
 
     public void ShowPartsList(GameObject selectedPart)

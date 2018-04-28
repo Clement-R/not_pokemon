@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour {
 
     public static PlayerManager instance;
 
-    private List<Part> _inventory;
+    private List<Part> _inventory = new List<Part>();
 
     void Start ()
     {
