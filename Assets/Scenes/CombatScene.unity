@@ -2546,9 +2546,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3b29befa3684d4f9a719644c0f693d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upArrow: {fileID: 0}
-  downArrow: {fileID: 0}
-  parts: []
+  upArrow: {fileID: 939006794}
+  downArrow: {fileID: 834019445}
+  parts:
+  - {fileID: 2049342059}
+  - {fileID: 547272573}
+  - {fileID: 68077168}
+  - {fileID: 1947505774}
 --- !u!1 &361413971
 GameObject:
   m_ObjectHideFlags: 0
