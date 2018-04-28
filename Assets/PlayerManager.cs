@@ -6,6 +6,9 @@ public class PlayerManager : MonoBehaviour {
 
     public static PlayerManager instance;
 
+    // DEBUG
+    public Part[] debugParts;
+
     private List<Part> _inventory = new List<Part>();
 
     void Start ()
@@ -13,6 +16,12 @@ public class PlayerManager : MonoBehaviour {
         if (PlayerManager.instance == null)
         {
             PlayerManager.instance = FindObjectOfType(typeof(PlayerManager)) as PlayerManager;
+        }
+
+        for (int i = 0; i < 16; i++)
+        {
+            _inventory.Add(Instantiate(debugParts[0]));
+            _inventory.Add(Instantiate(debugParts[1]));
         }
     }
 	
