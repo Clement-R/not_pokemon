@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 using pkm.EventManager;
 
@@ -76,8 +77,6 @@ public class PartsListUI : MonoBehaviour {
             downArrow.GetComponent<Button>().interactable = true;
         }
 
-        Debug.Log(_numberOfPartsFound.ToString());
-
         // TODO : Implement
         for (int i = 0; i < _numberOfPartsOnScreen; i++)
         {
@@ -86,6 +85,11 @@ public class PartsListUI : MonoBehaviour {
             {
                 parts[i].GetComponentInChildren<TMP_Text>().text = _foundParts[i].name;
             }
+        }
+
+        if(EventSystem.current.currentSelectedGameObject == null)
+        {
+            EventSystem.current.SetSelectedGameObject(parts[0]);
         }
     }
 

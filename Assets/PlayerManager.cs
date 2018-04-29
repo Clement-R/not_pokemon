@@ -20,20 +20,18 @@ public class PlayerManager : MonoBehaviour {
 
         for (int i = 0; i < 16; i++)
         {
-            _inventory.Add(Instantiate(debugParts[0]));
-            _inventory.Add(Instantiate(debugParts[1]));
+            Part newPart = Instantiate(debugParts[0]);
+            newPart.name = "Part " + newPart.partName + " | " + i;
+            _inventory.Add(newPart);
+
+            newPart = Instantiate(debugParts[1]);
+            newPart.name = "Part " + newPart.partName + " | " + i;
+            _inventory.Add(newPart);
         }
     }
 	
 	public List<Part> GetParts(PartType type)
     {
-        Debug.Log(type);
-
-        foreach (var part in _inventory)
-        {
-            Debug.Log(part.partType);
-        }
-
         return _inventory.FindAll(e => e.partType == type);
     }
 }
