@@ -57,8 +57,10 @@ public class PartsListUI : MonoBehaviour {
 
     private void RefreshUI()
     {
+        Debug.Log(_actualIndex);
+
         // Disable up arrow if we're at top
-        if(_actualIndex < _numberOfPartsOnScreen)
+        if (_actualIndex < _numberOfPartsOnScreen)
         {
             upArrow.GetComponent<Button>().interactable = false;
         }
@@ -83,7 +85,11 @@ public class PartsListUI : MonoBehaviour {
             // TODO : Update each UI part if one part is available
             if(_actualIndex + i < _numberOfPartsFound)
             {
-                parts[i].GetComponentInChildren<TMP_Text>().text = _foundParts[i].name;
+                parts[i].GetComponentInChildren<TMP_Text>().text = _foundParts[_actualIndex + i].name;
+            }
+            else
+            {
+                // TODO : Disable unused parts
             }
         }
 
@@ -95,7 +101,6 @@ public class PartsListUI : MonoBehaviour {
 
     private void UpdateList(dynamic obj)
     {
-        Debug.Log(obj.slot);
         _foundParts = GetParts(obj.slot);
 
         _actualIndex = 0;
