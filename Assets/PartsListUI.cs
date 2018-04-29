@@ -76,6 +76,8 @@ public class PartsListUI : MonoBehaviour {
             downArrow.GetComponent<Button>().interactable = true;
         }
 
+        Debug.Log(_numberOfPartsFound.ToString());
+
         // TODO : Implement
         for (int i = 0; i < _numberOfPartsOnScreen; i++)
         {
@@ -100,6 +102,7 @@ public class PartsListUI : MonoBehaviour {
     {
         // Get all parts in inventory that match the given type
         List<Part> parts = PlayerManager.instance.GetParts(partType);
+        Debug.Log(parts.Count.ToString());
         _numberOfPartsFound = parts.Count;
         return parts;
     }

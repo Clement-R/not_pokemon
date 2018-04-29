@@ -27,6 +27,13 @@ public class PlayerManager : MonoBehaviour {
 	
 	public List<Part> GetParts(PartType type)
     {
+        Debug.Log(type);
+
+        foreach (var part in _inventory)
+        {
+            Debug.Log(part.partType);
+        }
+
         return _inventory.FindAll(e => e.partType == type);
     }
 }

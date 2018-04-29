@@ -134,9 +134,7 @@ public class TeamUIManager : MonoBehaviour {
     {
         _lastSelectedSlot = selectedPart.GetComponent<PartUI>().slot;
 
-        Debug.Log(_lastSelectedSlot.ToString());
-
-        // TODO : Trigger evnet to update parts list with valid items
+        // Trigger evnet to update parts list with valid items
         EventManager.TriggerEvent(EventList.SHOW_PARTS_LIST.ToString(), new { slot = _lastSelectedSlot });
 
         availablePartsList.alpha = 1;
