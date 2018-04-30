@@ -70,7 +70,7 @@ public class PartsListUI : MonoBehaviour {
         }
 
         // Disable down arrow if we're at the end
-        if (_actualIndex == _numberOfPartsFound)
+        if (_actualIndex >= _numberOfPartsFound - _numberOfPartsOnScreen)
         {
             downArrow.GetComponent<Button>().interactable = false;
         }
@@ -79,10 +79,9 @@ public class PartsListUI : MonoBehaviour {
             downArrow.GetComponent<Button>().interactable = true;
         }
 
-        // TODO : Implement
         for (int i = 0; i < _numberOfPartsOnScreen; i++)
         {
-            // TODO : Update each UI part if one part is available
+            // Update each UI part if one part is available
             if(_actualIndex + i < _numberOfPartsFound)
             {
                 parts[i].GetComponentInChildren<TMP_Text>().text = _foundParts[_actualIndex + i].name;
@@ -90,6 +89,7 @@ public class PartsListUI : MonoBehaviour {
             else
             {
                 // TODO : Disable unused parts
+                parts[i].GetComponentInChildren<TMP_Text>().text = "";
             }
         }
 
