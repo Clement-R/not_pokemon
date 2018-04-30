@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour {
             PlayerManager.instance = FindObjectOfType(typeof(PlayerManager)) as PlayerManager;
         }
 
-        for (int i = 0; i < 33; i++)
+        for (int i = 0; i < 15; i++)
         {
             Part newPart = Instantiate(debugParts[0]);
             newPart.name = "Part " + newPart.partName + " | " + i;

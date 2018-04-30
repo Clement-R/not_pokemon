@@ -84,11 +84,19 @@ public class PartsListUI : MonoBehaviour {
             // Update each UI part if one part is available
             if(_actualIndex + i < _numberOfPartsFound)
             {
+                if(!parts[i].activeInHierarchy)
+                {
+                    parts[i].SetActive(true);
+                }
                 parts[i].GetComponentInChildren<TMP_Text>().text = _foundParts[_actualIndex + i].name;
             }
             else
             {
-                // TODO : Disable unused parts
+                // Disable unused parts
+                if (parts[i].activeInHierarchy)
+                {
+                    parts[i].SetActive(false);
+                }
                 parts[i].GetComponentInChildren<TMP_Text>().text = "";
             }
         }
