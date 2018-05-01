@@ -60,6 +60,7 @@ public class TeamUIManager : MonoBehaviour {
     private void OnEnable()
     {
         // TODO : Create new event to call when the player change the focused team member
+        // TODO : Save the selected team member for later use in PartsListUI when modifying an equipped part
         EventManager.StartListening(EventList.TEAM_MEMBER_UI_SELECT.ToString(), OnMemberChange);
     }
 

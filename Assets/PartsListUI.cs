@@ -45,6 +45,12 @@ public class PartsListUI : MonoBehaviour {
         RefreshUI();
     }
 
+    public void SetPart(int index)
+    {
+        // TODO : Set new part on the given slot and fighter (can be given by TeamUIManager through messages)
+        Part newPartToEquip = _foundParts[_actualIndex + index];
+    }
+
     private void OnEnable()
     {
         EventManager.StartListening(EventList.SHOW_PARTS_LIST.ToString(), UpdateList);
@@ -81,23 +87,25 @@ public class PartsListUI : MonoBehaviour {
 
         for (int i = 0; i < _numberOfPartsOnScreen; i++)
         {
+            PartsListSlotUI partUI = parts[i].GetComponentInChildren<PartsListSlotUI>();
+
             // Update each UI part if one part is available
-            if(_actualIndex + i < _numberOfPartsFound)
-            {
-                if(!parts[i].activeInHierarchy)
+            if (_actualIndex + i < _numberOfPartsFound)
+            {   
+                if (!partUI.IsActive())
                 {
-                    parts[i].SetActive(true);
+                    partUI.Enable();
                 }
-                parts[i].GetComponentInChildren<TMP_Text>().text = _foundParts[_actualIndex + i].name;
+
+                parts[i].GetComponentInChildren<PartsListSlotUI>().UpdatePart(_foundParts[_actualIndex + i]);
             }
             else
             {
                 // Disable unused parts
-                if (parts[i].activeInHierarchy)
+                if (partUI.IsActive())
                 {
-                    parts[i].SetActive(false);
+                    partUI.Disable();
                 }
-                parts[i].GetComponentInChildren<TMP_Text>().text = "";
             }
         }
 

@@ -21,11 +21,11 @@ public class PlayerManager : MonoBehaviour {
         for (int i = 0; i < 15; i++)
         {
             Part newPart = Instantiate(debugParts[0]);
-            newPart.name = "Part " + newPart.partName + " | " + i;
+            newPart.partName = "Part " + newPart.partName + " | " + i;
             _inventory.Add(newPart);
 
             newPart = Instantiate(debugParts[1]);
-            newPart.name = "Part " + newPart.partName + " | " + i;
+            newPart.partName = "Part " + newPart.partName + " | " + i;
             _inventory.Add(newPart);
         }
     }
