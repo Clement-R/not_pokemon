@@ -20,7 +20,7 @@ public class TeamMemberUI : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private void OnClick()
     {
-        TeamUIManager.instance.SwitchToMemberCustomization();
+        TeamUIManager.instance.SwitchToMemberCustomization(fighter);
     }
 	
     public void OnDeselect(BaseEventData eventData)

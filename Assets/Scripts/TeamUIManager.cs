@@ -54,8 +54,11 @@ public class TeamUIManager : MonoBehaviour {
     private static TeamUIManager _teamUIManager;
     private bool _playerChoiceMade = false;
     private Coroutine _waitingRoutine = null;
-    private PartType _lastSelectedSlot;
+    private PartType _lastSelectedSlotType;
+    private PartSlot _lastSelectedSlot;
     private bool _playerCancel = false;
+
+    private Fighter _selectedFighter;
 
     private void OnEnable()
     {
@@ -105,10 +108,22 @@ public class TeamUIManager : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(firstSelectedMember);
     }
 
-    public void SwitchToMemberCustomization()
+    public Fighter GetSelectedFighter()
+    {
+        return _selectedFighter;
+    }
+
+    public PartSlot GetSelectedPartSlot()
+    {
+        return _lastSelectedSlot;
+    }
+
+    public void SwitchToMemberCustomization(Fighter fighterToCustomize)
     {
         memberCustomization.interactable = true;
         membersList.interactable = false;
+
+        _selectedFighter = fighterToCustomize;
 
         EventSystem.current.SetSelectedGameObject(firstSelectedPart);
         
@@ -133,10 +148,11 @@ public class TeamUIManager : MonoBehaviour {
 
     public void ShowPartsList(GameObject selectedPart)
     {
+        _lastSelectedSlotType = selectedPart.GetComponent<PartUI>().partType;
         _lastSelectedSlot = selectedPart.GetComponent<PartUI>().slot;
 
         // Trigger evnet to update parts list with valid items
-        EventManager.TriggerEvent(EventList.SHOW_PARTS_LIST.ToString(), new { slot = _lastSelectedSlot });
+        EventManager.TriggerEvent(EventList.SHOW_PARTS_LIST.ToString(), new { slot = _lastSelectedSlotType });
 
         availablePartsList.alpha = 1;
         availablePartsList.interactable = true;

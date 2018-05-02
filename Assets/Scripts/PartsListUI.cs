@@ -49,6 +49,9 @@ public class PartsListUI : MonoBehaviour {
     {
         // TODO : Set new part on the given slot and fighter (can be given by TeamUIManager through messages)
         Part newPartToEquip = _foundParts[_actualIndex + index];
+
+        Fighter fighter = TeamUIManager.instance.GetSelectedFighter();
+        fighter.ChangePart(TeamUIManager.instance.GetSelectedPartSlot(), newPartToEquip);
     }
 
     private void OnEnable()

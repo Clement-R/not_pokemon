@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class PartUI : MonoBehaviour
 {
-    public PartType slot;
+    public PartType partType;
+    public PartSlot slot;
 }
