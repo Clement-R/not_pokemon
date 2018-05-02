@@ -65,18 +65,22 @@ public class TeamUIManager : MonoBehaviour {
         // TODO : Create new event to call when the player change the focused team member
         // TODO : Save the selected team member for later use in PartsListUI when modifying an equipped part
         EventManager.StartListening(EventList.TEAM_MEMBER_UI_SELECT.ToString(), OnMemberChange);
+        EventManager.StartListening(EventList.HIDE_PARTS_LIST.ToString(), (dynamic obj) => { TeamUIManager.instance.HidePartsList(); });
     }
 
     private void OnDisable()
     {
         EventManager.StopListening(EventList.TEAM_MEMBER_UI_SELECT.ToString(), OnMemberChange);
+        EventManager.StopListening(EventList.HIDE_PARTS_LIST.ToString(), (dynamic obj) => { TeamUIManager.instance.HidePartsList(); });
     }
 
     private void OnMemberChange(dynamic obj)
     {
         Fighter fighter = obj.fighter;
-        if(fighter != null)
+        
+        if (fighter != null)
         {
+            _selectedFighter = fighter;
             UpdateMemberPanel(fighter);
         }
     }
@@ -172,6 +176,8 @@ public class TeamUIManager : MonoBehaviour {
         memberCustomization.interactable = true;
 
         EventSystem.current.SetSelectedGameObject(firstSelectedPart);
+
+        UpdateMemberPanel(_selectedFighter);
     }
 
     private void UpdateMemberPanel(Fighter fighter)

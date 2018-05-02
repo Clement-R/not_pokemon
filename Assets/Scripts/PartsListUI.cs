@@ -33,7 +33,6 @@ public class PartsListUI : MonoBehaviour {
 
     public void ShowNext()
     {
-        // TODO : Change index to don't show null parts at the end
         _actualIndex += _numberOfPartsOnScreen;
 
         if(_actualIndex > _numberOfPartsFound)
@@ -47,11 +46,12 @@ public class PartsListUI : MonoBehaviour {
 
     public void SetPart(int index)
     {
-        // TODO : Set new part on the given slot and fighter (can be given by TeamUIManager through messages)
         Part newPartToEquip = _foundParts[_actualIndex + index];
 
         Fighter fighter = TeamUIManager.instance.GetSelectedFighter();
         fighter.ChangePart(TeamUIManager.instance.GetSelectedPartSlot(), newPartToEquip);
+        
+        EventManager.TriggerEvent(EventList.HIDE_PARTS_LIST.ToString(), new { });
     }
 
     private void OnEnable()

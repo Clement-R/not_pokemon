@@ -4843,7 +4843,7 @@ MonoBehaviour:
   leftShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
   rightShoulder: {fileID: 11400000, guid: 33249d6fe0c25f947aa5157ba9109f06, type: 2}
   rightArm: {fileID: 11400000, guid: de12ff6cbdf1f5e43a59a6d5d6b44d72, type: 2}
-  leftArm: {fileID: 0}
+  leftArm: {fileID: 11400000, guid: aef94d4f2e0d72846bdb201a04e73e91, type: 2}
   canPlay: 1
   health: 100
   maxHealth: 100
