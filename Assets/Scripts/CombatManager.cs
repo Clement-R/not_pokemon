@@ -30,6 +30,8 @@ public class CombatManager : MonoBehaviour {
 
     public Text[] moves;
 
+    public GameObject damageBubble;
+
     private bool _combatEnd = false;
     private bool _actionChoosed = false;
     private Ability _choosedAbility = null;
@@ -380,6 +382,10 @@ public class CombatManager : MonoBehaviour {
                 foreach (Fighter fighter in _fighters.FindAll(e => e.player != _activeFighter.player && e.dead == false))
                 {
                     effect = StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
+
+                    // TODO : clean that and move to a different component
+                    GameObject bubble = Instantiate(damageBubble, new Vector2(fighter.transform.position.x, fighter.transform.position.y), Quaternion.identity);
+                    bubble.GetComponentInChildren<DamageTextAnimation>().ChangeText(_choosedAbility.damage.ToString());
                 }
 
                 log = _activeFighter.name + " attack the enemies with " + _choosedAbility.abilityName;
@@ -387,6 +393,11 @@ public class CombatManager : MonoBehaviour {
             else
             {
                 effect = StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
+
+                // TODO : clean that and move to a different component
+                GameObject bubble = Instantiate(damageBubble, new Vector2(_fighterToAttack.transform.position.x, _fighterToAttack.transform.position.y), Quaternion.identity);
+                bubble.GetComponentInChildren<DamageTextAnimation>().ChangeText(_choosedAbility.damage.ToString());
+
                 log = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
             }
         }

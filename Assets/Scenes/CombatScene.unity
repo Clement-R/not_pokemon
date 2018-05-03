@@ -9168,6 +9168,12 @@ Prefab:
       propertyPath: moves.Array.data[3]
       value: 
       objectReference: {fileID: 1946491866}
+    - target: {fileID: 114626958692297624, guid: 7a3ed9546891a284a970a5eedebbe7b8,
+        type: 2}
+      propertyPath: damageBubble
+      value: 
+      objectReference: {fileID: 1078021124865618, guid: 8c995dce7a3cea14c97f6c5beab9dff9,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a3ed9546891a284a970a5eedebbe7b8, type: 2}
   m_IsPrefabParent: 0

@@ -7,26 +7,29 @@ public class DamageTextAnimation : MonoBehaviour {
 
     private TMP_Text _text;
 
-	void Start ()
+	void Awake ()
     {
         _text = GetComponent<TMP_Text>();
-
         print(_text);
-
         StartCoroutine(Effect());
 	}
+
+    public void ChangeText(string text)
+    {
+        _text.text = text;
+    }
 	
 	IEnumerator Effect()
     {
         Color c = _text.color;
-        Vector2 pos = transform.position;
+        Vector3 pos = transform.localPosition;
 
         while(c.a > 0f)
         {
             yield return null;
             c.a -= 0.05f;
             _text.color = c;
-            transform.position = new Vector2(pos.x, transform.position.y + 0.05f);
+            transform.localPosition = new Vector3(pos.x, transform.localPosition.y + 5f, 0f);
         }
     }
 }
