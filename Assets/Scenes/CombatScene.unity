@@ -9172,7 +9172,7 @@ Prefab:
         type: 2}
       propertyPath: damageBubble
       value: 
-      objectReference: {fileID: 1078021124865618, guid: 8c995dce7a3cea14c97f6c5beab9dff9,
+      objectReference: {fileID: 1914793555527202, guid: 72ef5cd68fde44246af58babdf65696f,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a3ed9546891a284a970a5eedebbe7b8, type: 2}

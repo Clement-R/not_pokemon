@@ -10,7 +10,6 @@ public class DamageTextAnimation : MonoBehaviour {
 	void Awake ()
     {
         _text = GetComponent<TMP_Text>();
-        print(_text);
         StartCoroutine(Effect());
 	}
 

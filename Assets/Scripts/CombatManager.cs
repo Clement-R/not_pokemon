@@ -384,7 +384,7 @@ public class CombatManager : MonoBehaviour {
                     effect = StartCoroutine(fighter.TakeDamage(_choosedAbility.damage));
 
                     // TODO : clean that and move to a different component
-                    GameObject bubble = Instantiate(damageBubble, new Vector2(fighter.transform.position.x, fighter.transform.position.y), Quaternion.identity);
+                    GameObject bubble = Instantiate(damageBubble, new Vector3(fighter.transform.position.x, fighter.transform.position.y, 0f), Quaternion.identity, _activeFighter.transform.parent.parent);
                     bubble.GetComponentInChildren<DamageTextAnimation>().ChangeText(_choosedAbility.damage.ToString());
                 }
 
@@ -395,7 +395,7 @@ public class CombatManager : MonoBehaviour {
                 effect = StartCoroutine(_fighterToAttack.TakeDamage(_choosedAbility.damage));
 
                 // TODO : clean that and move to a different component
-                GameObject bubble = Instantiate(damageBubble, new Vector2(_fighterToAttack.transform.position.x, _fighterToAttack.transform.position.y), Quaternion.identity);
+                GameObject bubble = Instantiate(damageBubble, new Vector3(_fighterToAttack.transform.position.x, _fighterToAttack.transform.position.y, 0f), Quaternion.identity, _activeFighter.transform.parent.parent);
                 bubble.GetComponentInChildren<DamageTextAnimation>().ChangeText(_choosedAbility.damage.ToString());
 
                 log = _activeFighter.name + " attack " + _fighterToAttack.name + " with " + _choosedAbility.abilityName;
